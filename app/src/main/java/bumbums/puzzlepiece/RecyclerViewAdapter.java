@@ -1,13 +1,16 @@
 package bumbums.puzzlepiece;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import bumbums.puzzlepiece.model.Friend;
+import bumbums.puzzlepiece.tab.TabFriends;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -17,11 +20,11 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class RecyclerViewAdapter extends
         RealmRecyclerViewAdapter<Friend, RecyclerViewAdapter.MyViewHolder> {
-    private final MainActivity activity;
+    private final TabFriends tabFriends;
 
-    public RecyclerViewAdapter(MainActivity activity, OrderedRealmCollection<Friend> data) {
-        super(activity, data, true);
-        this.activity = activity;
+    public RecyclerViewAdapter(TabFriends tabFriends, OrderedRealmCollection<Friend> data) {
+        super(tabFriends.getContext(), data, true);
+        this.tabFriends = tabFriends;
     }
 
     @Override
@@ -42,7 +45,9 @@ public class RecyclerViewAdapter extends
 
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder implements
+            View.OnClickListener,
+            View.OnLongClickListener{
         public ImageView userProfileImage;
         public TextView userName;
         public TextView userPuzzleNum;
@@ -55,8 +60,22 @@ public class RecyclerViewAdapter extends
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
             userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
 
-            //view.setOnClickListener(this);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+           Log.d("###","click");
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            tabFriends.deleteFriend(data.getId());
+            return true;
+        }
+
+
 
        /* @Override
         public void onClick(View v) {

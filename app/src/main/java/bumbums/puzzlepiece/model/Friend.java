@@ -9,6 +9,8 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Friend extends RealmObject{
+    public static final String USER_ID = "id";
+
     @PrimaryKey
     private long id;
     private String name;

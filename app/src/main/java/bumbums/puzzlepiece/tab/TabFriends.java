@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import bumbums.puzzlepiece.ItemOffsetDecoration;
 import bumbums.puzzlepiece.MainActivity;
@@ -20,6 +21,7 @@ import bumbums.puzzlepiece.RecyclerViewAdapter;
 import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -53,7 +55,7 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
 
     private void setUpRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        mRecyclerView.setAdapter(new RecyclerViewAdapter((MainActivity)getActivity(), realm.where(Friend.class).findAllAsync()));
+        mRecyclerView.setAdapter(new RecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync()));
         mRecyclerView.setHasFixedSize(true);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
@@ -62,6 +64,17 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(intent, PICK_PHONE_DATA);
+    }
+
+    public void deleteFriend(final long id){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Friend> rows = realm.where(Friend.class).equalTo(Friend.USER_ID,id).findAll();
+                rows.deleteAllFromRealm();
+            }
+        });
+        Toast.makeText(getContext(),"id="+id+" deleted",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -88,16 +101,17 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
                     cursor.moveToFirst();
                     final String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
                     final String number = cursor.getString(1);   //1은 번호를 받아옵니다.
-
+                    final long id = Utils.getNextKey(realm);
                     realm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            Friend friend = realm.createObject(Friend.class, Utils.getNextKey(realm));
+                            Friend friend = realm.createObject(Friend.class, id);
                             friend.setName(name);
                             friend.setPhoneNumber(number);
                             Log.d("###",friend.getId()+friend.getName()+friend.getPhoneNumber());
                         }
                     });
+                    Toast.makeText(getContext(),"id="+id+" created",Toast.LENGTH_SHORT).show();
                     cursor.close();
                     break;
                 default:
