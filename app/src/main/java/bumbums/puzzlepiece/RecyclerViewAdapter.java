@@ -28,6 +28,7 @@ public class RecyclerViewAdapter extends
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_grid, parent, false);
+        itemView.setMinimumWidth(parent.getMeasuredWidth()/2);
         return new MyViewHolder(itemView);
     }
 
@@ -38,14 +39,13 @@ public class RecyclerViewAdapter extends
         //holder.userProfileImage =
         holder.userName.setText(obj.getName());
         holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
-        holder.userPhoneNumber.setText(obj.getPhoneNumber());
+
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView userProfileImage;
         public TextView userName;
         public TextView userPuzzleNum;
-        public TextView userPhoneNumber;
         public Friend data;
 
         public MyViewHolder(View view) {
@@ -54,7 +54,7 @@ public class RecyclerViewAdapter extends
             userProfileImage = (ImageView)view.findViewById(R.id.iv_row_grid_profile);
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
             userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
-            userPhoneNumber = (TextView)view.findViewById(R.id.tv_row_grid_phone_number);
+
             //view.setOnClickListener(this);
         }
 

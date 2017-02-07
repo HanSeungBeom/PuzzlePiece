@@ -28,8 +28,8 @@ TabLayout.OnTabSelectedListener{
         setContentView(R.layout.activity_main);
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.friends_selector));
-        mTabLayout.addTab(mTabLayout.newTab().setText("로그"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("랭킹"));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.history_selector));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.statistics_selector));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         mViewPager = (ViewPager)findViewById(R.id.pager);
         Pager adapter = new Pager(getSupportFragmentManager(),mTabLayout.getTabCount());

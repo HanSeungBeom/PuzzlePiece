@@ -40,8 +40,8 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
         View view = inflater.inflate(R.layout.tab_friends, container,false);
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_friends);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen8);
-        mRecyclerView.addItemDecoration(itemDecoration);
+        //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen4);
+       // mRecyclerView.addItemDecoration(itemDecoration);
         mFab = (FloatingActionButton)view.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
         realm = Realm.getDefaultInstance();
