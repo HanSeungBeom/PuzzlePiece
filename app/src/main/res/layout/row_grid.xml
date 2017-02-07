@@ -4,12 +4,14 @@
     android:layout_width="150dp"
     android:layout_height="150dp"
     android:background="@color/Grey300"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:gravity="center">
+        android:gravity="center"
+        >
         <ImageView
             android:id="@+id/iv_row_grid_profile"
             android:layout_width="match_parent"

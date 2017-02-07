@@ -37,7 +37,7 @@ public class RecyclerViewAdapter extends
         holder.data = obj;
         //holder.userProfileImage =
         holder.userName.setText(obj.getName());
-        holder.userPuzzleNum.setText(obj.getPuzzles().size());
+        holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
         holder.userPhoneNumber.setText(obj.getPhoneNumber());
     }
 

@@ -10,9 +10,10 @@ import io.realm.Realm;
 public class Utils {
     public static int getNextKey(Realm realm)
     {
-        try {
-            return realm.where(Friend.class).max("id").intValue() + 1;
-        } catch (ArrayIndexOutOfBoundsException e)
-        { return 0; }
+   
+            if(realm.where(Friend.class).max("id") == null)return 1;
+            else
+             return realm.where(Friend.class).max("id").intValue() + 1;
+
     }
 }

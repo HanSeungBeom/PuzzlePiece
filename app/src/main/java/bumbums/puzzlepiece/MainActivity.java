@@ -25,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv_friends);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.dimen8);
+        mRecyclerView.addItemDecoration(itemDecoration);
+        realm = Realm.getDefaultInstance();
+        setUpRecyclerView();
     }
 
     public void addFriend(View view) {
@@ -44,9 +48,20 @@ public class MainActivity extends AppCompatActivity {
                             new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
                     cursor.moveToFirst();
-                    //name = cursor.getString(0);     //0은 이름을 얻어옵니다.
-                    //number = cursor.getString(1);   //1은 번호를 받아옵니다.
-                    Log.d("###","name="+cursor.getString(0)+"/number="+cursor.getString(1)) ;
+                    final String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
+                    final String number = cursor.getString(1);   //1은 번호를 받아옵니다.
+
+
+                    final String timestamp = Long.toString(System.currentTimeMillis());
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            Friend friend = realm.createObject(Friend.class,Utils.getNextKey(realm));
+                            friend.setName(name);
+                            friend.setPhoneNumber(number);
+                            Log.d("###",friend.getId()+friend.getName()+friend.getPhoneNumber());
+                        }
+                    });
                     cursor.close();
                     break;
                 default:
