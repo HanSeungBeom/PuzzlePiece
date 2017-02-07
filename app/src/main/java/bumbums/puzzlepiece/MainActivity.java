@@ -27,7 +27,7 @@ TabLayout.OnTabSelectedListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("지인"));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.friends_selector));
         mTabLayout.addTab(mTabLayout.newTab().setText("로그"));
         mTabLayout.addTab(mTabLayout.newTab().setText("랭킹"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
