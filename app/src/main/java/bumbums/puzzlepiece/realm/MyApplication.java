@@ -1,4 +1,4 @@
-package bumbums.puzzlepiece;
+package bumbums.puzzlepiece.realm;
 
 import android.app.Application;
 
@@ -13,6 +13,5 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
-        //default 대신 이걸 호출해서 초기화
     }
 }

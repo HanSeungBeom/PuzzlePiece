@@ -17,7 +17,7 @@
         />
     <ImageView
         android:id="@+id/iv_row_grid_profile"
-        android:src="@drawable/default_user"
+        android:src="@drawable/default_user1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>

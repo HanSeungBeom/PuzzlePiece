@@ -18,6 +18,7 @@ public class AddPuzzleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_puzzle);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
        
 
     }

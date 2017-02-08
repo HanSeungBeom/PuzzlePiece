@@ -21,12 +21,13 @@
         android:text="이 글은 테스트 글입니다 샬라샬라"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:padding="4dp"/>
 
     <TextView
         android:id="@+id/tv_row_grid_detail_date"
         android:textSize="13dp"
-        android:textStyle="italic"
+        android:textStyle="italic|bold"
         android:textColor="@color/Grey500"
         android:text="2017-02-08"
         android:layout_width="wrap_content"
