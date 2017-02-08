@@ -251,6 +251,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/tv_detail_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="한승범"
@@ -259,6 +260,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_detail_relation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="4dp"
@@ -267,18 +269,20 @@
                             android:textColor="@color/Grey700" />
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="#코딩 #부스트캠프 #졸업"
-                        android:textColor="@color/Grey700" />
 
                     <TextView
+                        android:id="@+id/tv_detail_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="01012345678"
                         android:textColor="@color/Grey500" />
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#나중에 키워드 추가"
+                        android:textColor="@color/Grey300" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -306,17 +310,16 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:tint="@color/white"
-        app:backgroundTint="@color/orange"
-
+        app:backgroundTint="@color/blue"
         app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:srcCompat="@drawable/puzzles_white"
 
         />
 </FrameLayout>

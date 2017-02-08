@@ -22,6 +22,7 @@ import io.realm.RealmRecyclerViewAdapter;
 public class RecyclerViewAdapter extends
         RealmRecyclerViewAdapter<Friend, RecyclerViewAdapter.MyViewHolder> {
     private final TabFriends tabFriends;
+    public static final String EXTRA_ID = "id";
 
     public RecyclerViewAdapter(TabFriends tabFriends, OrderedRealmCollection<Friend> data) {
         super(tabFriends.getContext(), data, true);
@@ -68,8 +69,10 @@ public class RecyclerViewAdapter extends
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(tabFriends.getContext(),FriendDetailActivity.class);
+            intent.putExtra(EXTRA_ID,data.getId());
             tabFriends.getContext().startActivity(intent);
-            Log.d("###","click");
+
+           // Log.d("###","click");
         }
 
         @Override

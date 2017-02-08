@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
+import bumbums.puzzlepiece.AddFriendActivity;
 import bumbums.puzzlepiece.ItemOffsetDecoration;
 import bumbums.puzzlepiece.MainActivity;
 import bumbums.puzzlepiece.R;
@@ -31,10 +34,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class TabFriends extends android.support.v4.app.Fragment implements View.OnClickListener {
     public static final int PICK_PHONE_DATA=1;
+    public static final int ADD_FRIEND =2;
     private RecyclerView mRecyclerView;
     private Realm realm;
-    private FloatingActionButton mFab;
-
+    private FloatingActionsMenu fab;
+    private com.getbase.floatingactionbutton.FloatingActionButton mFabNew,mFabLoadPhoneBook;
 
     @Nullable
     @Override
@@ -44,10 +48,17 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_friends);
         //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen4);
        // mRecyclerView.addItemDecoration(itemDecoration);
-        mFab = (FloatingActionButton)view.findViewById(R.id.fab);
-        mFab.setOnClickListener(this);
+        fab = (FloatingActionsMenu)view.findViewById(R.id.fab);
+        mFabNew =(com.getbase.floatingactionbutton.FloatingActionButton) view.findViewById(R.id.fab_new_register);
+        mFabLoadPhoneBook=(com.getbase.floatingactionbutton.FloatingActionButton)view.findViewById(R.id.fab_load_phonebook);
+        mFabNew.setOnClickListener(this);
+        mFabLoadPhoneBook.setOnClickListener(this);
+
+
         realm = Realm.getDefaultInstance();
         setUpRecyclerView();
+
+
 
 
         return view;
@@ -60,7 +71,7 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 
-    public void addFriend() {
+    public void loadPhoneBook() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(intent, PICK_PHONE_DATA);
@@ -81,12 +92,33 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.fab:
-                addFriend();
+            case R.id.fab_new_register:
+                Intent intent = new Intent(getContext(), AddFriendActivity.class);
+                startActivityForResult(intent,ADD_FRIEND);
+                fab.collapse();
+                break;
+            case R.id.fab_load_phonebook:
+                loadPhoneBook();
+                fab.collapse();
                 break;
             default:
 
         }
+    }
+
+    public void addFriend(final String name, final String phone,String relation){
+        final long id = Utils.getNextKey(realm);
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Friend friend = realm.createObject(Friend.class, id);
+                friend.setName(name);
+                friend.setPhoneNumber(phone);
+
+                //Log.d("###",friend.getId()+friend.getName()+friend.getPhoneNumber());
+            }
+        });
+        Toast.makeText(getContext(),"id="+id+" created",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -99,20 +131,16 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
                             new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
                     cursor.moveToFirst();
-                    final String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
-                    final String number = cursor.getString(1);   //1은 번호를 받아옵니다.
-                    final long id = Utils.getNextKey(realm);
-                    realm.executeTransactionAsync(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            Friend friend = realm.createObject(Friend.class, id);
-                            friend.setName(name);
-                            friend.setPhoneNumber(number);
-                            Log.d("###",friend.getId()+friend.getName()+friend.getPhoneNumber());
-                        }
-                    });
-                    Toast.makeText(getContext(),"id="+id+" created",Toast.LENGTH_SHORT).show();
+                    String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
+                    String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
+                    addFriend(name,phone,"null");
                     cursor.close();
+                    break;
+                case ADD_FRIEND:
+                    String addname= data.getStringExtra(AddFriendActivity.NAME);
+                    String addphone= data.getStringExtra(AddFriendActivity.PHONE);
+                    String addrelation= data.getStringExtra(AddFriendActivity.RELATION);
+                    addFriend(addname,addphone,addrelation);
                     break;
                 default:
             }

@@ -9,26 +9,53 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import bumbums.puzzlepiece.model.Friend;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static bumbums.puzzlepiece.R.id.toolbar;
 
 public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private FloatingActionButton fab;
+    private TextView mName,mRelation,mPhone,mPuzzle,mRank,mCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_detail);
+        mName=(TextView)findViewById(R.id.tv_detail_name);
+        mRelation=(TextView)findViewById(R.id.tv_detail_relation);
+        mPhone=(TextView)findViewById(R.id.tv_detail_phone);
+        mPuzzle=(TextView)findViewById(R.id.tv_detail_puzzle);
+        mRank=(TextView)findViewById(R.id.tv_detail_rank);
+        mCalendar=(TextView)findViewById(R.id.tv_detail_calendar);
+
+
         fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("한승범");
+        //getSupportActionBar().setTitle("한승범");
+        Intent intent = getIntent();
+        long id = intent.getLongExtra(RecyclerViewAdapter.EXTRA_ID,-1);
+        //Log.d("###","id="+id);
 
-
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Friend> data = realm.where(Friend.class)
+                .equalTo("id", id)
+                .findAll();
+        Friend friend = data.get(0);
+        mName.setText(friend.getName());
+        mRelation.setText("("+friend.getRelation()+")");
+        mPhone.setText(friend.getPhoneNumber());
+        mPuzzle.setText(String.valueOf(friend.getPuzzleNum()));
+        mRank.setText(String.valueOf(friend.getRank()));
+        //mCalendar.setText(String.valueOf(friend.get));
     }
 
     @Override

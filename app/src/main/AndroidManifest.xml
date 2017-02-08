@@ -24,7 +24,10 @@
                 android:value="bumbums.puzzlepiece.MainActivity" />
             >
         </activity>
-        <activity android:name=".AddPuzzleActivity"
+        <activity
+            android:name=".AddPuzzleActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity android:name=".AddFriendActivity"
             android:theme="@style/Theme.AppCompat.Translucent"></activity>
     </application>
 
