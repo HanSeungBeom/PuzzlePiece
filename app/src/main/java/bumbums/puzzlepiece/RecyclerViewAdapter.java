@@ -1,5 +1,6 @@
 package bumbums.puzzlepiece;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,7 +67,9 @@ public class RecyclerViewAdapter extends
 
         @Override
         public void onClick(View v) {
-           Log.d("###","click");
+            Intent intent = new Intent(tabFriends.getContext(),FriendDetailActivity.class);
+            tabFriends.getContext().startActivity(intent);
+            Log.d("###","click");
         }
 
         @Override
