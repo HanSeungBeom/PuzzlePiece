@@ -86,7 +86,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void setUpRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        mRecyclerView.setAdapter(new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).findAllAsync()));
+        mRecyclerView.setAdapter(new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllAsync()));
         mRecyclerView.setHasFixedSize(false);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }

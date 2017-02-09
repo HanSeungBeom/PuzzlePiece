@@ -31,7 +31,9 @@
             android:name=".AddFriendActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name=".EditFriendActivity"></activity>
+        <activity
+            android:name=".EditFriendActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"></activity>
     </application>
 
 </manifest>
