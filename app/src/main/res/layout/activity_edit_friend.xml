@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-   >
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"/>
                 <EditText
-                    android:id="@+id/et_add_friend_name"
+                    android:id="@+id/et_edit_friend_name"
                     android:hint="이름"
                     android:textColorHint="@color/Grey500"
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
                 <EditText
                     android:hint="전화번호"
-                    android:id="@+id/et_add_friend_phone"
+                    android:id="@+id/et_edit_friend_phone"
                     android:textColorHint="@color/Grey500"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                     android:inputType="number"/>
                 <EditText
                     android:hint="나와의 관계"
-                    android:id="@+id/et_add_friend_relation"
+                    android:id="@+id/et_edit_friend_relation"
                     android:textColorHint="@color/Grey500"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -35,6 +36,9 @@ TabLayout.OnTabSelectedListener{
         Pager adapter = new Pager(getSupportFragmentManager(),mTabLayout.getTabCount());
         mViewPager.setAdapter(adapter);
         mTabLayout.addOnTabSelectedListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("지인");
 
 
     }
@@ -43,6 +47,17 @@ TabLayout.OnTabSelectedListener{
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         mViewPager.setCurrentItem(tab.getPosition());
+        switch (tab.getPosition()){
+            case 0:
+                getSupportActionBar().setTitle("지인");
+                break;
+            case 1:
+                getSupportActionBar().setTitle("로그");
+                break;
+            case 2:
+                getSupportActionBar().setTitle("통계");
+                break;
+        }
     }
 
     @Override

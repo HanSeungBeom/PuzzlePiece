@@ -26,10 +26,12 @@
         </activity>
         <activity
             android:name=".AddPuzzleActivity"
-            android:windowSoftInputMode="stateVisible"
-           />
-        <activity android:name=".AddFriendActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"></activity>
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".AddFriendActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="stateVisible" />
+        <activity android:name=".EditFriendActivity"></activity>
     </application>
 
 </manifest>

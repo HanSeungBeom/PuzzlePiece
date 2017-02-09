@@ -53,6 +53,7 @@ public class RecyclerViewAdapter extends
         public ImageView userProfileImage;
         public TextView userName;
         public TextView userPuzzleNum;
+        public ImageView editFriend;
         public Friend data;
 
         public MyViewHolder(View view) {
@@ -61,16 +62,29 @@ public class RecyclerViewAdapter extends
             userProfileImage = (ImageView)view.findViewById(R.id.iv_row_grid_profile);
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
             userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
-
+            editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
+            editFriend.setOnClickListener(this);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(tabFriends.getContext(),FriendDetailActivity.class);
-            intent.putExtra(EXTRA_ID,data.getId());
-            tabFriends.getContext().startActivity(intent);
+            switch (v.getId()){
+                case R.id.iv_row_grid_edit: {
+                    Intent intent = new Intent(tabFriends.getContext(), EditFriendActivity.class);
+                    intent.putExtra(EXTRA_ID,data.getId());
+                    tabFriends.getContext().startActivity(intent);
+                    //Log.d("###","edit click");
+                    break;
+                }
+                default:
+                    Intent intent = new Intent(tabFriends.getContext(),FriendDetailActivity.class);
+                    intent.putExtra(EXTRA_ID,data.getId());
+                    tabFriends.getContext().startActivity(intent);
+                    break;
+            }
+
 
            // Log.d("###","click");
         }

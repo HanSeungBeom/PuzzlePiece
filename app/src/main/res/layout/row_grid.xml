@@ -8,6 +8,7 @@
     android:layout_margin="3dp"
     >
     <ImageView
+        android:id="@+id/iv_row_grid_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/edit"

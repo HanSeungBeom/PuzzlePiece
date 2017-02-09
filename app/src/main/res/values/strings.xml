@@ -3,6 +3,7 @@
 
 
     <!-- menu_friend_detail.xml -->
+    <string name="save">저장</string>
     <string name="edit">지인 정보</string>
     <string name="delete">지인 삭제</string>
     <string name="register">등록</string>
