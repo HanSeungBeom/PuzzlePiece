@@ -9,6 +9,9 @@ import io.realm.annotations.PrimaryKey;
 
 public class Puzzle extends RealmObject {
 
+    public static final String PUZZLE_ID = "id";
+    public static final String FRIEND_ID ="friendId";
+
     @PrimaryKey
     private long id;
     private long friendId;

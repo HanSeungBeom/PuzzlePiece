@@ -30,8 +30,10 @@ public class PuzzleRecyclerViewAdpater  extends
     @Override
     public PuzzleRecyclerViewAdpater.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_grid, parent, false);
+                .inflate(R.layout.row_grid_friend_detail, parent, false);
         itemView.setMinimumWidth(parent.getMeasuredWidth()/3);
+
+
         return new PuzzleRecyclerViewAdpater.MyViewHolder(itemView);
     }
 

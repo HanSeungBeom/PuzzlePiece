@@ -96,6 +96,8 @@
 
                     <TextView
                         android:id="@+id/tv_detail_puzzle"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
@@ -142,6 +144,8 @@
 
                     <TextView
                         android:id="@+id/tv_detail_rank"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
@@ -188,6 +192,7 @@
 
                     <TextView
                         android:id="@+id/tv_detail_calendar"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
@@ -300,7 +305,10 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_friend_detail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"
+                android:padding="4dp">
+
+            </android.support.v7.widget.RecyclerView>
 
 
         </LinearLayout>
@@ -310,10 +318,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:tint="@color/white"

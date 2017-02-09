@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/Grey50"
+    android:background="@color/white"
     android:elevation="1dp"
     android:layout_margin="3dp"
     >
@@ -23,18 +23,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:padding="4dp"/>
+        android:padding="4dp"
+        android:maxLines="2"/>
 
     <TextView
         android:id="@+id/tv_row_grid_detail_date"
         android:textSize="13dp"
-        android:textStyle="italic|bold"
+        android:textStyle="italic"
         android:textColor="@color/Grey500"
         android:text="2017-02-08"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-
         android:paddingRight="4dp"
         android:paddingBottom="4dp"
 

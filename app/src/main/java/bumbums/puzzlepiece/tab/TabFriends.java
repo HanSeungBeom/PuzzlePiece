@@ -23,6 +23,7 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.RecyclerViewAdapter;
 import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
+import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -83,8 +84,12 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
             public void execute(Realm realm) {
                 RealmResults<Friend> rows = realm.where(Friend.class).equalTo(Friend.USER_ID,id).findAll();
                 rows.deleteAllFromRealm();
+
+                RealmResults<Puzzle> puzzlesWithFriend =realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,id).findAll();
+                puzzlesWithFriend.deleteAllFromRealm();
             }
         });
+
         Toast.makeText(getContext(),"id="+id+" deleted",Toast.LENGTH_SHORT).show();
     }
 

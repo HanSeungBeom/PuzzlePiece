@@ -1,5 +1,7 @@
 package bumbums.puzzlepiece;
 
+import java.util.Calendar;
+
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
@@ -9,16 +11,26 @@ import io.realm.Realm;
  */
 
 public class Utils {
-    public static int getNextKeyFriend(Realm realm)
+    synchronized public static int getNextKeyFriend(Realm realm)
     {
             if(realm.where(Friend.class).max("id") == null)return 1;
             else
              return realm.where(Friend.class).max("id").intValue() + 1;
     }
-    public static int getNextKeyPuzzle(Realm realm)
+    synchronized public static int getNextKeyPuzzle(Realm realm)
     {
         if(realm.where(Puzzle.class).max("id") == null)return 1;
         else
             return realm.where(Puzzle.class).max("id").intValue() + 1;
+    }
+
+    public static String getNowDate(){
+        Calendar cal = java.util.Calendar.getInstance();
+
+        int year = cal.get ( cal.YEAR );
+        int month = cal.get ( cal.MONTH ) + 1 ;
+        int date = cal.get ( cal.DATE ) ;
+
+        return ""+year+"/"+month+"/"+date;
     }
 }

@@ -1,5 +1,7 @@
 package bumbums.puzzlepiece;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,17 +10,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class AddPuzzleActivity extends AppCompatActivity {
+
+    public static final String EXTRA_PUZZLE ="puzzle";
+    private EditText mPuzzleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_puzzle);
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+        mPuzzleText = (EditText)findViewById(R.id.et_add_puzzle);
+
        
 
     }
@@ -37,7 +47,21 @@ public class AddPuzzleActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_register:
-                Toast.makeText(this,"action_register_click",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"action_register_click",Toast.LENGTH_SHORT).show();
+                if(mPuzzleText.length()>0) {
+                    Intent intent = getIntent();
+                    intent.putExtra(EXTRA_PUZZLE, mPuzzleText.getText().toString());
+                    setResult(RESULT_OK, intent);
+                    View view = this.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                    finish();
+                }
+                else{
+                    Toast.makeText(this,"내용을 입력해 주세요",Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
 

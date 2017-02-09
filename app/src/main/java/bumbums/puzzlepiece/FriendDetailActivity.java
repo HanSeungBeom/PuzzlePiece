@@ -17,6 +17,8 @@ import android.widget.Toast;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 import io.realm.RealmResults;
 
 import static bumbums.puzzlepiece.R.id.toolbar;
@@ -28,6 +30,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView mRecyclerView;
     private Realm realm;
     private Friend mFriend;
+    private long mFriendId;
+
+    public static final int REQUESTCODE_PUZZLE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +52,11 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initData();
+
         realm = Realm.getDefaultInstance();
+
+        initData();
+
         setUpRecyclerView();
         //mCalendar.setText(String.valueOf(friend.get));
     }
@@ -58,14 +66,20 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         long id = intent.getLongExtra(RecyclerViewAdapter.EXTRA_ID,-1);
         //Log.d("###","id="+id);
 
-        Realm realm = Realm.getDefaultInstance();
         mFriend = realm.where(Friend.class)
                 .equalTo("id",id)
                 .findFirst();
+        mFriend.addChangeListener(new RealmChangeListener<Friend>() {
+            @Override
+            public void onChange(Friend friend) {
+                mPuzzle.setText(String.valueOf(friend.getPuzzles().size()));
+            }
+        });
+        mFriendId= mFriend.getId();
         mName.setText(mFriend.getName());
         mRelation.setText("("+mFriend.getRelation()+")");
         mPhone.setText(mFriend.getPhoneNumber());
-        mPuzzle.setText(String.valueOf(mFriend.getPuzzleNum()));
+        mPuzzle.setText(String.valueOf(mFriend.getPuzzles().size()));
         mRank.setText(String.valueOf(mFriend.getRank()));
         getSupportActionBar().setTitle(mFriend.getName());
     }
@@ -73,7 +87,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private void setUpRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
         mRecyclerView.setAdapter(new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).findAllAsync()));
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 
@@ -105,41 +119,72 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
     public void addPuzzle(final String text, final String date){
         final long id = Utils.getNextKeyPuzzle(realm);
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+
                 Puzzle puzzle = realm.createObject(Puzzle.class, id);
-                puzzle.setFriendId(mFriend.getId());
+                puzzle.setFriendId(mFriendId);
                 puzzle.setText(text);
                 puzzle.setDate(date);
 /*                RealmResults<Friend> data = realm.where(Friend.class)
                         .equalTo("id", mFriend.getId())
                         .findAll();
                 data.get(0).getPuzzles().add(puzzle);*/
-                mFriend.getPuzzles().add(puzzle);
-                //Log.d("###",friend.getId()+friend.getName()+friend.getPhoneNumber());
-            }
-        });
-        Friend friend = realm.where(Friend.class).equalTo("id",mFriend.getId()).findFirst();
 
-        Toast.makeText(this,"id="+id+" created//size:"+friend.getPuzzles().size(),Toast.LENGTH_SHORT).show();
+                Friend friend =realm.where(Friend.class).equalTo("id",mFriendId).findFirst();
+                friend.getPuzzles().add(puzzle);
+
+            }},new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d("##","success");
+            }
+
+
+        });
+        Toast.makeText(this,"id="+id+" created",Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.fab:
-                addPuzzle("1234","1234");
-                /*Intent intent = new Intent(this, AddPuzzleActivity.class);
-                startActivity(intent);
-                Log.d("###","click");*/
+                Intent intent = new Intent(this, AddPuzzleActivity.class);
+                startActivityForResult(intent,REQUESTCODE_PUZZLE);
+                //Log.d("###","click");
                 break;
             default:
 
         }
     }
 
-    public void deletePuzzle(long id) {
+    public void deletePuzzle(final long id) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Puzzle> rows = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID,id).findAll();
+                rows.deleteAllFromRealm();
+            }
+        });
+       // Toast.makeText(this,"id="+id+" deleted",Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case REQUESTCODE_PUZZLE:
+                    String text = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE);
+                    String date = Utils.getNowDate();
+                    addPuzzle(text,date);
+                    break;
+                default:
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
