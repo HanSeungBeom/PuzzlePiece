@@ -1,6 +1,7 @@
 package bumbums.puzzlepiece.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by han sb on 2017-02-07.
@@ -8,26 +9,25 @@ import io.realm.RealmObject;
 
 public class Puzzle extends RealmObject {
 
+    @PrimaryKey
+    private long id;
     private long friendId;
-    private long puzzleId;
     private String text;
     private String date;
     private String location;
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
     public long getFriendId() {
         return friendId;
     }
 
     public void setFriendId(long friendId) {
         this.friendId = friendId;
-    }
-
-    public long getPuzzleId() {
-        return puzzleId;
-    }
-
-    public void setPuzzleId(long puzzleId) {
-        this.puzzleId = puzzleId;
     }
 
     public String getText() {

@@ -107,7 +107,7 @@ public class TabFriends extends android.support.v4.app.Fragment implements View.
     }
 
     public void addFriend(final String name, final String phone,String relation){
-        final long id = Utils.getNextKey(realm);
+        final long id = Utils.getNextKeyFriend(realm);
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
