@@ -8,11 +8,14 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -39,13 +42,25 @@ MainActivity.onKeyBackPressedListener{
     private Realm realm;
     private FloatingActionsMenu fab;
     private com.getbase.floatingactionbutton.FloatingActionButton mFabNew,mFabLoadPhoneBook;
+    private FriendRecyclerViewAdapter mAdapter;
+
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+        mAdapter =new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync());
+    }
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_friends, container,false);
-
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_friends);
+        setUpRecyclerView();
         //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen4);
        // mRecyclerView.addItemDecoration(itemDecoration);
         fab = (FloatingActionsMenu)view.findViewById(R.id.fab);
@@ -54,18 +69,14 @@ MainActivity.onKeyBackPressedListener{
         mFabNew.setOnClickListener(this);
         mFabLoadPhoneBook.setOnClickListener(this);
 
-
-        realm = Realm.getDefaultInstance();
-        setUpRecyclerView();
-
-
-
         return view;
     }
 
     private void setUpRecyclerView() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        mRecyclerView.setAdapter(new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync()));
+
+
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
@@ -157,6 +168,7 @@ MainActivity.onKeyBackPressedListener{
     @Override
     public void onPause() {
         fab.collapse();
+
         super.onPause();
     }
 
@@ -176,5 +188,6 @@ MainActivity.onKeyBackPressedListener{
         super.onAttach(context);
         ((MainActivity) context).setOnKeyBackPressedListener(this);
     }
+
 
 }

@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/tv_row_grid_name"
         android:textSize="13dp"
-        android:textStyle="italic"
+        android:textStyle="bold"
         android:textColor="@color/Grey900"
         android:text="한승범"
         android:layout_width="wrap_content"

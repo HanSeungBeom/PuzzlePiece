@@ -19,20 +19,21 @@ public class Pager extends FragmentStatePagerAdapter {
         super(fm);
         //Initializing tab count
         this.tabCount= tabCount;
+
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-
                 TabFriendsFragment tabFriendsFragment = new TabFriendsFragment();
                 return tabFriendsFragment;
+
             case 1:
                 TabPuzzleLogFragment tabPuzzleLogFragment = new TabPuzzleLogFragment();
                 return tabPuzzleLogFragment;
             case 2:
-                TabStatisticsFragment tabStatisticsFragment = new TabStatisticsFragment();
+               TabStatisticsFragment tabStatisticsFragment = new TabStatisticsFragment();
                 return tabStatisticsFragment;
             default:
                 return null;

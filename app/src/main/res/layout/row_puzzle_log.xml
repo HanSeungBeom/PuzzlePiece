@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:background="@color/white"
-    android:layout_marginBottom="4dp">
+    android:layout_marginBottom="10dp">
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:src="@drawable/puzzles"
+            android:padding="16dp"
+            android:src="@drawable/big_puzzle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
@@ -25,7 +26,8 @@
             android:layout_weight="1.5">
             <TextView
                 android:id="@+id/tv_row_log_name"
-                android:textSize="18dp"
+                android:textColor="@color/Grey900"
+                android:textSize="16dp"
                 android:text="name"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
@@ -57,7 +59,7 @@
             <TextView
                 android:id="@+id/tv_row_log_time"
                 android:text="오후 2:15"
-                android:textSize="13dp"
+                android:textSize="11dp"
                 android:textColor="@color/Grey500"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

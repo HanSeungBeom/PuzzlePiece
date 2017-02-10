@@ -1,6 +1,7 @@
 package bumbums.puzzlepiece;
 
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
@@ -29,11 +30,68 @@ public class Utils {
 
         int year = cal.get ( cal.YEAR );
         int month = cal.get ( cal.MONTH ) + 1 ;
-        int date = cal.get ( cal.DATE ) ;
+        int day = cal.get ( cal.DAY_OF_MONTH ) ;
         int hour = cal.get (cal.HOUR_OF_DAY);
         int minutes = cal.get (cal.MINUTE);
 
-        return ""+year+"/"+month+"/"+date+"/"+hour+":"+minutes;
+        return ""+year+"/"+month+"/"+day+"/"+hour+":"+minutes;
+    }
+
+    public static String dateToCurrentFormat(String dateStr){
+        //2017/2/10/11:48 같은 문자열을 -> 오늘날짜면 시간만, 어제부터는 날짜로만 표시.
+        boolean isToday = false;
+
+        StringTokenizer stringTokenizer = new StringTokenizer(dateStr,"/");
+        String year = stringTokenizer.nextToken();
+        String month = stringTokenizer.nextToken();
+        String day =stringTokenizer.nextToken();
+        String time = stringTokenizer.nextToken();
+        stringTokenizer = new StringTokenizer(time,":");
+        int hourOfDay = Integer.parseInt(stringTokenizer.nextToken());
+        int minutes = Integer.parseInt(stringTokenizer.nextToken());
+
+        Calendar cal = java.util.Calendar.getInstance();
+        String today_year =String.valueOf(cal.get(cal.YEAR ));
+        String today_month = String.valueOf((cal.get(cal.MONTH)+1));
+        String today_day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+
+        if(year.equals(today_year)
+                && month.equals(today_month)
+                && day.equals(today_day)) isToday = true;
+        String hour,min,ampm;
+
+        if (hourOfDay >= 12) ampm = "오후";
+        else ampm = "오전";
+
+
+        if (ampm.equals("PM")) {
+            if (hourOfDay != 12) hourOfDay = hourOfDay - 12;
+        }
+
+        if (hourOfDay < 10) {
+            hour = "0" + String.valueOf(hourOfDay);
+        }
+        else{
+            hour = String.valueOf(hourOfDay);
+        }
+        if (minutes < 10) {
+            min = "0" + String.valueOf(minutes);
+        }
+        else{
+            min = String.valueOf(minutes);
+        }
+
+        if(isToday){
+            return ampm+" "+hour+":"+min;
+        }
+        else{
+            return String.format("%2d/%2d/%2d",Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day));
+        }
+
+
+
+
+
     }
 
 }

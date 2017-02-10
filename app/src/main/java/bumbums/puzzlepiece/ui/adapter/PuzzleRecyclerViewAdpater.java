@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
 import bumbums.puzzlepiece.ui.PuzzleDetailActivity;
@@ -46,7 +47,7 @@ public class PuzzleRecyclerViewAdpater  extends
         holder.data = obj;
         //holder.userProfileImage =
         holder.puzzleText.setText(obj.getText());
-        holder.puzzleDate.setText(obj.getDate());
+        holder.puzzleDate.setText(Utils.dateToCurrentFormat(obj.getDate()));
 
     }
 

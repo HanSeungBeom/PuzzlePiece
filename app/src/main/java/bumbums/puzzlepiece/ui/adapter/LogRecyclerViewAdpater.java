@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.TabPuzzleLogFragment;
 import io.realm.OrderedRealmCollection;
@@ -42,7 +43,7 @@ public class LogRecyclerViewAdpater extends
         holder.data = obj;
         //holder.userProfileImage =
         holder.name.setText(obj.getFriendName());
-        holder.time.setText(obj.getDate());
+        holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
         holder.text.setText(obj.getText());
 
     }

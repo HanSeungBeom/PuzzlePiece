@@ -98,6 +98,7 @@ public class FriendRecyclerViewAdapter  extends
 
 
 
+
        /* @Override
         public void onClick(View v) {
             for(int i=0;i<data.getDogs().size();i++){
