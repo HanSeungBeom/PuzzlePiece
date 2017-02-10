@@ -15,6 +15,7 @@ public class Puzzle extends RealmObject {
     @PrimaryKey
     private long id;
     private long friendId;
+    private String friendName;
     private String text;
     private String date;
     private String location;
@@ -27,6 +28,14 @@ public class Puzzle extends RealmObject {
     }
     public long getFriendId() {
         return friendId;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
     }
 
     public void setFriendId(long friendId) {

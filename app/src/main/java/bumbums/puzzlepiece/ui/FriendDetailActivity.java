@@ -2,6 +2,7 @@ package bumbums.puzzlepiece.ui;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,9 +15,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.ui.adapter.RecyclerViewAdapter;
 import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
@@ -64,7 +65,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
     public void initData(){
         Intent intent = getIntent();
-        long id = intent.getLongExtra(RecyclerViewAdapter.EXTRA_ID,-1);
+        long id = intent.getLongExtra(FriendRecyclerViewAdapter.EXTRA_ID,-1);
         //Log.d("###","id="+id);
 
         mFriend = realm.where(Friend.class)
@@ -129,6 +130,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 puzzle.setFriendId(mFriendId);
                 puzzle.setText(text);
                 puzzle.setDate(date);
+                puzzle.setFriendName(mName.getText().toString());
 /*                RealmResults<Friend> data = realm.where(Friend.class)
                         .equalTo("id", mFriend.getId())
                         .findAll();
@@ -153,7 +155,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.fab:
-                Intent intent = new Intent(this, AddPuzzleActivity.class);
+
+               Intent intent = new Intent(this, AddPuzzleActivity.class);
                 startActivityForResult(intent,REQUESTCODE_PUZZLE);
                 //Log.d("###","click");
                 break;
@@ -178,8 +181,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         if(resultCode==RESULT_OK){
             switch (requestCode){
                 case REQUESTCODE_PUZZLE:
-                    String text = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE);
-                    String date = Utils.getNowDate();
+                    String text = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_TEXT);
+                    String date = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE);
                     addPuzzle(text,date);
                     break;
                 default:

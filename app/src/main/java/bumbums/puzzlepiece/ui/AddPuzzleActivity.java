@@ -15,10 +15,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.Utils;
 
 public class AddPuzzleActivity extends AppCompatActivity {
 
-    public static final String EXTRA_PUZZLE ="puzzle";
+    public static final String EXTRA_PUZZLE_TEXT ="puzzle";
+    public static final String EXTRA_PUZZLE_DATE ="date";
     private EditText mPuzzleText;
 
     @Override
@@ -52,7 +54,8 @@ public class AddPuzzleActivity extends AppCompatActivity {
                 //Toast.makeText(this,"action_register_click",Toast.LENGTH_SHORT).show();
                 if(mPuzzleText.length()>0) {
                     Intent intent = getIntent();
-                    intent.putExtra(EXTRA_PUZZLE, mPuzzleText.getText().toString());
+                    intent.putExtra(EXTRA_PUZZLE_TEXT, mPuzzleText.getText().toString());
+                    intent.putExtra(EXTRA_PUZZLE_DATE, Utils.getNowDate());
                     setResult(RESULT_OK, intent);
                     View view = this.getCurrentFocus();
                     if (view != null) {

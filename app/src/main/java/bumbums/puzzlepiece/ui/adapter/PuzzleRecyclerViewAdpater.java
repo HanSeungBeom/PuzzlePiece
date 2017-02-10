@@ -1,5 +1,6 @@
 package bumbums.puzzlepiece.ui.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
+import bumbums.puzzlepiece.ui.PuzzleDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -20,7 +22,8 @@ import io.realm.RealmRecyclerViewAdapter;
 public class PuzzleRecyclerViewAdpater  extends
         RealmRecyclerViewAdapter<Puzzle, PuzzleRecyclerViewAdpater.MyViewHolder> {
     private final FriendDetailActivity friendDetailActivity;
-    public static final String EXTRA_ID = "id";
+    public static final String EXTRA_PUZZLE_ID = "puzzle_id";
+    public static final String EXTRA_FRIEND_ID = "friend_id";
 
     public PuzzleRecyclerViewAdpater(FriendDetailActivity friendDetailActivity, OrderedRealmCollection<Puzzle> data) {
         super(friendDetailActivity, data, true);
@@ -30,7 +33,7 @@ public class PuzzleRecyclerViewAdpater  extends
     @Override
     public PuzzleRecyclerViewAdpater.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_grid_friend_detail, parent, false);
+                .inflate(R.layout.row_grid_puzzle, parent, false);
         itemView.setMinimumWidth(parent.getMeasuredWidth()/3);
 
 
@@ -66,11 +69,10 @@ public class PuzzleRecyclerViewAdpater  extends
 
         @Override
         public void onClick(View v) {
-            /*Intent intent = new Intent(addPuzzleActivity,FriendDetailActivity.class);
-            intent.putExtra(EXTRA_ID,data.getId());
-            addPuzzleActivity.startActivity(intent);*/
-
-            Log.d("###","click");
+            Intent intent = new Intent(friendDetailActivity,PuzzleDetailActivity.class);
+            intent.putExtra(EXTRA_PUZZLE_ID,data.getId());
+            intent.putExtra(EXTRA_FRIEND_ID,data.getFriendId());
+            friendDetailActivity.startActivity(intent);
         }
 
         @Override

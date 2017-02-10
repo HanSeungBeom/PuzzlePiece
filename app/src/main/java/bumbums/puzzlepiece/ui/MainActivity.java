@@ -60,4 +60,22 @@ TabLayout.OnTabSelectedListener{
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
+
+    public interface onKeyBackPressedListener {
+        public void onBack();
+    }
+    private onKeyBackPressedListener mOnKeyBackPressedListener;
+
+    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
+        mOnKeyBackPressedListener = listener;
+    }
+    @Override
+    public void onBackPressed() {
+        if (mOnKeyBackPressedListener != null) {
+            mOnKeyBackPressedListener.onBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

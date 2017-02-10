@@ -33,6 +33,8 @@
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.EditFriendActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity android:name=".ui.PuzzleDetailActivity"
             android:theme="@style/Theme.AppCompat.Translucent"></activity>
     </application>
 

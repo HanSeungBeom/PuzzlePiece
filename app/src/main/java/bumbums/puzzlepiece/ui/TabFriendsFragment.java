@@ -1,12 +1,15 @@
 package bumbums.puzzlepiece.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,7 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.ui.adapter.RecyclerViewAdapter;
+import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
@@ -28,7 +31,8 @@ import static android.app.Activity.RESULT_OK;
  * Created by han sb on 2017-02-08.
  */
 
-public class TabFriendsFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class TabFriendsFragment extends android.support.v4.app.Fragment implements View.OnClickListener,
+MainActivity.onKeyBackPressedListener{
     public static final int PICK_PHONE_DATA=1;
     public static final int ADD_FRIEND =2;
     private RecyclerView mRecyclerView;
@@ -56,13 +60,12 @@ public class TabFriendsFragment extends android.support.v4.app.Fragment implemen
 
 
 
-
         return view;
     }
 
     private void setUpRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        mRecyclerView.setAdapter(new RecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync()));
+        mRecyclerView.setAdapter(new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync()));
         mRecyclerView.setHasFixedSize(true);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
@@ -93,7 +96,7 @@ public class TabFriendsFragment extends android.support.v4.app.Fragment implemen
         int id = v.getId();
         switch (id){
             case R.id.fab_new_register:
-                Intent intent = new Intent(getContext(), AddFriendActivity.class);
+                Intent intent = new Intent(getContext(),AddFriendActivity.class);
                 startActivityForResult(intent,ADD_FRIEND);
                 fab.collapse();
                 break;
@@ -147,6 +150,31 @@ public class TabFriendsFragment extends android.support.v4.app.Fragment implemen
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+    @Override
+    public void onPause() {
+        fab.collapse();
+        super.onPause();
+    }
+
+    @Override
+    public void onBack() {
+        if (fab.isExpanded()) {
+            fab.collapse();
+        } else {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.setOnKeyBackPressedListener(null);
+            activity.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((MainActivity) context).setOnKeyBackPressedListener(this);
     }
 
 }

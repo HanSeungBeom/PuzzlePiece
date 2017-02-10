@@ -30,7 +30,10 @@ public class Utils {
         int year = cal.get ( cal.YEAR );
         int month = cal.get ( cal.MONTH ) + 1 ;
         int date = cal.get ( cal.DATE ) ;
+        int hour = cal.get (cal.HOUR_OF_DAY);
+        int minutes = cal.get (cal.MINUTE);
 
-        return ""+year+"/"+month+"/"+date;
+        return ""+year+"/"+month+"/"+date+"/"+hour+":"+minutes;
     }
+
 }

@@ -20,12 +20,12 @@ import io.realm.RealmRecyclerViewAdapter;
  * Created by 한승범 on 2017-02-07.
  */
 
-public class RecyclerViewAdapter extends
-        RealmRecyclerViewAdapter<Friend, RecyclerViewAdapter.MyViewHolder> {
+public class FriendRecyclerViewAdapter  extends
+        RealmRecyclerViewAdapter<Friend, FriendRecyclerViewAdapter.MyViewHolder>{
     private final TabFriendsFragment tabFriendsFragment;
     public static final String EXTRA_ID = "id";
 
-    public RecyclerViewAdapter(TabFriendsFragment tabFriendsFragment, OrderedRealmCollection<Friend> data) {
+    public FriendRecyclerViewAdapter(TabFriendsFragment tabFriendsFragment, OrderedRealmCollection<Friend> data) {
         super(tabFriendsFragment.getContext(), data, true);
         this.tabFriendsFragment = tabFriendsFragment;
     }
@@ -33,7 +33,7 @@ public class RecyclerViewAdapter extends
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_grid, parent, false);
+                .inflate(R.layout.row_grid_friend, parent, false);
         itemView.setMinimumWidth(parent.getMeasuredWidth()/2);
         return new MyViewHolder(itemView);
     }
