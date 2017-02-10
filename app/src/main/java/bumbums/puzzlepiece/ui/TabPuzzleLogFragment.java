@@ -13,7 +13,7 @@ import bumbums.puzzlepiece.R;
  * Created by han sb on 2017-02-08.
  */
 
-public class TabHistoryFragment extends android.support.v4.app.Fragment {
+public class TabPuzzleLogFragment extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override
