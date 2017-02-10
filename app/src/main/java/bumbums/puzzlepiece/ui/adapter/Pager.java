@@ -1,14 +1,12 @@
-package bumbums.puzzlepiece.tab;
+package bumbums.puzzlepiece.ui.adapter;
 
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-import io.realm.Realm;
+import bumbums.puzzlepiece.ui.TabFriendsFragment;
+import bumbums.puzzlepiece.ui.TabHistoryFragment;
+import bumbums.puzzlepiece.ui.TabStatisticsFragment;
 
 /**
  * Created by han sb on 2017-02-08.
@@ -28,14 +26,14 @@ public class Pager extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
 
-                TabFriends tabFriends = new TabFriends();
-                return tabFriends;
+                TabFriendsFragment tabFriendsFragment = new TabFriendsFragment();
+                return tabFriendsFragment;
             case 1:
-                TabHistory tabHistory = new TabHistory();
-                return tabHistory;
+                TabHistoryFragment tabHistoryFragment = new TabHistoryFragment();
+                return tabHistoryFragment;
             case 2:
-                TabStatistics tabStatistics = new TabStatistics();
-                return tabStatistics;
+                TabStatisticsFragment tabStatisticsFragment = new TabStatisticsFragment();
+                return tabStatisticsFragment;
             default:
                 return null;
         }

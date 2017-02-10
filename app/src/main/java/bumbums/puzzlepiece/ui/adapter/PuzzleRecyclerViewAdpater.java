@@ -1,15 +1,15 @@
-package bumbums.puzzlepiece;
+package bumbums.puzzlepiece.ui.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Puzzle;
+import bumbums.puzzlepiece.ui.FriendDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 

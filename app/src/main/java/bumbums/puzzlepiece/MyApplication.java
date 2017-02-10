@@ -1,4 +1,4 @@
-package bumbums.puzzlepiece.realm;
+package bumbums.puzzlepiece;
 
 import android.app.Application;
 

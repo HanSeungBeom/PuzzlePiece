@@ -1,17 +1,18 @@
-package bumbums.puzzlepiece;
+package bumbums.puzzlepiece.ui.adapter;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
-import bumbums.puzzlepiece.tab.TabFriends;
+import bumbums.puzzlepiece.ui.EditFriendActivity;
+import bumbums.puzzlepiece.ui.FriendDetailActivity;
+import bumbums.puzzlepiece.ui.TabFriendsFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -21,12 +22,12 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class RecyclerViewAdapter extends
         RealmRecyclerViewAdapter<Friend, RecyclerViewAdapter.MyViewHolder> {
-    private final TabFriends tabFriends;
+    private final TabFriendsFragment tabFriendsFragment;
     public static final String EXTRA_ID = "id";
 
-    public RecyclerViewAdapter(TabFriends tabFriends, OrderedRealmCollection<Friend> data) {
-        super(tabFriends.getContext(), data, true);
-        this.tabFriends = tabFriends;
+    public RecyclerViewAdapter(TabFriendsFragment tabFriendsFragment, OrderedRealmCollection<Friend> data) {
+        super(tabFriendsFragment.getContext(), data, true);
+        this.tabFriendsFragment = tabFriendsFragment;
     }
 
     @Override
@@ -72,16 +73,16 @@ public class RecyclerViewAdapter extends
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.iv_row_grid_edit: {
-                    Intent intent = new Intent(tabFriends.getContext(), EditFriendActivity.class);
+                    Intent intent = new Intent(tabFriendsFragment.getContext(), EditFriendActivity.class);
                     intent.putExtra(EXTRA_ID,data.getId());
-                    tabFriends.getContext().startActivity(intent);
+                    tabFriendsFragment.getContext().startActivity(intent);
                     //Log.d("###","edit click");
                     break;
                 }
                 default:
-                    Intent intent = new Intent(tabFriends.getContext(),FriendDetailActivity.class);
+                    Intent intent = new Intent(tabFriendsFragment.getContext(),FriendDetailActivity.class);
                     intent.putExtra(EXTRA_ID,data.getId());
-                    tabFriends.getContext().startActivity(intent);
+                    tabFriendsFragment.getContext().startActivity(intent);
                     break;
             }
 
@@ -91,7 +92,7 @@ public class RecyclerViewAdapter extends
 
         @Override
         public boolean onLongClick(View v) {
-            tabFriends.deleteFriend(data.getId());
+            tabFriendsFragment.deleteFriend(data.getId());
             return true;
         }
 

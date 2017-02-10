@@ -1,14 +1,12 @@
-package bumbums.puzzlepiece.tab;
+package bumbums.puzzlepiece.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +14,8 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import bumbums.puzzlepiece.AddFriendActivity;
-import bumbums.puzzlepiece.ItemOffsetDecoration;
-import bumbums.puzzlepiece.MainActivity;
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.RecyclerViewAdapter;
+import bumbums.puzzlepiece.ui.adapter.RecyclerViewAdapter;
 import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
@@ -33,7 +28,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by han sb on 2017-02-08.
  */
 
-public class TabFriends extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class TabFriendsFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     public static final int PICK_PHONE_DATA=1;
     public static final int ADD_FRIEND =2;
     private RecyclerView mRecyclerView;

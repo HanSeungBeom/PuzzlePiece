@@ -1,11 +1,10 @@
-package bumbums.puzzlepiece;
+package bumbums.puzzlepiece.ui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,9 +12,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.ui.adapter.RecyclerViewAdapter;
 import bumbums.puzzlepiece.model.Friend;
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class EditFriendActivity extends AppCompatActivity {
 

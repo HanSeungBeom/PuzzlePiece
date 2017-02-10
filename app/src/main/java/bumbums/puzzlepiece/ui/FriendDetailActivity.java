@@ -1,4 +1,4 @@
-package bumbums.puzzlepiece;
+package bumbums.puzzlepiece.ui;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -14,14 +14,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
+import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.ui.adapter.RecyclerViewAdapter;
+import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmModel;
 import io.realm.RealmResults;
-
-import static bumbums.puzzlepiece.R.id.toolbar;
 
 public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private FloatingActionButton fab;

@@ -1,4 +1,4 @@
-package bumbums.puzzlepiece.tab;
+package bumbums.puzzlepiece.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import bumbums.puzzlepiece.R;
  * Created by han sb on 2017-02-08.
  */
 
-public class TabHistory extends android.support.v4.app.Fragment {
+public class TabHistoryFragment extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override

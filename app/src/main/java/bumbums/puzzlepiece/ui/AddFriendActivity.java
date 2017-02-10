@@ -1,4 +1,4 @@
-package bumbums.puzzlepiece;
+package bumbums.puzzlepiece.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,35 +8,38 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AddPuzzleActivity extends AppCompatActivity {
+import bumbums.puzzlepiece.R;
 
-    public static final String EXTRA_PUZZLE ="puzzle";
-    private EditText mPuzzleText;
+public class AddFriendActivity extends AppCompatActivity {
+
+    private EditText mName, mPhone, mRelation;
+    public static final String NAME = "name";
+    public static final String PHONE= "phone";
+    public static final String RELATION = "relation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_puzzle);
-
+        setContentView(R.layout.activity_add_friend);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        mPuzzleText = (EditText)findViewById(R.id.et_add_puzzle);
 
-       
+        mName = (EditText)findViewById(R.id.et_add_friend_name);
+        mPhone =(EditText)findViewById(R.id.et_add_friend_phone);
+        mRelation=(EditText)findViewById(R.id.et_add_friend_relation);
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_puzzle, menu);
+        getMenuInflater().inflate(R.menu.menu_add_friend, menu);
         return true;
     }
 
@@ -47,20 +50,26 @@ public class AddPuzzleActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_register:
-                //Toast.makeText(this,"action_register_click",Toast.LENGTH_SHORT).show();
-                if(mPuzzleText.length()>0) {
+                if(     mName.getText().toString().equals("")
+                        || mPhone.getText().toString().equals("")
+                        || mRelation.getText().toString().equals("") ){
+                    Toast.makeText(this,"빈 항목이 있어요~",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String name = mName.getText().toString();
+                    String phone = mPhone.getText().toString();
+                    String relation = mRelation.getText().toString();
                     Intent intent = getIntent();
-                    intent.putExtra(EXTRA_PUZZLE, mPuzzleText.getText().toString());
-                    setResult(RESULT_OK, intent);
+                    intent.putExtra(NAME,name);
+                    intent.putExtra(PHONE,phone);
+                    intent.putExtra(RELATION,relation);
+                    setResult(RESULT_OK,intent);
                     View view = this.getCurrentFocus();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                     finish();
-                }
-                else{
-                    Toast.makeText(this,"내용을 입력해 주세요",Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -69,7 +78,4 @@ public class AddPuzzleActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }
