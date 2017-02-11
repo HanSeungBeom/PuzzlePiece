@@ -12,6 +12,26 @@ import io.realm.Realm;
  */
 
 public class Utils {
+    public static final int[] colors={
+            //16개
+            R.color.material_light_green,
+            R.color.material_indigo,
+            R.color.material_orange,
+            R.color.material_teal,
+            R.color.material_lime,
+            R.color.material_amber,
+            R.color.material_green,
+            R.color.material_red,
+            R.color.material_pupple,
+            R.color.material_grey,
+            R.color.material_yello,
+            R.color.material_depp_orange,
+            R.color.material_deep_purple,
+
+            R.color.material_pink,
+            R.color.material_brown,
+            R.color.material_blue_grey
+    };
     synchronized public static int getNextKeyFriend(Realm realm)
     {
             if(realm.where(Friend.class).max("id") == null)return 1;
@@ -33,8 +53,9 @@ public class Utils {
         int day = cal.get ( cal.DAY_OF_MONTH ) ;
         int hour = cal.get (cal.HOUR_OF_DAY);
         int minutes = cal.get (cal.MINUTE);
+        int seconds = cal.get(cal.SECOND);
+        return ""+year+"/"+month+"/"+day+"/"+hour+":"+minutes+":"+seconds;
 
-        return ""+year+"/"+month+"/"+day+"/"+hour+":"+minutes;
     }
 
     public static String dateToCurrentFormat(String dateStr){
@@ -64,7 +85,7 @@ public class Utils {
         else ampm = "오전";
 
 
-        if (ampm.equals("PM")) {
+        if (ampm.equals("오후")) {
             if (hourOfDay != 12) hourOfDay = hourOfDay - 12;
         }
 
@@ -85,7 +106,7 @@ public class Utils {
             return ampm+" "+hour+":"+min;
         }
         else{
-            return String.format("%2d/%2d/%2d",Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day));
+            return String.format("%2d/%02d/%2d",Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day));
         }
 
 
@@ -93,5 +114,6 @@ public class Utils {
 
 
     }
+
 
 }

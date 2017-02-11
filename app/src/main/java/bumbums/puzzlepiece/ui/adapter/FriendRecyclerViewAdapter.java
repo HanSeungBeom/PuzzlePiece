@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.EditFriendActivity;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
@@ -43,6 +44,7 @@ public class FriendRecyclerViewAdapter  extends
         Friend obj = getData().get(position);
         holder.data = obj;
         //holder.userProfileImage =
+        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
         holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
 
@@ -55,6 +57,7 @@ public class FriendRecyclerViewAdapter  extends
         public TextView userName;
         public TextView userPuzzleNum;
         public ImageView editFriend;
+        public View colorView;
         public Friend data;
 
         public MyViewHolder(View view) {
@@ -63,6 +66,7 @@ public class FriendRecyclerViewAdapter  extends
             userProfileImage = (ImageView)view.findViewById(R.id.iv_row_grid_profile);
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
             userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
+            colorView = (View)view.findViewById(R.id.view_friend);
             editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
             editFriend.setOnClickListener(this);
             view.setOnClickListener(this);

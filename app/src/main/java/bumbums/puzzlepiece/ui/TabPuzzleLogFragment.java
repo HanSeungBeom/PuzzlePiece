@@ -13,6 +13,8 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.adapter.LogRecyclerViewAdpater;
 import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 
 /**
@@ -30,7 +32,9 @@ public class TabPuzzleLogFragment extends android.support.v4.app.Fragment {
 
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        mAdapter =new LogRecyclerViewAdpater(this, realm.where(Puzzle.class).findAllAsync());
+
+
+        mAdapter =new LogRecyclerViewAdpater(this, realm.where(Puzzle.class).findAllAsync().sort("date", Sort.DESCENDING));
     }
 
     @Nullable

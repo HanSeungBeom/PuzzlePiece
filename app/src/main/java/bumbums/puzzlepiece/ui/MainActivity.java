@@ -43,7 +43,7 @@ TabLayout.OnTabSelectedListener{
         mTabLayout.getTabAt(1).setIcon(R.drawable.history_selector);
         mTabLayout.getTabAt(2).setIcon(R.drawable.statistics_selector);
 
-
+        mFriendNum =(TextView)findViewById(R.id.tv_friend_num);
 
 
         mTabLayout.addOnTabSelectedListener(this);
@@ -63,7 +63,7 @@ TabLayout.OnTabSelectedListener{
     @Override
     protected void onResume() {
         super.onResume();
-        mFriendNum =(TextView)findViewById(R.id.tv_friend_num);
+
         //onCreate 에 하면 이상하게 안됨. listener 를 못찾음
 
         final RealmResults<Friend> results = realm.where(Friend.class)
