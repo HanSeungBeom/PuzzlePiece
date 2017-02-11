@@ -6,10 +6,8 @@
     android:layout_margin="3dp">
     <View
         android:id="@+id/view_friend"
-        android:layout_width="0dp"
+        android:layout_width="3dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginLeft="5dp"
         android:background="@color/blue">
 
     </View>
@@ -17,10 +15,10 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_weight="1"
         android:background="@color/Grey50"
         android:elevation="1dp"
-        android:layout_marginRight="3dp"
+
 
         >
         <ImageView
