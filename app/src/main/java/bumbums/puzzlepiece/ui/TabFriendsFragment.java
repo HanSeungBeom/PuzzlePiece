@@ -43,17 +43,16 @@ MainActivity.onKeyBackPressedListener{
     private FloatingActionsMenu fab;
     private com.getbase.floatingactionbutton.FloatingActionButton mFabNew,mFabLoadPhoneBook;
     private FriendRecyclerViewAdapter mAdapter;
-
-
+    private boolean isFragmentRunning ;
+    private Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         mAdapter =new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync());
+        mContext = getActivity();
     }
-
-
 
     @Nullable
     @Override
@@ -174,14 +173,19 @@ MainActivity.onKeyBackPressedListener{
 
     @Override
     public void onBack() {
-        if (fab.isExpanded()) {
-            fab.collapse();
-        } else {
-            MainActivity activity = (MainActivity) getActivity();
-            activity.setOnKeyBackPressedListener(null);
-            activity.onBackPressed();
+
+            //statistics에서 back키 누를시 오류나서 현재 실행중일 때만 백키 수행
+            if (fab.isExpanded()) {
+                fab.collapse();
+            } else {
+
+                MainActivity activity = (MainActivity) mContext;
+                activity.setOnKeyBackPressedListener(null);
+                activity.onBackPressed();
+
+            }
         }
-    }
+
 
     @Override
     public void onAttach(Context context) {
