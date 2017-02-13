@@ -21,6 +21,7 @@ public class AddPuzzleActivity extends AppCompatActivity {
 
     public static final String EXTRA_PUZZLE_TEXT ="puzzle";
     public static final String EXTRA_PUZZLE_DATE ="date";
+    public static final String EXTRA_PUZZLE_DATE_TO_MILLISECONDS = "date_to_milliseconds";
     private EditText mPuzzleText;
 
     @Override
@@ -56,6 +57,7 @@ public class AddPuzzleActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     intent.putExtra(EXTRA_PUZZLE_TEXT, mPuzzleText.getText().toString());
                     intent.putExtra(EXTRA_PUZZLE_DATE, Utils.getNowDate());
+                    intent.putExtra(EXTRA_PUZZLE_DATE_TO_MILLISECONDS, Utils.getNowDateToMilliSeconds());
                     setResult(RESULT_OK, intent);
                     View view = this.getCurrentFocus();
                     if (view != null) {

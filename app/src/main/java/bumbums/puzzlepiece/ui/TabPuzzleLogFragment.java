@@ -32,7 +32,7 @@ public class TabPuzzleLogFragment extends android.support.v4.app.Fragment {
 
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        mAdapter =new LogRecyclerViewAdpater(this, realm.where(Puzzle.class).findAllAsync().sort("date", Sort.DESCENDING));
+        mAdapter =new LogRecyclerViewAdpater(this, realm.where(Puzzle.class).findAllAsync().sort(Puzzle.DATE_TO_MILLISECONDS, Sort.DESCENDING));
     }
 
     @Nullable

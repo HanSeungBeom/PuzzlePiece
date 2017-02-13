@@ -22,6 +22,7 @@ TabLayout.OnTabSelectedListener{
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private TextView mFriendNum;
+    private TextView mTitle;
     private Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,9 @@ TabLayout.OnTabSelectedListener{
         mTabLayout.addOnTabSelectedListener(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("지인");
+        getSupportActionBar().setTitle("");
+        mTitle =(TextView)findViewById(R.id.tv_title);
+
         realm = Realm.getDefaultInstance();
 
 
@@ -84,15 +87,15 @@ TabLayout.OnTabSelectedListener{
         mViewPager.setCurrentItem(tab.getPosition());
         switch (tab.getPosition()){
             case 0:
-                getSupportActionBar().setTitle("지인");
+                mTitle.setText("지인");
                 mFriendNum.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                getSupportActionBar().setTitle("로그");
+                mTitle.setText("로그");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 2:
-                getSupportActionBar().setTitle("통계");
+                mTitle.setText("통계");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
         }

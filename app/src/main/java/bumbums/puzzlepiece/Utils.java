@@ -27,7 +27,6 @@ public class Utils {
             R.color.material_yello,
             R.color.material_depp_orange,
             R.color.material_deep_purple,
-
             R.color.material_pink,
             R.color.material_brown,
             R.color.material_blue_grey
@@ -55,7 +54,11 @@ public class Utils {
         int minutes = cal.get (cal.MINUTE);
         int seconds = cal.get(cal.SECOND);
         return ""+year+"/"+month+"/"+day+"/"+hour+":"+minutes+":"+seconds;
+    }
 
+    public static String getNowDateToMilliSeconds(){
+        Calendar cal = java.util.Calendar.getInstance();
+        return String.valueOf(cal.getTimeInMillis());
     }
 
     public static String dateToCurrentFormat(String dateStr){

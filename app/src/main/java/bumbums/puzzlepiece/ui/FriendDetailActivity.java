@@ -119,7 +119,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         return super.onOptionsItemSelected(item);
     }
 
-    public void addPuzzle(final String text, final String date){
+    public void addPuzzle(final String text, final String date,final String dateToMilliSeconds){
         final long id = Utils.getNextKeyPuzzle(realm);
 
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -130,7 +130,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 puzzle.setFriendId(mFriendId);
                 puzzle.setText(text);
                 puzzle.setDate(date);
+                puzzle.setDateToMilliSeconds(dateToMilliSeconds);
                 puzzle.setFriendName(mName.getText().toString());
+
 /*                RealmResults<Friend> data = realm.where(Friend.class)
                         .equalTo("id", mFriend.getId())
                         .findAll();
@@ -183,7 +185,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 case REQUESTCODE_PUZZLE:
                     String text = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_TEXT);
                     String date = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE);
-                    addPuzzle(text,date);
+                    String dateToMilliSeconds = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE_TO_MILLISECONDS);
+                    addPuzzle(text,date, dateToMilliSeconds);
                     break;
                 default:
 

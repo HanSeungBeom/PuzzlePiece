@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="40dp"
     android:background="@color/white"
-    android:layout_marginBottom="10dp">
+    >
     <FrameLayout
 
         android:layout_width="0dp"
@@ -50,27 +50,25 @@
                 android:textSize="13dp"
                 android:text="name"
                 android:textStyle="bold"
-                android:layout_gravity="bottom"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
             <ImageView
                 android:src="@drawable/puzzles_blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"/>
+                android:layout_gravity="center"
+            />
             <TextView
                 android:text="32"
                 android:id="@+id/tv_row_rank_puzzle_num"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/Grey500"
                 />
         </LinearLayout>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="0dp"
