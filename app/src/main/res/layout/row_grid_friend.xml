@@ -33,9 +33,10 @@
         <ImageView
             android:id="@+id/iv_row_grid_profile"
             android:src="@drawable/default_user1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

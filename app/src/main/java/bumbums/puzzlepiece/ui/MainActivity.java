@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.util.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.adapter.Pager;
@@ -49,10 +51,12 @@ TabLayout.OnTabSelectedListener{
     private Realm realm;
 
     //FirebaseTest;
-    private Button mTestBtn;
-    private ImageView mtestIv;
+    private Button mTestBtn,mTestBtn2;
+
     private StorageReference mStorage;
-    public static final int GALLERY_PICK = 2;
+    public static final int GALLERY_MODE = 2;
+    public static final int CAMERA_MODE = 3;
+
     private ProgressDialog mProgreeDialog;
     public static final String EXTRA_PHOTO = "photo";
 
@@ -86,26 +90,7 @@ TabLayout.OnTabSelectedListener{
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();//이게 root 주소
         mProgreeDialog = new ProgressDialog(this);
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-
-
-        new TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setRationaleMessage("we need permission for read contact, find your location and system alert window")
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setGotoSettingButtonText("setting")
-                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .check();
     }
 
 
@@ -113,30 +98,13 @@ TabLayout.OnTabSelectedListener{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
             switch (requestCode){
-                case GALLERY_PICK:
-                    Uri contentUri = data.getData();
-                    String filePath = Utils.getFilePath(contentUri,this);
-                    String newFilePath = Utils.decodeFile(filePath,80,80);
-                    String fileName= new File(newFilePath).getName();
-                    //Log.d("###","NEW="+newFilePath+"//NAME="+new File(newFilePath).getName());
-                   // Log.d("###","UriPath="+Utils.getContentUri(this,newFilePath));
-
-                    Uri newFileUri = Uri.fromFile(new File(newFilePath));
-                    final StorageReference filePath_= mStorage.child("Photos/"+newFileUri.getLastPathSegment());
-                    filePath_.putFile(newFileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Log.d("###","uploadDone");
-                            Log.d("###","SERVICE FILEPATH="+filePath_);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("###","uploadFailure");
-                        }
-                    });
-
+                case GALLERY_MODE:
+                  //  FirebaseTasks.uploadUriToFirebase(this,mStorage,data.getData());
                     break;
+                case CAMERA_MODE:
+                    //FirebaseTasks.uploadUriToFirebase(this,mStorage,data.getData());
+                    break;
+
                 default:
             }
         }
@@ -149,13 +117,21 @@ TabLayout.OnTabSelectedListener{
         setContentView(R.layout.activity_main);
         testFirebase();
         mTestBtn = (Button)findViewById(R.id.test_button);
-        mtestIv = (ImageView)findViewById(R.id.iv_testtest) ;
+        mTestBtn2 = (Button)findViewById(R.id.test_button2);
         mTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK);
                 i.setType("image/*");
-                startActivityForResult(i,GALLERY_PICK);
+                startActivityForResult(i,GALLERY_MODE);
+            }
+        });
+        mTestBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,CAMERA_MODE);
+
             }
         });
 
@@ -184,11 +160,6 @@ TabLayout.OnTabSelectedListener{
         getSupportActionBar().setTitle("");
         mTitle =(TextView)findViewById(R.id.tv_title);
 
-        realm = Realm.getDefaultInstance();
-
-
-
-
 
 
 
@@ -199,7 +170,7 @@ TabLayout.OnTabSelectedListener{
         super.onResume();
 
         //onCreate 에 하면 이상하게 안됨. listener 를 못찾음
-
+        realm = Realm.getDefaultInstance();
         final RealmResults<Friend> results = realm.where(Friend.class)
                 .findAll();
         mFriendNum.setText(String.valueOf(results.size()));

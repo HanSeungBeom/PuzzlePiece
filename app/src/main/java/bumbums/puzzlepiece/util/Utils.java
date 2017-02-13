@@ -10,7 +10,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -158,29 +164,29 @@ public class Utils {
         return filePath;
     }
 
-    public static String decodeFile(String path,int DESIREDWIDTH, int DESIREDHEIGHT) {
+    public static String decodeFile(Context context,String path,int DESIREDWIDTH, int DESIREDHEIGHT) {
         String strMyImagePath = null;
         Bitmap scaledBitmap = null;
-
+        Boolean isEnterIf = false;
         try {
             // Part 1: Decode image
             Bitmap unscaledBitmap = ScalingUtilities.decodeFile(path, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
 
             if (!(unscaledBitmap.getWidth() <= DESIREDWIDTH && unscaledBitmap.getHeight() <= DESIREDHEIGHT)) {
                 // Part 2: Scale image
+                isEnterIf = true;
                 scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
-            } else {
+            }/* else {
+                Log.d("###","unscaledBitmap");
                 unscaledBitmap.recycle();
                 return path;
-            }
+            }*/
 
-            // Store to tmp file
+            File mFolder = new File(context.getFilesDir(),"/profile_pictures");
 
 
             //String extr = Environment.getExternalStorageDirectory().toString();
-
-            String extr = Environment.getExternalStorageDirectory().toString();
-            File mFolder = new File(extr + "/Pictures/ProfilePhoto");
+           // File mFolder = new File(extr + "/Pictures/ProfilePhoto");
 
             //File mFolder = new File(extr + "/TMMFOLDER");
             if (!mFolder.exists()) {
@@ -195,7 +201,10 @@ public class Utils {
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(f);
-                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+                if(isEnterIf)
+                    scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                else
+                    unscaledBitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -206,7 +215,7 @@ public class Utils {
 
                 e.printStackTrace();
             }
-
+            unscaledBitmap.recycle();
             scaledBitmap.recycle();
         } catch (Throwable e) {
         }
@@ -224,7 +233,6 @@ public class Utils {
         Cursor c = context.getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, "_data = '" + filePath + "'", null, null );
         if(c.moveToNext()) {
-              // 예외처리는 생략했습니다. 실제 코드에서는 예외처리를 잘 해주세요.
             int id = c.getInt(c.getColumnIndex("_id"));
             Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
             return uri;
@@ -248,4 +256,6 @@ public class Utils {
         }
         return null;
     }
+
+
 }

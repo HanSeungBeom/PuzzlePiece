@@ -23,6 +23,10 @@ public class Friend extends RealmObject{
     private int puzzleNum;
     private int rank;
     private String profileUrl;
+    private String profilePath;
+
+
+    private String profileName;
     private RealmList<Puzzle> puzzles;
 
 
@@ -87,4 +91,21 @@ public class Friend extends RealmObject{
     public void setRelation(String relation) {
         this.relation = relation;
     }
+
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+
+    public String getProfilePath() {
+        return profilePath;
+    }
+
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
+    }
+
 }

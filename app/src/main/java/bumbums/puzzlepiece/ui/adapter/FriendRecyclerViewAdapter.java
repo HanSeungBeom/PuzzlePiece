@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.util.CircleTransform;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.EditFriendActivity;
@@ -16,6 +21,8 @@ import bumbums.puzzlepiece.ui.FriendDetailActivity;
 import bumbums.puzzlepiece.ui.TabFriendsFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
+
+import static com.squareup.picasso.Picasso.with;
 
 /**
  * Created by 한승범 on 2017-02-07.
@@ -43,7 +50,21 @@ public class FriendRecyclerViewAdapter  extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Friend obj = getData().get(position);
         holder.data = obj;
-        //holder.userProfileImage =
+        if(obj.getProfilePath()!=null) {
+            File file = new File(obj.getProfilePath());
+            if(file.exists()){
+                Picasso.with(tabFriendsFragment.getContext()).load(new File(obj.getProfilePath())).transform(new CircleTransform()).into(holder.userProfileImage);
+            }
+           else{
+                //파일이 존재하지 않으면
+                //TODO 파일을 firebse이 존재하면 local에 저장하기, 아니면 error 띄우기
+                Picasso.with(tabFriendsFragment.getContext()).load(obj.getProfileUrl()).transform(new CircleTransform()).error(R.drawable.default_user1).into(holder.userProfileImage);
+
+            }
+
+        }
+        else
+            Picasso.with(tabFriendsFragment.getContext()).load(R.drawable.default_user1).into(holder.userProfileImage);
         holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
         holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
