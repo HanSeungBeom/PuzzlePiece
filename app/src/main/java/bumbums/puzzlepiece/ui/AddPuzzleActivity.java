@@ -8,14 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.Utils;
+import bumbums.puzzlepiece.util.Utils;
 
 public class AddPuzzleActivity extends AppCompatActivity {
 

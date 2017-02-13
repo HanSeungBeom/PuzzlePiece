@@ -1,21 +1,18 @@
 package bumbums.puzzlepiece.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.Utils;
+import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.TabPuzzleLogFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
-import io.realm.Sort;
 
 /**
  * Created by 한승범 on 2017-02-10.

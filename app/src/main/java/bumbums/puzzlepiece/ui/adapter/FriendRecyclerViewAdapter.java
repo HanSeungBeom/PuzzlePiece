@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.Utils;
+import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.EditFriendActivity;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;

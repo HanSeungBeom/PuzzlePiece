@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "906684166182",
+    "firebase_url": "https://puzzlepiece-fcef3.firebaseio.com",
+    "project_id": "puzzlepiece-fcef3",
+    "storage_bucket": "puzzlepiece-fcef3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906684166182:android:5d2d9489126288fe",
+        "android_client_info": {
+          "package_name": "bumbums.puzzlepiece"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906684166182-93d80qap9436a0gq3gp8oefgkd9qgp0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bumbums.puzzlepiece",
+            "certificate_hash": "15E506C5812D6E70288AD08DE95F809A0DCDA1DC"
+          }
+        },
+        {
+          "client_id": "906684166182-bt7ck1oee1ol30g3pln3rf04puhtvmro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUrJsDdimawvBAqM5SAEVJN4MbSFU6Ido"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906684166182-bt7ck1oee1ol30g3pln3rf04puhtvmro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
