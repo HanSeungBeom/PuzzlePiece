@@ -49,20 +49,7 @@ public class FriendRecyclerViewAdapter  extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Friend obj = getData().get(position);
         holder.data = obj;
-        if(obj.getProfilePath()!=null) {
-            File file = new File(obj.getProfilePath());
-            if(file.exists()){
-                //내장 파일이 존재하면
-                Picasso.with(tabFriendsFragment.getContext()).load(new File(obj.getProfilePath())).transform(new CircleTransform()).into(holder.userProfileImage);
-            }
-           else{
-                //파일을 firebase에 해당파일있으면 저장하고, url 로 불로오고 실패하면 error 띄우기
-                FirebaseTasks.downloadPhotoFromFirebase(tabFriendsFragment.getContext(),holder.data.getProfileName());
-                Picasso.with(tabFriendsFragment.getContext()).load(obj.getProfileUrl()).transform(new CircleTransform()).error(R.drawable.default_user1).into(holder.userProfileImage);
-            }
-        }
-        else
-            Picasso.with(tabFriendsFragment.getContext()).load(R.drawable.default_user1).into(holder.userProfileImage);
+        FirebaseTasks.loadFriendPhoto(tabFriendsFragment.getContext(),holder.data,holder.userProfileImage);
         holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
         holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
