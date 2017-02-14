@@ -48,6 +48,7 @@ import io.realm.RealmResults;
 public class GraphFragment extends android.support.v4.app.Fragment {
     private LineChart mChart;
     private TextView mYearMonth;
+    private TextView mTotalView,mTodayView;
     private Calendar mToday;
 
     public static final int X_COUNT = 8;
@@ -55,7 +56,8 @@ public class GraphFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
         mChart = (LineChart) view.findViewById(R.id.chart);
         mYearMonth = (TextView)view.findViewById(R.id.tv_graph_year_month);
-
+        mTotalView = (TextView)view.findViewById(R.id.tv_puzzle_num);
+        mTodayView = (TextView)view.findViewById(R.id.tv_today_puzzle_num);
 
         initDate();
         String yearMonth = String.format("%4d. %02d",mToday.get(Calendar.YEAR),mToday.get(Calendar.MONTH)+1);
@@ -75,7 +77,21 @@ public class GraphFragment extends android.support.v4.app.Fragment {
         mToday.set(Calendar.MINUTE,0);
         mToday.set(Calendar.SECOND,0);
         mToday.set(Calendar.MILLISECOND,0);
-       // Log.d("###",cal.toString());
+
+
+        Calendar tomorrow = (Calendar)mToday.clone();
+        tomorrow.add(Calendar.DAY_OF_MONTH,1);
+
+        Realm realm = Realm.getDefaultInstance();
+        int totalPuzzle = realm.where(Puzzle.class).findAll().size();
+        int todayPuzzle = realm.where(Puzzle.class)
+                .greaterThanOrEqualTo(Puzzle.DATE_TO_MILLISECONDS,mToday.getTimeInMillis())
+                .lessThan(Puzzle.DATE_TO_MILLISECONDS,tomorrow.getTimeInMillis())
+                .findAll()
+                .size();
+        mTotalView.setText(String.valueOf(totalPuzzle));
+        mTodayView.setText(String.valueOf(todayPuzzle));
+
     }
 
 
@@ -85,9 +101,15 @@ public class GraphFragment extends android.support.v4.app.Fragment {
 
         LineDataSet dataSet = new LineDataSet(getDataFromDB(), "퍼즐수");
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-
-
-
+        dataSet.setDrawValues(false);
+        dataSet.setDrawHorizontalHighlightIndicator(false);
+        dataSet.setDrawVerticalHighlightIndicator(false);
+        dataSet.setHighLightColor(Color.RED);
+        dataSet.setColor(Color.DKGRAY);
+        dataSet.setCircleColor(Color.BLACK);
+        dataSet.setCircleColorHole(Color.WHITE);
+        dataSet.setLineWidth(2f);
+        dataSet.setDrawValues(false);
         //dataSet.setColor();
         //dataSet.setValueTextColor();
         LineData lineData = new LineData(dataSet);
@@ -97,13 +119,15 @@ public class GraphFragment extends android.support.v4.app.Fragment {
                 return Math.round(value)+"";
             }
         });
+
+
         mChart.setData(lineData);
         mChart.setDragEnabled(false);
         mChart.setScaleEnabled(false);
         mChart.setPinchZoom(false);
         mChart.setDoubleTapToZoomEnabled(false);
 
-        mChart.invalidate();
+
         XAxis xAxis = mChart.getXAxis();
         xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -134,9 +158,15 @@ public class GraphFragment extends android.support.v4.app.Fragment {
         mChart.setPadding(30, 10, 10, 30);
         mChart.setDescription(null);
         mChart.setNoDataText("데이터가 없어요~!");
-        mChart.animateY(1000, Easing.EasingOption.EaseInCubic);
+        mChart.animateY(1000, Easing.EasingOption.EaseInOutBack);
         IMarker marker = new CustomMarkerView(getContext(),R.layout.custom_marker_view_layout);
         mChart.setMarker(marker);
+        Highlight h = new Highlight(X_COUNT-1,0,0);
+        mChart.highlightValue(h,false);
+
+        mChart.invalidate();
+
+
     }
 
     public List<Entry> getDataFromDB() {
