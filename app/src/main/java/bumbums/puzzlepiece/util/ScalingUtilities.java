@@ -58,17 +58,6 @@ public class ScalingUtilities {
         return unscaledBitmap;
     }
 
-    public static int exifOrientationToDegrees(int exifOrientation) {
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
-            return 90;
-        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
-            return 180;
-        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
-            return 270;
-        }
-        return 0;
-    }
-
     /**
      * Utility function for creating a scaled version of an existing bitmap
      *

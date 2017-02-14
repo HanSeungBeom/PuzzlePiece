@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -17,11 +18,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -227,35 +231,66 @@ public class Utils {
 
     }
 
-    public static Uri getContentUri(Context context,String fileName){
-        Uri fileUri = Uri.fromFile(new File(fileName));
-        String filePath = fileUri.getPath();
-        Cursor c = context.getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, "_data = '" + filePath + "'", null, null );
-        if(c.moveToNext()) {
-            int id = c.getInt(c.getColumnIndex("_id"));
-            Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-            return uri;
-        }
-        else
-            return null;
+
+    //target to save
+    private static Target getTarget(final Context context,final String url,final String fileName){
+        Target target = new Target(){
+
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        File file = new File( context.getFilesDir()+ "/profile_pictures/"+fileName);
+
+                        try {
+                            file.createNewFile();
+                            FileOutputStream ostream = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ostream);
+                            ostream.flush();
+                            ostream.close();
+                            Log.d("###","newfileCreatedPath="+file.getAbsolutePath());
+                        } catch (IOException e) {
+                            Log.e("IOException", e.getLocalizedMessage());
+                        }
+                    }
+                }).start();
+
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Log.d("###","onBitmapFailed");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        return target;
     }
-    public static Uri getContentUriFromRealPath(Context context, String realFilePath){
-        Uri fileUri = Uri.parse(realFilePath);
-        String uriFilePath = fileUri.getPath();
-        Cursor c = context.getContentResolver().query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                , null
-                , MediaStore.Audio.Media.DATA+"='" + uriFilePath + "'"
-                , null
-                , null);
-        if(c.moveToNext()){
-            int id = c.getInt(0);
-            Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-            return uri;
+
+    public static void deleteDir(String path)
+    {
+        File file = new File(path);
+        File[] childFileList = file.listFiles();
+        if(childFileList== null)return;
+        for(File childFile : childFileList)
+        {
+            if(childFile.isDirectory()) {
+                deleteDir(childFile.getAbsolutePath());     //하위 디렉토리 루프
+            }
+            else {
+                childFile.delete();    //하위 파일삭제
+            }
         }
-        return null;
+        file.delete();    //root 삭제
     }
+
+
 
 
 }

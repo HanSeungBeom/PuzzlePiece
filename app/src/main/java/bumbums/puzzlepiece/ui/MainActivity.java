@@ -25,18 +25,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
+
 
 import java.io.File;
-import java.util.ArrayList;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.util.FirebaseTasks;
-import bumbums.puzzlepiece.util.Utils;
+
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.adapter.Pager;
+import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -51,14 +48,8 @@ TabLayout.OnTabSelectedListener{
     private Realm realm;
 
     //FirebaseTest;
-    private Button mTestBtn,mTestBtn2;
+    private Button mTestBtn;
 
-    private StorageReference mStorage;
-    public static final int GALLERY_MODE = 2;
-    public static final int CAMERA_MODE = 3;
-
-    private ProgressDialog mProgreeDialog;
-    public static final String EXTRA_PHOTO = "photo";
 
     FirebaseAuth mAuth;
     @Override
@@ -88,28 +79,8 @@ TabLayout.OnTabSelectedListener{
 
     public void testFirebase(){
         mAuth = FirebaseAuth.getInstance();
-        mStorage = FirebaseStorage.getInstance().getReference();//이게 root 주소
-        mProgreeDialog = new ProgressDialog(this);
-
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
-            switch (requestCode){
-                case GALLERY_MODE:
-                  //  FirebaseTasks.uploadUriToFirebase(this,mStorage,data.getData());
-                    break;
-                case CAMERA_MODE:
-                    //FirebaseTasks.uploadUriToFirebase(this,mStorage,data.getData());
-                    break;
-
-                default:
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,23 +88,14 @@ TabLayout.OnTabSelectedListener{
         setContentView(R.layout.activity_main);
         testFirebase();
         mTestBtn = (Button)findViewById(R.id.test_button);
-        mTestBtn2 = (Button)findViewById(R.id.test_button2);
+
         mTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK);
-                i.setType("image/*");
-                startActivityForResult(i,GALLERY_MODE);
+                Utils.deleteDir(v.getContext().getFilesDir()+"/profile_pictures");
             }
         });
-        mTestBtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,CAMERA_MODE);
 
-            }
-        });
 
 
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);

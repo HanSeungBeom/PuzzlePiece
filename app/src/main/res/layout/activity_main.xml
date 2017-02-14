@@ -17,18 +17,14 @@
             android:background="@color/Grey50"
             >
             <Button
-                android:text="사진업로드test"
+                android:text="내부데이터 삭제"
                 android:id="@+id/test_button"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content">
 
             </Button>
-            <Button
-                android:text="사진촬영업로드"
-                android:id="@+id/test_button2"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
-            </Button>
+
+
             <ImageView
                 android:id="@+id/iv_testtest"
                 android:layout_width="wrap_content"
