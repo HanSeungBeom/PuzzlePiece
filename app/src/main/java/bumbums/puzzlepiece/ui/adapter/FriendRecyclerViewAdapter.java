@@ -2,7 +2,6 @@ package bumbums.puzzlepiece.ui.adapter;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import java.io.File;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.util.CircleTransform;
-import bumbums.puzzlepiece.util.FirebaseTasks;
+import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.EditFriendActivity;
@@ -23,8 +22,6 @@ import bumbums.puzzlepiece.ui.FriendDetailActivity;
 import bumbums.puzzlepiece.ui.TabFriendsFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
-
-import static com.squareup.picasso.Picasso.with;
 
 /**
  * Created by 한승범 on 2017-02-07.
@@ -60,7 +57,7 @@ public class FriendRecyclerViewAdapter  extends
             }
            else{
                 //파일을 firebase에 해당파일있으면 저장하고, url 로 불로오고 실패하면 error 띄우기
-                FirebaseTasks.downloadTolocalFileFromFirebase(tabFriendsFragment.getContext(),holder.data.getProfileName());
+                FirebaseTasks.downloadPhotoFromFirebase(tabFriendsFragment.getContext(),holder.data.getProfileName());
                 Picasso.with(tabFriendsFragment.getContext()).load(obj.getProfileUrl()).transform(new CircleTransform()).error(R.drawable.default_user1).into(holder.userProfileImage);
             }
         }

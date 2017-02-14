@@ -155,7 +155,7 @@ public class Utils {
     public static String getFilePath(Uri _uri,Context context){
         String filePath = null;
 
-        Log.d("###","befor URI = "+ _uri);
+        //Log.d("###","befor URI = "+ _uri);
         if (_uri != null && "content".equals(_uri.getScheme())) {
             Cursor cursor = context.getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
             cursor.moveToFirst();
@@ -164,7 +164,7 @@ public class Utils {
         } else {
             filePath = _uri.getPath();
         }
-        Log.d("###","Chosen path = "+ filePath);
+        //Log.d("###","Chosen path = "+ filePath);
         return filePath;
     }
 

@@ -39,13 +39,12 @@ import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.util.CircleTransform;
-import bumbums.puzzlepiece.util.FirebaseTasks;
+import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmModel;
 import io.realm.RealmResults;
 
 public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,7 +68,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     public static final int CAMERA_MODE = 3;
 
     //사진을 등록하는지 변경하는지 구별해주는 변수
-    private boolean isRegisterMode;
+    private boolean mIsNewPhotoMode;
 
 
     @Override
@@ -286,13 +285,43 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 //Log.d("###","click");
                 break;
             case R.id.iv_friend_photo:
-                deleteFriendPhoto();
                 //제거하기
-                //변경하기 보여주기
+                //변경하기 중 선택하게
+            {
+                final CharSequence[] items = { "사진 변경", "사진 삭제"};
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("프로필 사진");
+                alertDialogBuilder.setItems(items,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int id) {
+                                if(id==0){ //사진 변경
+                                    mIsNewPhotoMode = false;
+                                    addFriendPhoto();
+                                }
+                                else if(id==1){ //사진 삭제
+                                   deleteFriendPhoto();
+                                }
+                             /*Toast.makeText(getApplicationContext(),
+                                        items[id] + " .선택했습니다",
+                                        Toast.LENGTH_SHORT).show();*/
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+
+
+
+
+
                 break;
             case R.id.iv_friend_photo_default:
+                //등록하기
+                mIsNewPhotoMode = true;
                 addFriendPhoto();
-                //등록하기 보여주기
+
                 break;
             default:
 
@@ -321,10 +350,10 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                     addPuzzle(text,date, dateToMilliSeconds);
                     break;
                 case GALLERY_MODE:
-                    FirebaseTasks.uploadUriToFirebase(this,mStorage,data.getData(),mFriendId,isRegisterMode);
+                    FirebaseTasks.registerPhoto(this,data.getData(),mFriendId,mIsNewPhotoMode);
                     break;
                 case CAMERA_MODE:
-                    FirebaseTasks.uploadUriToFirebase(this,mStorage,data.getData(),mFriendId,isRegisterMode);
+                    FirebaseTasks.registerPhoto(this,data.getData(),mFriendId,mIsNewPhotoMode);
                     break;
                 default:
 
@@ -336,45 +365,33 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     public void addFriendPhoto(){
         final CharSequence[] items = { "사진촬영", "갤러리선택"};
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        alertDialogBuilder.setTitle("프로필 사진저장");
+        alertDialogBuilder.setTitle("프로필 사진");
         alertDialogBuilder.setItems(items,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
-
                         if(id==0){ //사진촬영
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            isRegisterMode = true;
                             startActivityForResult(intent,CAMERA_MODE);
                         }
                         else if(id==1){ //갤러리 선택
                             Intent i = new Intent(Intent.ACTION_PICK);
-                            isRegisterMode = true;
                             i.setType("image/*");
                             startActivityForResult(i,GALLERY_MODE);
                         }
 
-                            Toast.makeText(getApplicationContext(),
+                          /*  Toast.makeText(getApplicationContext(),
                                     items[id] + " 선택했습니다.",
-                                    Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
+                                    Toast.LENGTH_SHORT).show();*/
+                        dialog.dismiss();
                     }
                 });
-
-// 다이얼로그 생성
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-// 다이얼로그 보여주기
         alertDialog.show();
     }
 
     public void deleteFriendPhoto(){
-       FirebaseTasks.deletePhoto(this,mStorage,mFriendId);
-    }
-
-    public void modifyFriendPhoto(){
-
+       FirebaseTasks.deletePhoto(this,mFriendId);
     }
 
     private void signInAnonymously() {
