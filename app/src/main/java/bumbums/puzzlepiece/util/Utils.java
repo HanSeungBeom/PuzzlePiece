@@ -86,9 +86,9 @@ public class Utils {
         return ""+year+"/"+month+"/"+day+"/"+hour+":"+minutes+":"+seconds;
     }
 
-    public static String getNowDateToMilliSeconds(){
+    public static long getNowDateToMilliSeconds(){
         Calendar cal = java.util.Calendar.getInstance();
-        return String.valueOf(cal.getTimeInMillis());
+        return cal.getTimeInMillis();
     }
 
     public static String dateToCurrentFormat(String dateStr){

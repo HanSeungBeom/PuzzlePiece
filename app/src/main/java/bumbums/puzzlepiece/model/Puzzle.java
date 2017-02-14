@@ -19,7 +19,7 @@ public class Puzzle extends RealmObject {
     private String friendName;
     private String text;
     private String date;
-    private String dateToMilliSeconds;
+    private long dateToMilliSeconds;
 
 
     private String location;
@@ -70,11 +70,11 @@ public class Puzzle extends RealmObject {
         this.location = location;
     }
 
-    public String getDateToMilliSeconds() {
+    public long getDateToMilliSeconds() {
         return dateToMilliSeconds;
     }
 
-    public void setDateToMilliSeconds(String dateToMilliSeconds) {
+    public void setDateToMilliSeconds(long dateToMilliSeconds) {
         this.dateToMilliSeconds = dateToMilliSeconds;
     }
 

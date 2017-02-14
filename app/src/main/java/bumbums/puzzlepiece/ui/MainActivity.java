@@ -47,11 +47,9 @@ TabLayout.OnTabSelectedListener{
     private TextView mTitle;
     private Realm realm;
 
-    //FirebaseTest;
-    private Button mTestBtn;
-
-
+    /*
     FirebaseAuth mAuth;
+
     @Override
     protected void onStart() {
         FirebaseUser user = mAuth.getCurrentUser();
@@ -76,26 +74,16 @@ TabLayout.OnTabSelectedListener{
                     }
                 });
     }
-
     public void testFirebase(){
         mAuth = FirebaseAuth.getInstance();
     }
-
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testFirebase();
-        mTestBtn = (Button)findViewById(R.id.test_button);
-
-        mTestBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.deleteDir(v.getContext().getFilesDir()+"/profile_pictures");
-            }
-        });
-
+        //testFirebase();
 
 
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);

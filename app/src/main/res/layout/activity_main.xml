@@ -16,13 +16,7 @@
             android:layout_height="40dp"
             android:background="@color/Grey50"
             >
-            <Button
-                android:text="내부데이터 삭제"
-                android:id="@+id/test_button"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
 
-            </Button>
 
 
             <ImageView

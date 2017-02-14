@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import bumbums.puzzlepiece.ui.GraphFragment;
 import bumbums.puzzlepiece.ui.RankFragment;
 import bumbums.puzzlepiece.ui.TabFriendsFragment;
 import bumbums.puzzlepiece.ui.TabPuzzleLogFragment;
@@ -34,8 +35,9 @@ public class Pager extends FragmentStatePagerAdapter {
                 TabPuzzleLogFragment tabPuzzleLogFragment = new TabPuzzleLogFragment();
                 return tabPuzzleLogFragment;
             case 2:
-                RankFragment rankFragment = new RankFragment();
-                return rankFragment;
+                GraphFragment graphFragment = new GraphFragment();
+                //RankFragment rankFragment = new RankFragment();
+                return graphFragment;
                 /*TabStatisticsFragment tabStatisticsFragment = new TabStatisticsFragment();
                 return tabStatisticsFragment;
             */

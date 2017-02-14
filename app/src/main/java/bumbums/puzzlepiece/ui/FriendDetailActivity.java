@@ -116,7 +116,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         setUpFireBase();
         setUpTedPermission();
         setUpRecyclerView();
-        //mCalendar.setText(String.valueOf(friend.get));
     }
 
     public void setUpFireBase(){
@@ -139,7 +138,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         new TedPermission(this)
                 .setPermissionListener(permissionlistener)
-                .setRationaleMessage("we need permission for read contact, find your location and system alert window")
+                .setRationaleMessage("you need permission external storage for photo.")
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
                 .setGotoSettingButtonText("setting")
                 .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -167,35 +166,30 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mPuzzle.setText(String.valueOf(mFriend.getPuzzles().size()));
         mRank.setText(String.valueOf(mFriend.getRank()));
 
-        mPhotoName = mFriend.getProfileName();
-        mPhotoUrl =mFriend.getProfileUrl();
-        mPhotoPath = mFriend.getProfilePath();
-        if(mPhotoName == null){
-            mFriendImage.setVisibility(View.INVISIBLE);
-        }
-        else{
-            mFriendImage.setVisibility(View.VISIBLE);
-            mFriendImageDefault.setVisibility(View.INVISIBLE);
-            Picasso.with(mContext).load(new File(mPhotoPath)).transform(new CircleTransform()).into(mFriendImage);
-        }
+        syncPhoto(mFriend);
 
         mFriend.addChangeListener(new RealmChangeListener<Friend>() {
             @Override
             public void onChange(Friend element) {
-                mPhotoName = element.getProfileName();
-                mPhotoPath = element.getProfilePath();
-                if(mPhotoName==null){
-                    showDefault();
-                }
-                else{
-                    showPhoto();
-                    Picasso.with(mContext).load(new File(mPhotoPath)).transform(new CircleTransform()).into(mFriendImage);
-                }
+                syncPhoto(element);
             }
         });
 
 
         getSupportActionBar().setTitle(mFriend.getName());
+    }
+
+    public void syncPhoto(Friend friend){
+        mPhotoName = friend.getProfileName();
+        mPhotoUrl =friend.getProfileUrl();
+        mPhotoPath = friend.getProfilePath();
+        if(mPhotoName == null){
+            showDefault();
+        }
+        else{
+            showPhoto();
+        }
+        FirebaseTasks.loadFriendPhoto(mContext,friend,mFriendImage);
     }
 
     public void showDefault(){
@@ -241,7 +235,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         return super.onOptionsItemSelected(item);
     }
 
-    public void addPuzzle(final String text, final String date,final String dateToMilliSeconds){
+    public void addPuzzle(final String text, final String date,final long dateToMilliSeconds){
         final long id = Utils.getNextKeyPuzzle(realm);
 
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -346,7 +340,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 case REQUESTCODE_PUZZLE:
                     String text = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_TEXT);
                     String date = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE);
-                    String dateToMilliSeconds = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE_TO_MILLISECONDS);
+                    long dateToMilliSeconds = data.getLongExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE_TO_MILLISECONDS,-1);
                     addPuzzle(text,date, dateToMilliSeconds);
                     break;
                 case GALLERY_MODE:
