@@ -50,9 +50,17 @@ public class FriendRecyclerViewAdapter  extends
         Friend obj = getData().get(position);
         holder.data = obj;
         FirebaseTasks.loadFriendPhoto(tabFriendsFragment.getContext(),holder.data,holder.userProfileImage);
-        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
+       // holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
-        holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
+        int puzzleCount= obj.getPuzzles().size();
+        String lastPuzzleText ="";
+        if(puzzleCount!=0)
+            lastPuzzleText = obj.getPuzzles().get(puzzleCount-1).getText();
+        else
+            lastPuzzleText="";
+
+        holder.lastPuzzleText.setText(lastPuzzleText);
+       // holder.userPuzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
 
     }
 
@@ -61,7 +69,9 @@ public class FriendRecyclerViewAdapter  extends
             View.OnLongClickListener{
         public ImageView userProfileImage;
         public TextView userName;
-        public TextView userPuzzleNum;
+        public TextView lastPuzzleText;
+
+       // public TextView userPuzzleNum;
         public ImageView editFriend;
         public View colorView;
         public Friend data;
@@ -71,8 +81,9 @@ public class FriendRecyclerViewAdapter  extends
 
             userProfileImage = (ImageView)view.findViewById(R.id.iv_row_grid_profile);
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
-            userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
-            colorView = (View)view.findViewById(R.id.view_friend);
+            //userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
+            //colorView = (View)view.findViewById(R.id.view_friend);
+            lastPuzzleText = (TextView)view.findViewById(R.id.tv_last_puzzle_text);
             editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
             editFriend.setOnClickListener(this);
             view.setOnClickListener(this);
