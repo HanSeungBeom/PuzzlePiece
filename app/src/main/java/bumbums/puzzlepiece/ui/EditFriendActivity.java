@@ -44,7 +44,7 @@ public class EditFriendActivity extends AppCompatActivity {
 
     public void initData() {
         Intent intent = getIntent();
-        mId = intent.getLongExtra(FriendRecyclerViewAdapter.EXTRA_ID, -1);
+        mId = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID, -1);
         //Log.d("###","id="+mId);
         Friend friend = realm.where(Friend.class)
                 .equalTo(Friend.USER_ID, mId)

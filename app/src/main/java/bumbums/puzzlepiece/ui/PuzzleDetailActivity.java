@@ -55,7 +55,7 @@ public class PuzzleDetailActivity extends AppCompatActivity {
 
     public void initData() {
         Intent intent = getIntent();
-        mFriendId = intent.getLongExtra(PuzzleRecyclerViewAdpater.EXTRA_FRIEND_ID,-1);
+        mFriendId = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID,-1);
        // Log.d("###","id="+mFriendId);
         mPuzzleId = intent.getLongExtra(PuzzleRecyclerViewAdpater.EXTRA_PUZZLE_ID,-1);
         //Log.d("###","id="+mId);

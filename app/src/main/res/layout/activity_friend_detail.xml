@@ -11,14 +11,98 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-
-        <View
+            android:layout_height="45dp" />
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/Grey300" />
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:gravity="center">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:id="@+id/iv_friend_photo_default"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:padding="14dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/default_user1" />
+                <ImageView
+                    android:id="@+id/iv_friend_photo"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:padding="14dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/default_user1" />
 
+
+
+            </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_detail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="한승범"
+                    android:textSize="20dp"
+
+                    android:textColor="@color/Grey900"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_detail_relation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:text="(대학친구)"
+                    android:textColor="@color/Grey700" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_detail_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01012345678"
+                android:textColor="@color/Grey500" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="3">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:tabIndicatorColor="@color/colorPrimary"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                android:background="@color/white"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/Grey300"
+                />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            />
+        </LinearLayout>
+
+
+
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -35,6 +119,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 android:gravity="center">
+
 
                 <ImageView
                     android:id="@+id/iv_friend_photo_default"
@@ -236,7 +321,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="한승범"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textSize="20dp"
+
                             android:textColor="@color/Grey900"
                             android:textStyle="bold" />
 
@@ -246,7 +332,6 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="4dp"
                             android:text="(대학친구)"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/Grey700" />
                     </LinearLayout>
 
@@ -259,11 +344,7 @@
                         android:textColor="@color/Grey500" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="#나중에 키워드 추가"
-                        android:textColor="@color/Grey300" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -287,7 +368,7 @@
             </android.support.v7.widget.RecyclerView>
 
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </LinearLayout>
 

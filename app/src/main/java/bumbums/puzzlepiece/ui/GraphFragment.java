@@ -100,7 +100,7 @@ public class GraphFragment extends android.support.v4.app.Fragment {
     public void initGraph() {
 
         LineDataSet dataSet = new LineDataSet(getDataFromDB(), "퍼즐수");
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setDrawValues(false);
         dataSet.setDrawHorizontalHighlightIndicator(false);
         dataSet.setDrawVerticalHighlightIndicator(false);
@@ -210,8 +210,10 @@ public class GraphFragment extends android.support.v4.app.Fragment {
     public String[] getXDays(){
         String[] xValues = new String[X_COUNT];
         Calendar today = (Calendar)mToday.clone();
-        for(int i=0;i<X_COUNT;i++){
-            xValues[X_COUNT-1-i] = String.valueOf(today.get(Calendar.DAY_OF_MONTH))+" ";
+        xValues[X_COUNT-1] = "오늘";
+        today.add(Calendar.DAY_OF_MONTH,-1);
+        for(int i=1;i<X_COUNT;i++){
+            xValues[X_COUNT-1-i] = String.valueOf(today.get(Calendar.DAY_OF_MONTH))+"일";
             today.add(Calendar.DAY_OF_MONTH,-1);
         }
         return xValues;

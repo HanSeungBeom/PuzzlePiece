@@ -13,7 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.model.Friend;
+import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.util.Utils;
+import io.realm.Realm;
 
 public class AddPuzzleActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class AddPuzzleActivity extends AppCompatActivity {
     public static final String EXTRA_PUZZLE_DATE ="date";
     public static final String EXTRA_PUZZLE_DATE_TO_MILLISECONDS = "date_to_milliseconds";
     private EditText mPuzzleText;
+    private long mFriendId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,9 @@ public class AddPuzzleActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         mPuzzleText = (EditText)findViewById(R.id.et_add_puzzle);
 
-       
+        Intent intent = getIntent();
+        mFriendId = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID,-1);
+
 
     }
 
@@ -52,11 +58,23 @@ public class AddPuzzleActivity extends AppCompatActivity {
             case R.id.action_register:
                 //Toast.makeText(this,"action_register_click",Toast.LENGTH_SHORT).show();
                 if(mPuzzleText.length()>0) {
-                    Intent intent = getIntent();
-                    intent.putExtra(EXTRA_PUZZLE_TEXT, mPuzzleText.getText().toString());
-                    intent.putExtra(EXTRA_PUZZLE_DATE, Utils.getNowDate());
-                    intent.putExtra(EXTRA_PUZZLE_DATE_TO_MILLISECONDS, Utils.getNowDateToMilliSeconds());
-                    setResult(RESULT_OK, intent);
+                    Realm realm = Realm.getDefaultInstance();
+
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,mFriendId).findFirst();
+                            Puzzle puzzle = realm.createObject(Puzzle.class, Utils.getNextKeyPuzzle(realm));
+                            puzzle.setFriendId(mFriendId);
+                            puzzle.setText(mPuzzleText.getText().toString());
+                            puzzle.setFriendName(friend.getName());
+                            puzzle.setDate(Utils.getNowDate());
+                            puzzle.setDateToMilliSeconds(Utils.getNowDateToMilliSeconds());
+                            friend.getPuzzles().add(puzzle);
+                        }
+
+                    });
+
                     View view = this.getCurrentFocus();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

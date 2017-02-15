@@ -30,7 +30,7 @@ import io.realm.RealmRecyclerViewAdapter;
 public class FriendRecyclerViewAdapter  extends
         RealmRecyclerViewAdapter<Friend, FriendRecyclerViewAdapter.MyViewHolder>{
     private final TabFriendsFragment tabFriendsFragment;
-    public static final String EXTRA_ID = "id";
+
 
     public FriendRecyclerViewAdapter(TabFriendsFragment tabFriendsFragment, OrderedRealmCollection<Friend> data) {
         super(tabFriendsFragment.getContext(), data, true);
@@ -95,14 +95,14 @@ public class FriendRecyclerViewAdapter  extends
             switch (v.getId()){
                 case R.id.iv_row_grid_edit: {
                     Intent intent = new Intent(tabFriendsFragment.getContext(), EditFriendActivity.class);
-                    intent.putExtra(EXTRA_ID,data.getId());
+                    intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
                     tabFriendsFragment.getContext().startActivity(intent);
                     //Log.d("###","edit click");
                     break;
                 }
                 default:
                     Intent intent = new Intent(tabFriendsFragment.getContext(),FriendDetailActivity.class);
-                    intent.putExtra(EXTRA_ID,data.getId());
+                    intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
                     tabFriendsFragment.getContext().startActivity(intent);
                     break;
             }

@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +41,7 @@ import java.util.ArrayList;
 import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.CircleTransform;
 import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
@@ -61,9 +65,14 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     FirebaseAuth mAuth;
     private Context mContext;
 
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private TabAdapter mAdapter;
 
+    //
+    public static final String EXTRA_FRIENDID = "friend_id";
+    public static final String BUNDLE_FRIENDID = "friend_id";
     //startforActivityResult 용 변수
-    public static final int REQUESTCODE_PUZZLE = 1;
     public static final int GALLERY_MODE = 2;
     public static final int CAMERA_MODE = 3;
 
@@ -88,20 +97,14 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_detail);
         mContext= this;
-
         mName=(TextView)findViewById(R.id.tv_detail_name);
         mRelation=(TextView)findViewById(R.id.tv_detail_relation);
         mPhone=(TextView)findViewById(R.id.tv_detail_phone);
-        mPuzzle=(TextView)findViewById(R.id.tv_detail_puzzle);
-        mRank=(TextView)findViewById(R.id.tv_detail_rank);
-        mCalendar=(TextView)findViewById(R.id.tv_detail_calendar);
         mFriendImage = (ImageView)findViewById(R.id.iv_friend_photo);
         mFriendImage.setOnClickListener(this);
         mFriendImageDefault = (ImageView)findViewById(R.id.iv_friend_photo_default);
         mFriendImageDefault.setOnClickListener(this);
-        mRecyclerView=(RecyclerView)findViewById(R.id.rv_friend_detail);
-
-
+      //  mRecyclerView=(RecyclerView)findViewById(R.id.rv_friend_detail);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -114,40 +117,41 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         initData();
         setUpFireBase();
-        setUpTedPermission();
-        setUpRecyclerView();
+
+        setUpTabLayout();
+        //setUpRecyclerView();
+    }
+    public void setUpTabLayout(){
+        mViewPager = (ViewPager)findViewById(R.id.pager);
+        mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
+        mAdapter = new TabAdapter(getSupportFragmentManager());
+
+
+        //setFragment
+
+        mAdapter.addFragment(new TabPuzzlesFragment());
+        mAdapter.addFragment(new TabRankFragment());
+        mAdapter.addFragment(new TabScheduleFragment());
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        //setIcon
+        mTabLayout.getTabAt(0).setIcon(R.drawable.puzzles_selector);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.schedule_selector);
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
     }
 
     public void setUpFireBase(){
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();//이게 root 주소
     }
-    public void setUpTedPermission(){
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(FriendDetailActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(FriendDetailActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-
-
-        new TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setRationaleMessage("you need permission external storage for photo.")
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setGotoSettingButtonText("setting")
-                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
-    }
 
     public void initData(){
         Intent intent = getIntent();
-        long id = intent.getLongExtra(FriendRecyclerViewAdapter.EXTRA_ID,-1);
+        long id = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID,-1);
         //Log.d("###","id="+id);
 
         mFriend = realm.where(Friend.class)
@@ -156,15 +160,15 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mFriend.addChangeListener(new RealmChangeListener<Friend>() {
             @Override
             public void onChange(Friend friend) {
-                mPuzzle.setText(String.valueOf(friend.getPuzzles().size()));
+             //   mPuzzle.setText(String.valueOf(friend.getPuzzles().size()));
             }
         });
         mFriendId= mFriend.getId();
         mName.setText(mFriend.getName());
         mRelation.setText("("+mFriend.getRelation()+")");
         mPhone.setText(mFriend.getPhoneNumber());
-        mPuzzle.setText(String.valueOf(mFriend.getPuzzles().size()));
-        mRank.setText(String.valueOf(mFriend.getRank()));
+//        mPuzzle.setText(String.valueOf(mFriend.getPuzzles().size()));
+//        mRank.setText(String.valueOf(mFriend.getRank()));
 
         syncPhoto(mFriend);
 
@@ -176,7 +180,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         });
 
 
-        getSupportActionBar().setTitle(mFriend.getName());
+        getSupportActionBar().setTitle("");
     }
 
     public void syncPhoto(Friend friend){
@@ -202,12 +206,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     }
 
 
-    private void setUpRecyclerView() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        mRecyclerView.setAdapter(new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllAsync()));
-        mRecyclerView.setHasFixedSize(false);
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -235,53 +234,23 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         return super.onOptionsItemSelected(item);
     }
 
-    public void addPuzzle(final String text, final String date,final long dateToMilliSeconds){
-        final long id = Utils.getNextKeyPuzzle(realm);
 
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-
-                Puzzle puzzle = realm.createObject(Puzzle.class, id);
-                puzzle.setFriendId(mFriendId);
-                puzzle.setText(text);
-                puzzle.setDate(date);
-                puzzle.setDateToMilliSeconds(dateToMilliSeconds);
-                puzzle.setFriendName(mName.getText().toString());
-
-/*                RealmResults<Friend> data = realm.where(Friend.class)
-                        .equalTo("id", mFriend.getId())
-                        .findAll();
-                data.get(0).getPuzzles().add(puzzle);*/
-
-                Friend friend =realm.where(Friend.class).equalTo("id",mFriendId).findFirst();
-                friend.getPuzzles().add(puzzle);
-
-            }},new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.d("##","success");
-            }
-
-
-        });
-        Toast.makeText(this,"id="+id+" created",Toast.LENGTH_SHORT).show();
-
-    }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.fab:
-
-               Intent intent = new Intent(this, AddPuzzleActivity.class);
-                startActivityForResult(intent,REQUESTCODE_PUZZLE);
+                Intent intent = new Intent(this, AddPuzzleActivity.class);
+                intent.putExtra(EXTRA_FRIENDID,mFriendId);
+                startActivity(intent);
+                //startActivityForResult(intent,REQUESTCODE_PUZZLE);
                 //Log.d("###","click");
                 break;
             case R.id.iv_friend_photo:
                 //제거하기
                 //변경하기 중 선택하게
             {
+
                 final CharSequence[] items = { "사진 변경", "사진 삭제"};
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 alertDialogBuilder.setTitle("프로필 사진");
@@ -305,11 +274,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }
-
-
-
-
-
                 break;
             case R.id.iv_friend_photo_default:
                 //등록하기
@@ -322,27 +286,11 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void deletePuzzle(final long id) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<Puzzle> rows = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID,id).findAll();
-                rows.deleteAllFromRealm();
-            }
-        });
-       // Toast.makeText(this,"id="+id+" deleted",Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode==RESULT_OK){
             switch (requestCode){
-                case REQUESTCODE_PUZZLE:
-                    String text = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_TEXT);
-                    String date = data.getStringExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE);
-                    long dateToMilliSeconds = data.getLongExtra(AddPuzzleActivity.EXTRA_PUZZLE_DATE_TO_MILLISECONDS,-1);
-                    addPuzzle(text,date, dateToMilliSeconds);
-                    break;
                 case GALLERY_MODE:
                     FirebaseTasks.registerPhoto(this,data.getData(),mFriendId,mIsNewPhotoMode);
                     break;

@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.ui.TabPuzzlesFragment;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
@@ -21,13 +23,13 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class PuzzleRecyclerViewAdpater  extends
         RealmRecyclerViewAdapter<Puzzle, PuzzleRecyclerViewAdpater.MyViewHolder> {
-    private final FriendDetailActivity friendDetailActivity;
+    private final TabPuzzlesFragment tabPuzzlesFragment;
     public static final String EXTRA_PUZZLE_ID = "puzzle_id";
-    public static final String EXTRA_FRIEND_ID = "friend_id";
 
-    public PuzzleRecyclerViewAdpater(FriendDetailActivity friendDetailActivity, OrderedRealmCollection<Puzzle> data) {
-        super(friendDetailActivity, data, true);
-        this.friendDetailActivity = friendDetailActivity;
+
+    public PuzzleRecyclerViewAdpater(TabPuzzlesFragment tabPuzzlesFragment, OrderedRealmCollection<Puzzle> data) {
+        super(tabPuzzlesFragment.getContext(), data, true);
+        this.tabPuzzlesFragment = tabPuzzlesFragment;
     }
 
     @Override
@@ -47,6 +49,7 @@ public class PuzzleRecyclerViewAdpater  extends
         //holder.userProfileImage =
         holder.puzzleText.setText(obj.getText());
         holder.puzzleDate.setText(Utils.dateToCurrentFormat(obj.getDate()));
+        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
 
     }
 
@@ -55,11 +58,12 @@ public class PuzzleRecyclerViewAdpater  extends
             View.OnLongClickListener{
         public TextView puzzleText;
         public TextView puzzleDate;
+        public View colorView;
         public Puzzle data;
 
         public MyViewHolder(View view) {
             super(view);
-
+            colorView = (View)view.findViewById(R.id.color_view);
             puzzleText = (TextView)view.findViewById(R.id.tv_row_grid_detail_text);
             puzzleDate = (TextView)view.findViewById(R.id.tv_row_grid_detail_date);
 
@@ -69,15 +73,16 @@ public class PuzzleRecyclerViewAdpater  extends
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(friendDetailActivity,PuzzleDetailActivity.class);
+            Intent intent = new Intent(tabPuzzlesFragment.getContext(),PuzzleDetailActivity.class);
             intent.putExtra(EXTRA_PUZZLE_ID,data.getId());
-            intent.putExtra(EXTRA_FRIEND_ID,data.getFriendId());
-            friendDetailActivity.startActivity(intent);
+            intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getFriendId());
+            tabPuzzlesFragment.startActivity(intent);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            friendDetailActivity.deletePuzzle(data.getId());
+
+            tabPuzzlesFragment.deletePuzzle(data.getId());
             return true;
         }
 

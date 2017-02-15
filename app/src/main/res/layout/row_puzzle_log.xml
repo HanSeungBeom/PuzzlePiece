@@ -1,84 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="80dp"
     android:background="@color/white"
-    android:layout_marginBottom="10dp">
-    <FrameLayout
-        android:id="@+id/fr_log"
+    android:layout_margin="3dp">
+    <View
+        android:id="@+id/color_view"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="@color/material_teal"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/Grey50"/>
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
-        android:background="@color/blue"
-        android:layout_marginRight="10dp"
+        android:layout_weight="1">
+        <FrameLayout
+            android:id="@+id/fr_log"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/puzzles_white"
+            android:layout_margin="10dp"
+            android:padding="3dp"
 
-        >
-        <ImageView
-            android:padding="13dp"
-            android:src="@drawable/big_puzzle_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    </FrameLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="3">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5">
-            <TextView
-                android:id="@+id/tv_row_log_name"
-                android:textColor="@color/Grey900"
-                android:textSize="13dp"
-                android:text="name"
-                android:textStyle="bold"
-                android:layout_gravity="bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
-            <TextView
-                android:text="good"
-                android:id="@+id/tv_row_log_text"
+            >
+            <ImageView
+                android:id="@+id/iv_friend_photo"
+                android:padding="5dp"
+                android:src="@drawable/default_user1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/green"
-           />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"/>
+
+        </FrameLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:gravity="right">
-            <TextView
-                android:id="@+id/tv_row_log_time"
-                android:text="오후 2:15"
-                android:textSize="11dp"
-                android:textStyle="bold"
-                android:textColor="@color/Grey500"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:paddingRight="8dp"
-                />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5">
+                <TextView
+                    android:id="@+id/tv_row_log_name"
+                    android:textColor="@color/Grey900"
+                    android:textSize="13dp"
+                    android:text="name"
+                    android:textStyle="bold"
+                    android:layout_gravity="bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+                <TextView
+                    android:text="good"
+                    android:id="@+id/tv_row_log_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/material_blue_grey"
+
+                    />
+            </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
-        </View>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="right">
+                <TextView
+                    android:id="@+id/tv_row_log_time"
+                    android:text="오후 2:15"
+                    android:textSize="11dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:paddingRight="8dp"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+            </View>
+        </LinearLayout>
     </LinearLayout>
+
 
 </LinearLayout>

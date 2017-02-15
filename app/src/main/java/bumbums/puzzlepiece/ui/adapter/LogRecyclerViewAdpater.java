@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.model.Friend;
+import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.PuzzleLogFragment;
 import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
 
 /**
@@ -44,12 +48,13 @@ public class LogRecyclerViewAdpater extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Puzzle obj = getData().get(position);
         holder.data = obj;
-        //holder.userProfileImage =
-
-        holder.bg.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
+        Realm realm = Realm.getDefaultInstance();
+        Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,obj.getFriendId()).findFirst();
+        FirebaseTasks.loadFriendPhoto(puzzleLogFragment.getContext(),friend,holder.photo);
+        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
 
         holder.name.setText(obj.getFriendName());
-        holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
+       //holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
         holder.text.setText(obj.getText());
 
     }
@@ -61,16 +66,18 @@ public class LogRecyclerViewAdpater extends
         public TextView name;
         public TextView time;
         public TextView text;
-        public FrameLayout bg;
 
+        public ImageView photo;
         public Puzzle data;
-
+        public View colorView;
         public MyViewHolder(View view) {
             super(view);
+            colorView = (View)view.findViewById(R.id.color_view);
+            photo = (ImageView)view.findViewById(R.id.iv_friend_photo);
             name = (TextView)view.findViewById(R.id.tv_row_log_name);
             time = (TextView)view.findViewById(R.id.tv_row_log_time);
             text = (TextView)view.findViewById(R.id.tv_row_log_text);
-            bg = (FrameLayout)view.findViewById(R.id.fr_log);
+           
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }

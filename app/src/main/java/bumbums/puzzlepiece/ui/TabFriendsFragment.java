@@ -38,7 +38,6 @@ MainActivity.onKeyBackPressedListener{
     private FloatingActionsMenu fab;
     private com.getbase.floatingactionbutton.FloatingActionButton mFabNew,mFabLoadPhoneBook;
     private FriendRecyclerViewAdapter mAdapter;
-    private boolean isFragmentRunning ;
     private Context mContext;
 
     @Override
@@ -49,10 +48,15 @@ MainActivity.onKeyBackPressedListener{
         mContext = getActivity();
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_friends, container,false);
+
+
+
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_friends);
         setUpRecyclerView();
         //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen4);
