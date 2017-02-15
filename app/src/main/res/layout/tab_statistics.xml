@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/graph_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            android:name="bumbums.puzzlepiece.ui.GraphFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/rank_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
 
-</LinearLayout>
+            android:name="bumbums.puzzlepiece.ui.RankFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+   <LinearLayout
+       android:id="@+id/log_fragment"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <fragment
+
+           android:name="bumbums.puzzlepiece.ui.PuzzleLogFragment"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"/>
+   </LinearLayout>
+
+    <com.github.rubensousa.floatingtoolbar.FloatingToolbar
+        android:id="@+id/floatingToolbar"
+        android:layout_width="match_parent"
+        android:background="@color/material_teal"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        app:floatingMenu="@menu/menu_toolbar_item" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        fab:background="@color/material_teal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_menu_graph" />
+
+</FrameLayout>

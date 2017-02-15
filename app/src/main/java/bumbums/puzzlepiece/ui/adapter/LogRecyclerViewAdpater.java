@@ -10,7 +10,7 @@ import android.widget.TextView;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
-import bumbums.puzzlepiece.ui.TabPuzzleLogFragment;
+import bumbums.puzzlepiece.ui.PuzzleLogFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -24,12 +24,12 @@ public class LogRecyclerViewAdpater extends
 
 
 
-    private final TabPuzzleLogFragment tabPuzzleLogFragment;
+    private final PuzzleLogFragment puzzleLogFragment;
     public static final String EXTRA_ID = "id";
 
-    public LogRecyclerViewAdpater(TabPuzzleLogFragment tabPuzzleLogFragment, OrderedRealmCollection<Puzzle> data) {
-        super(tabPuzzleLogFragment.getContext(), data, true);
-        this.tabPuzzleLogFragment = tabPuzzleLogFragment;
+    public LogRecyclerViewAdpater(PuzzleLogFragment puzzleLogFragment, OrderedRealmCollection<Puzzle> data) {
+        super(puzzleLogFragment.getContext(), data, true);
+        this.puzzleLogFragment = puzzleLogFragment;
     }
 
     @Override

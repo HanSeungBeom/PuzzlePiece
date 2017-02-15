@@ -7,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.RankFragment;
-import bumbums.puzzlepiece.ui.TabStatisticsFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 

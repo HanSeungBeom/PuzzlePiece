@@ -18,6 +18,7 @@
     <color name="orange">#FFC107</color>
     <color name="greengrey">#E8EBEB</color>
     <color name="black_semi_transparent">#B2000000</color>
+    <color name="transparent">#00000000</color>
 
     <color name="material_red">#F44336</color>
     <color name="material_pink">#e91e63</color>

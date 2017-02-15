@@ -21,7 +21,7 @@ import io.realm.Sort;
  * Created by han sb on 2017-02-08.
  */
 
-public class TabPuzzleLogFragment extends android.support.v4.app.Fragment {
+public class PuzzleLogFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView mRecyclerView;
     private Realm realm;

@@ -2,9 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bumbums.puzzlepiece">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -39,9 +38,10 @@
         <activity
             android:name=".ui.EditFriendActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity android:name=".ui.PuzzleDetailActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"></activity>
-
-          </application>
+        <activity
+            android:name=".ui.PuzzleDetailActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity android:name=".ui.Main2Activity"></activity>
+    </application>
 
 </manifest>
