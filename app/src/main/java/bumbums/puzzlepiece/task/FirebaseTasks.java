@@ -93,7 +93,7 @@ public class FirebaseTasks {
         //사진 생성(내부저장)
         String filePath = Utils.getFilePath(contentUri, context);
         //Log.d("###", context.getFilesDir().toString());
-        final String newFilePath = Utils.decodeFile(context, filePath, 200, 200);
+        final String newFilePath = Utils.decodeFile(context, filePath, 400, 400);
         final String fileName = new File(newFilePath).getName();
         Log.d("###", "NEW=" + newFilePath + "//NAME=" + new File(newFilePath).getName());
         // Log.d("###","UriPath="+Utils.getContentUri(this,newFilePath));
