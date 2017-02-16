@@ -1,6 +1,8 @@
 package bumbums.puzzlepiece.ui.adapter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,19 +83,34 @@ public class PuzzleRecyclerViewAdpater  extends
 
         @Override
         public boolean onLongClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(tabPuzzlesFragment.getContext());
+            builder.setTitle("퍼즐 삭제")
+                    .setMessage("지인의 퍼즐을 삭제 하시겠습니까?")
+                    .setCancelable(false)
+                    .setIcon(R.drawable.puzzles_black)
 
-            tabPuzzlesFragment.deletePuzzle(data.getId());
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        // 확인 버튼 클릭시 설정
+                        public void onClick(DialogInterface dialog, int whichButton){
+                            tabPuzzlesFragment.deletePuzzle(data.getId());
+                        }
+                    })
+                    .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                        // 취소 버튼 클릭시 설정
+                        public void onClick(DialogInterface dialog, int whichButton){
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();    // 알림창 객체 생성
+            dialog.show();
+
+
+
             return true;
         }
 
 
-
-       /* @Override
-        public void onClick(View v) {
-            for(int i=0;i<data.getDogs().size();i++){
-                Log.d("###",data.getDogs().get(i).getName());
-            }
-        }*/
 
     }
 }

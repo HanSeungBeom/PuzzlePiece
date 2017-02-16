@@ -1,6 +1,8 @@
 package bumbums.puzzlepiece.ui.adapter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,7 +74,7 @@ public class FriendRecyclerViewAdapter  extends
         public TextView lastPuzzleText;
 
        // public TextView userPuzzleNum;
-        public ImageView editFriend;
+       // public ImageView editFriend;
         public View colorView;
         public Friend data;
 
@@ -84,8 +86,8 @@ public class FriendRecyclerViewAdapter  extends
             //userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
             //colorView = (View)view.findViewById(R.id.view_friend);
             lastPuzzleText = (TextView)view.findViewById(R.id.tv_last_puzzle_text);
-            editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
-            editFriend.setOnClickListener(this);
+           // editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
+          //  editFriend.setOnClickListener(this);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }
@@ -93,13 +95,13 @@ public class FriendRecyclerViewAdapter  extends
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.iv_row_grid_edit: {
-                    Intent intent = new Intent(tabFriendsFragment.getContext(), EditFriendActivity.class);
+             /*   case R.id.iv_row_grid_edit: {
+                  *//*  Intent intent = new Intent(tabFriendsFragment.getContext(), EditFriendActivity.class);
                     intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
                     tabFriendsFragment.getContext().startActivity(intent);
-                    //Log.d("###","edit click");
+                    //Log.d("###","edit click");*//*
                     break;
-                }
+                }*/
                 default:
                     Intent intent = new Intent(tabFriendsFragment.getContext(),FriendDetailActivity.class);
                     intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
@@ -113,7 +115,29 @@ public class FriendRecyclerViewAdapter  extends
 
         @Override
         public boolean onLongClick(View v) {
-            tabFriendsFragment.deleteFriend(data.getId());
+            AlertDialog.Builder builder = new AlertDialog.Builder(tabFriendsFragment.getContext());
+
+            builder.setTitle("지인 삭제")
+                    .setMessage(R.string.friend_del)
+                    .setIcon(R.drawable.tab_friends_on)
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        // 확인 버튼 클릭시 설정
+                        public void onClick(DialogInterface dialog, int whichButton){
+                            tabFriendsFragment.deleteFriend(data.getId());
+                        }
+                    })
+                    .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                        // 취소 버튼 클릭시 설정
+                        public void onClick(DialogInterface dialog, int whichButton){
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();    // 알림창 객체 생성
+            dialog.show();
+
+
+
             return true;
         }
 

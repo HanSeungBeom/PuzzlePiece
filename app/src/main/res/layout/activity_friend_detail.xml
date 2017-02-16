@@ -44,34 +44,43 @@
 
             </FrameLayout>
             <LinearLayout
+                android:id="@+id/ll_friend_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:gravity="center">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
+                    <TextView
+                        android:id="@+id/tv_detail_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="한승범"
+                        android:textSize="20dp"
+
+                        android:textColor="@color/Grey900"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_relation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="4dp"
+                        android:text="(대학친구)"
+                        android:textColor="@color/Grey700" />
+                </LinearLayout>
                 <TextView
-                    android:id="@+id/tv_detail_name"
+                    android:id="@+id/tv_detail_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="한승범"
-                    android:textSize="20dp"
+                    android:text="01012345678"
+                    android:textColor="@color/Grey500" />
 
-                    android:textColor="@color/Grey900"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_detail_relation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="4dp"
-                    android:text="(대학친구)"
-                    android:textColor="@color/Grey700" />
             </LinearLayout>
-            <TextView
-                android:id="@+id/tv_detail_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="01012345678"
-                android:textColor="@color/Grey500" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -382,7 +391,7 @@
         android:tint="@color/white"
         app:backgroundTint="@color/blue"
         app:fabSize="normal"
-        app:srcCompat="@drawable/puzzles_white"
+        app:srcCompat="@drawable/puzzles_black"
 
         />
 </FrameLayout>

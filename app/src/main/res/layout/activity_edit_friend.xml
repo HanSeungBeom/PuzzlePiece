@@ -10,45 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:background="#90000000">
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_weight="1.7">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#90000000">
 
-        </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white">
-
-                <ImageView
-                    android:src="@drawable/puzzles_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"/>
-                <TextView
-                    android:text="지인 추가"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingLeft="4dp"/>
-            </android.support.v7.widget.Toolbar>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -59,11 +28,7 @@
                 android:orientation="vertical"
                 android:background="@color/white"
                 android:padding="8dp">
-                <ImageView
-                    android:src="@drawable/default_user1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+
                 <EditText
                     android:id="@+id/et_edit_friend_name"
                     android:hint="이름"
@@ -92,20 +57,6 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#90000000">
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#90000000">
 
     </LinearLayout>
 

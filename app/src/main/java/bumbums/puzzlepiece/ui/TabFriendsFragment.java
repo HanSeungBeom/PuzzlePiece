@@ -1,6 +1,8 @@
 package bumbums.puzzlepiece.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -32,7 +35,6 @@ import static android.app.Activity.RESULT_OK;
 public class TabFriendsFragment extends android.support.v4.app.Fragment implements View.OnClickListener,
 MainActivity.onKeyBackPressedListener{
     public static final int PICK_PHONE_DATA=1;
-    public static final int ADD_FRIEND =2;
     private RecyclerView mRecyclerView;
     private Realm realm;
     private FloatingActionsMenu fab;
@@ -105,8 +107,35 @@ MainActivity.onKeyBackPressedListener{
         int id = v.getId();
         switch (id){
             case R.id.fab_new_register:
-                Intent intent = new Intent(getContext(),AddFriendActivity.class);
-                startActivityForResult(intent,ADD_FRIEND);
+                LayoutInflater inflater = getLayoutInflater(null);
+                final View dialogView = inflater.inflate(R.layout.activity_add_friend,null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("지인 추가")
+                        .setIcon(R.drawable.tab_friends_on)
+                        .setView(dialogView)
+                        .setCancelable(false)
+                        .setPositiveButton("등록", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText name = (EditText)dialogView.findViewById(R.id.et_add_friend_name);
+                                EditText phone = (EditText)dialogView.findViewById(R.id.et_add_friend_phone);
+                                EditText relation = (EditText)dialogView.findViewById(R.id.et_add_friend_relation);
+                                addFriend(name.getText().toString(), phone.getText().toString(),relation.getText().toString());
+                            }
+                        })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                AlertDialog dialog=builder.create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                dialog.getWindow().setLayout(600,900);
+
+
                 fab.collapse();
                 break;
             case R.id.fab_load_phonebook:
@@ -148,12 +177,6 @@ MainActivity.onKeyBackPressedListener{
                     String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
                     addFriend(name,phone,"null");
                     cursor.close();
-                    break;
-                case ADD_FRIEND:
-                    String addname= data.getStringExtra(AddFriendActivity.NAME);
-                    String addphone= data.getStringExtra(AddFriendActivity.PHONE);
-                    String addrelation= data.getStringExtra(AddFriendActivity.RELATION);
-                    addFriend(addname,addphone,addrelation);
                     break;
                 default:
             }
