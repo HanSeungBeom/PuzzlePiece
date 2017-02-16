@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="70dp"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+     >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/material_teal"
+    >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical">
+        <TextView
+            android:id="@+id/tv_row_rank"
+            android:textSize="25dp"
+            android:text="1"
+            android:paddingLeft="15dp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/iv_rank_user_profile"
+            android:padding="13dp"
+            android:src="@drawable/default_user1"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"/>
+        <TextView
+            android:id="@+id/tv_row_rank_name"
+            android:textColor="@color/white"
+            android:paddingLeft="4dp"
+            android:textSize="15dp"
+            android:text="name"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="right|center"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_puzzle_num"
+            android:textColor="@color/white"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:textSize="30dp"
+            android:text="32"
+
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+    </LinearLayout>

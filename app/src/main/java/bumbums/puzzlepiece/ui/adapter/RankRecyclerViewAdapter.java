@@ -70,7 +70,6 @@ public class RankRecyclerViewAdapter extends
         }
 
 
-
     }
     class MyHeaderViewHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener{
@@ -90,7 +89,6 @@ public class RankRecyclerViewAdapter extends
             puzzleNum = (TextView) view.findViewById(R.id.tv_puzzle_num);
             photo = (ImageView) view.findViewById(R.id.iv_rank_user_profile);
             viewDetail = (ImageView) view.findViewById(R.id.iv_friend_detail);*/
-
             view.setOnClickListener(this);
         }
 

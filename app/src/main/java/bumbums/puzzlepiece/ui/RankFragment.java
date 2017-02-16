@@ -31,7 +31,7 @@ public class RankFragment extends android.support.v4.app.Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-
+/*
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -40,9 +40,9 @@ public class RankFragment extends android.support.v4.app.Fragment {
                     friends.get(i).setPuzzleNum(friends.get(i).getPuzzles().size());
                 }
             }
-        });
+        });*/
 
-        mAdapter = new RankRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync().sort("puzzleNum", Sort.DESCENDING));
+        mAdapter = new RankRecyclerViewAdapter(this, realm.where(Friend.class).findAllSortedAsync("puzzleNum", Sort.DESCENDING));
 
     }
 

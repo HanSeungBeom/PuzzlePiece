@@ -95,6 +95,8 @@ public class AddPuzzleActivity extends AppCompatActivity {
                             puzzle.setDate(Utils.getNowDate());
                             puzzle.setDateToMilliSeconds(Utils.getNowDateToMilliSeconds());
                             friend.getPuzzles().add(puzzle);
+                            //갱신
+                            friend.setPuzzleNum(friend.getPuzzles().size());
                         }
 
                     });

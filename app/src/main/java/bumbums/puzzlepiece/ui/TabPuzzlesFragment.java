@@ -20,6 +20,7 @@ import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by han sb on 2017-02-15.
@@ -37,7 +38,7 @@ public class TabPuzzlesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
        // Log.d("###",mFriendId.toString());
-        mAdapter =new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllAsync());
+        mAdapter =new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllSortedAsync(Puzzle.DATE_TO_MILLISECONDS,Sort.DESCENDING));
 
     }
 
@@ -76,6 +77,9 @@ public class TabPuzzlesFragment extends Fragment {
             public void execute(Realm realm) {
                 Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID,id).findFirst();
                 puzzle.deleteFromRealm();
+                //갱신
+                Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,mFriendId).findFirst();
+                friend.setPuzzleNum(friend.getPuzzles().size());
             }
         });
 

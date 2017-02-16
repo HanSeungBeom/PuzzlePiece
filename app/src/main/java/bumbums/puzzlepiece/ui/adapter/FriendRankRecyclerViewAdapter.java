@@ -32,27 +32,24 @@ public class FriendRankRecyclerViewAdapter extends
     public static final int ITEM_TYPE_HEADER = 1;
 
     private TabRankFragment tabRankFragment;
+    private long mFriendId;
+    public FriendRankRecyclerViewAdapter(TabRankFragment tabRankFragment, OrderedRealmCollection<Friend> data,long friendId) {
 
-    public FriendRankRecyclerViewAdapter(TabRankFragment tabRankFragment, OrderedRealmCollection<Friend> data) {
         super(tabRankFragment.getContext(), data, true);
         this.tabRankFragment = tabRankFragment;
+        this.mFriendId = friendId;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == ITEM_TYPE_NORMAL) {
-            View normalView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_friend_rank,parent,false);
+            View normalView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_friend_myrank,parent,false);
             return new MyNormalViewHolder(normalView); // view holder for normal items
         } else{//  (viewType == ITEM_TYPE_HEADER) {
-            View headerRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_friend_rank_header, parent,false);
+            View headerRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_friend_myrank_header, parent,false);
             return new MyHeaderViewHolder(headerRow); // view holder for header items
         }
-
-        /*View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_friend_rank, parent, false);
-        //itemView.setMinimumWidth(parent.getMeasuredWidth()/2);
-        return new MyViewHolder(itemView);*/
     }
 
     @Override
@@ -69,6 +66,7 @@ public class FriendRankRecyclerViewAdapter extends
 
         } else if (itemType == ITEM_TYPE_HEADER) {
             ((MyHeaderViewHolder)holder).data= obj;
+            ((MyHeaderViewHolder)holder).rank.setText(String.valueOf(position + 1));
             ((MyHeaderViewHolder)holder).puzzleNum.setText(String.valueOf(obj.getPuzzles().size()));
             ((MyHeaderViewHolder)holder).name.setText(obj.getName());
             FirebaseTasks.loadFriendPhoto(tabRankFragment.getContext(), obj, ((MyHeaderViewHolder)holder).photo);
@@ -77,75 +75,49 @@ public class FriendRankRecyclerViewAdapter extends
 
 
     }
-    class MyHeaderViewHolder extends RecyclerView.ViewHolder implements
-            View.OnClickListener{
+    class MyHeaderViewHolder extends RecyclerView.ViewHolder
+        {
         public Friend data;
         public TextView puzzleNum;
         public TextView name;
         public ImageView photo;
+        public TextView rank;
 
         public MyHeaderViewHolder(View view) {
             super(view);
-
-            puzzleNum = (TextView)view.findViewById(R.id.tv_puzzle_num);
-            name = (TextView)view.findViewById(R.id.tv_row_rank_name);
-            photo = (ImageView)view.findViewById(R.id.iv_rank_user_profile);
-          /*  rank = (TextView) view.findViewById(R.id.tv_row_rank);
+            rank = (TextView) view.findViewById(R.id.tv_row_rank);
             name = (TextView) view.findViewById(R.id.tv_row_rank_name);
             puzzleNum = (TextView) view.findViewById(R.id.tv_puzzle_num);
             photo = (ImageView) view.findViewById(R.id.iv_rank_user_profile);
-            viewDetail = (ImageView) view.findViewById(R.id.iv_friend_detail);*/
 
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(tabRankFragment.getContext(), FriendDetailActivity.class);
-            intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID, data.getId());
-            tabRankFragment.getContext().startActivity(intent);
-        }
     }
-    class MyNormalViewHolder extends RecyclerView.ViewHolder implements
-            View.OnClickListener,
-            View.OnLongClickListener {
+
+    }
+    class MyNormalViewHolder extends RecyclerView.ViewHolder
+           {
 
         public TextView rank;
         public TextView name;
         public TextView puzzleNum;
         public ImageView photo;
-        public ImageView viewDetail;
 
 
         public Friend data;
 
         public MyNormalViewHolder(View view) {
             super(view);
-
             rank = (TextView) view.findViewById(R.id.tv_row_rank);
             name = (TextView) view.findViewById(R.id.tv_row_rank_name);
             puzzleNum = (TextView) view.findViewById(R.id.tv_puzzle_num);
             photo = (ImageView) view.findViewById(R.id.iv_rank_user_profile);
-            viewDetail = (ImageView) view.findViewById(R.id.iv_friend_detail);
-
-            view.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-        /*    Intent intent = new Intent(tabRankFragment.getContext(), FriendDetailActivity.class);
-            intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID, data.getId());
-            tabRankFragment.getContext().startActivity(intent);*/
-        }
 
-        @Override
-        public boolean onLongClick(View v) {
-            return true;
-        }
     }
     @Override
     public int getItemViewType(int position) {
-        if (position==-1) {
+        Friend friend = getData().get(position);
+        if (friend.getId()==mFriendId) {
             return ITEM_TYPE_HEADER;
         } else {
             return ITEM_TYPE_NORMAL;

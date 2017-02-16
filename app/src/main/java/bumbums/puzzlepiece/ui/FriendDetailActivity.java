@@ -54,7 +54,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener{
     private FloatingActionButton fab;
     private TextView mName, mRelation, mPhone;
     private ImageView mFriendImage, mFriendImageDefault;
@@ -138,10 +138,14 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mAdapter.addFragment(new TabPuzzlesFragment());
         mAdapter.addFragment(new TabRankFragment());
         mAdapter.addFragment(new TabScheduleFragment());
+
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         //setIcon
+
+        //mTabLayout.getTabAt(0).setCustomView(R.layout.custom_tab).setIcon(R.drawable.puzzles_selector);
+
         mTabLayout.getTabAt(0).setIcon(R.drawable.puzzles_selector);
         mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
         mTabLayout.getTabAt(2).setIcon(R.drawable.schedule_selector);
@@ -183,6 +187,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
             public void onChange(Friend element) {
                 syncFriendData(element);
                 syncPhoto(element);
+  
             }
         });
 

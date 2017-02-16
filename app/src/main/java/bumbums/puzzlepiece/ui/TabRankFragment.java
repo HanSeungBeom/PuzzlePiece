@@ -1,5 +1,6 @@
 package bumbums.puzzlepiece.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -41,8 +42,9 @@ public class TabRankFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
-
-        mAdapter = new FriendRankRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync().sort("puzzleNum", Sort.DESCENDING));
+        Intent intent = getActivity().getIntent();
+        long friendId = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID,-1);
+        mAdapter = new FriendRankRecyclerViewAdapter(this, realm.where(Friend.class).findAllSortedAsync("puzzleNum", Sort.DESCENDING),friendId);
 
     }
 
