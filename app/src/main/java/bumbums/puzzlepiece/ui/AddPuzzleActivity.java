@@ -115,10 +115,6 @@ public class AddPuzzleActivity extends AppCompatActivity {
             default:
 
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }
