@@ -2,6 +2,7 @@ package bumbums.puzzlepiece.ui.adapter;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +46,11 @@ public class FriendRecyclerViewAdapter  extends
                 .inflate(R.layout.row_grid_friend, parent, false);
         itemView.setMinimumWidth(parent.getMeasuredWidth()/2);
         return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void updateData(@Nullable OrderedRealmCollection<Friend> data) {
+        super.updateData(data);
     }
 
     @Override

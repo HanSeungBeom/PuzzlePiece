@@ -40,11 +40,10 @@ public class TabReviewFragment extends Fragment{
     private Realm realm;
     private ReviewRecyclerViewAdapter mReviewAdapter;
     private FriendReviewRecyclerViewAdapter mFriendAdapter;
-    private int mSelectedID=-1;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
 
@@ -60,6 +59,7 @@ public class TabReviewFragment extends Fragment{
         List<Long> todayFriendId = new ArrayList<Long>();
 
         for(int i=0;i<todayPuzzles.size();i++){
+            Log.d("###",todayPuzzles.get(i).getFriendId()+"");
             todayFriendId.add(todayPuzzles.get(i).getFriendId());
         }
 
@@ -75,9 +75,13 @@ public class TabReviewFragment extends Fragment{
                 query = query.or().equalTo(Friend.USER_ID, uniqueFriendId.get(i));
             }
         }
+        else{
+            query = query.equalTo(Friend.USER_ID,-1);
+            //값이 없는경우는 결과값을 안줌.
+        }
         //TODO 나중에 필드추가
         RealmResults<Friend> todayFriends = query.findAllSortedAsync("name",Sort.ASCENDING);
-        Log.d("###",todayFriends.size()+"");
+       // Log.d("###",todayFriends.size()+"");
         return todayFriends;
 
     }

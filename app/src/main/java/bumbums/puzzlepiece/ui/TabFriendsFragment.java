@@ -10,10 +10,16 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -41,6 +47,9 @@ MainActivity.onKeyBackPressedListener{
     private com.getbase.floatingactionbutton.FloatingActionButton mFabNew,mFabLoadPhoneBook;
     private FriendRecyclerViewAdapter mAdapter;
     private Context mContext;
+    private EditText mSearchText;
+    private ImageView mClear;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,9 +66,10 @@ MainActivity.onKeyBackPressedListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_friends, container,false);
 
-
-
+        mClear = (ImageView)view.findViewById(R.id.clear);
+        mClear.setOnClickListener(this);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_friends);
+
         setUpRecyclerView();
         //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen4);
        // mRecyclerView.addItemDecoration(itemDecoration);
@@ -68,7 +78,31 @@ MainActivity.onKeyBackPressedListener{
         mFabLoadPhoneBook=(com.getbase.floatingactionbutton.FloatingActionButton)view.findViewById(R.id.fab_load_phonebook);
         mFabNew.setOnClickListener(this);
         mFabLoadPhoneBook.setOnClickListener(this);
+        mSearchText = (EditText)view.findViewById(R.id.et_search);
+        mSearchText.clearFocus();
+        mSearchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //TODO 필드 나중에 변경.
+                if (!mSearchText.getText().toString().equals("")){
+                    mAdapter.updateData(realm.where(Friend.class).contains("name", mSearchText.getText().toString()).findAllAsync());
+                    mClear.setVisibility(View.VISIBLE);
+                }
+                else{
+                    mAdapter.updateData(realm.where(Friend.class).findAllAsync());
+                    mClear.setVisibility(View.INVISIBLE);
+                    Utils.hideKeyboard((MainActivity)getActivity());
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return view;
     }
 
@@ -113,7 +147,6 @@ MainActivity.onKeyBackPressedListener{
                 builder.setTitle("지인 추가")
                         .setIcon(R.drawable.tab_friends_on)
                         .setView(dialogView)
-                        .setCancelable(false)
                         .setPositiveButton("등록", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -142,7 +175,17 @@ MainActivity.onKeyBackPressedListener{
                 loadPhoneBook();
                 fab.collapse();
                 break;
+            case R.id.clear:
+                mSearchText.setText("");
+                mClear.setVisibility(View.INVISIBLE);
+                Utils.hideKeyboard((MainActivity)getActivity());
+                //TODO 키보드 숨기기 안됨..
+                break;
+
+
             default:
+
+
 
         }
     }
@@ -213,6 +256,7 @@ MainActivity.onKeyBackPressedListener{
     public void onAttach(Context context) {
         super.onAttach(context);
         ((MainActivity) context).setOnKeyBackPressedListener(this);
+
     }
 
 

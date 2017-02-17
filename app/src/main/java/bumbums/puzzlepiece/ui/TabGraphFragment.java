@@ -5,10 +5,13 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -51,6 +54,7 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
     private TextView mTotalView,mTodayView;
     private Calendar mToday;
 
+    //TODO 레이아웃 짤리는거 해결
     public static final int X_COUNT = 8;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);

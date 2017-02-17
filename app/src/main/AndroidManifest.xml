@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="bumbums.puzzlepiece">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,11 +10,14 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/puzzles_black"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
+        <activity
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,9 +26,8 @@
         </activity>
         <activity
             android:name=".ui.FriendDetailActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:parentActivityName=".ui.MainActivity"
-            >
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="bumbums.puzzlepiece.ui.MainActivity" />
@@ -43,7 +46,8 @@
         <activity
             android:name=".ui.PuzzleDetailActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />
-
+        <activity android:name=".ui.AddPuzzleDirectActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
     </application>
 
 </manifest>

@@ -45,6 +45,7 @@ import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
+import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.util.CircleTransform;
 import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
@@ -54,7 +55,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private FloatingActionButton fab;
     private TextView mName, mRelation, mPhone;
     private ImageView mFriendImage, mFriendImageDefault;
@@ -124,6 +125,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         setUpFireBase();
 
         setUpTabLayout();
+
+
         //setUpRecyclerView();
     }
 
@@ -187,7 +190,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
             public void onChange(Friend element) {
                 syncFriendData(element);
                 syncPhoto(element);
-  
+
             }
         });
 
@@ -364,6 +367,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+
             }
             break;
             case R.id.iv_friend_photo_default:
@@ -396,30 +400,36 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void addFriendPhoto() {
-        final CharSequence[] items = {"사진촬영", "갤러리선택"};
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("프로필 사진");
-        alertDialogBuilder.setItems(items,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                                        int id) {
-                        if (id == 0) { //사진촬영
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, CAMERA_MODE);
-                        } else if (id == 1) { //갤러리 선택
-                            Intent i = new Intent(Intent.ACTION_PICK);
-                            i.setType("image/*");
-                            startActivityForResult(i, GALLERY_MODE);
-                        }
+
+        if (AppPermissions.hasPermissionsGranted(this)) {
+            final CharSequence[] items = {"사진촬영", "갤러리선택"};
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("프로필 사진");
+            alertDialogBuilder.setItems(items,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,
+                                            int id) {
+                            if (id == 0) { //사진촬영
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(intent, CAMERA_MODE);
+                            } else if (id == 1) { //갤러리 선택
+                                Intent i = new Intent(Intent.ACTION_PICK);
+                                i.setType("image/*");
+                                startActivityForResult(i, GALLERY_MODE);
+                            }
 
                           /*  Toast.makeText(getApplicationContext(),
                                     items[id] + " 선택했습니다.",
                                     Toast.LENGTH_SHORT).show();*/
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        } else {
+            Toast.makeText(this, R.string.permission_deny, Toast.LENGTH_SHORT).show();
+            setUpTedPermission();
+        }
     }
 
     public void deleteFriendPhoto() {
@@ -439,5 +449,28 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                         Log.e("###", "signInAnonymously:FAILURE", exception);
                     }
                 });
+    }
+
+    public void setUpTedPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(FriendDetailActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(FriendDetailActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("you need permission external storage for photo.")
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setGotoSettingButtonText("setting")
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
     }
 }

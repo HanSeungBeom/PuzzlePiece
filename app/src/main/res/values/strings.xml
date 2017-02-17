@@ -2,7 +2,6 @@
     <string name="app_name">PuzzlePiece</string>
 
 
-
     <string name="save">저장</string>
     <string name="edit">지인 정보</string>
     <string name="delete">지인 삭제</string>
@@ -13,5 +12,11 @@
     <string name="modify">수정</string>
     <string name="commit">저장</string>
     <string name="review">오늘 퍼즐을 등록한 사람들입니다.</string>
+    <string name="permission_deny">내부 저장소 접근이 제한되어 있습니다. 기능을 허가해주세요.</string>
+    <string name="notification_review_title">오늘 쓰신 퍼즐을 다시보아요</string>
+    <string name="notification_review_text">리뷰 노티 창</string>
+    <string name="select_friend">지인을 선택하세요.</string>
+    <string name="write_puzzle_text">퍼즐 내용을 입력해주세요.</string>
+    <string name="add_puzzle">퍼즐조각을 등록하였습니다.</string>
 
 </resources>

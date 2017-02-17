@@ -1,12 +1,16 @@
 package bumbums.puzzlepiece.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +25,7 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.AppPermissions;
+import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -36,6 +41,7 @@ TabLayout.OnTabSelectedListener
     private Realm realm;
     private TabAdapter mAdapter;
 
+    private Button mTestBtn;
     /*
     FirebaseAuth mAuth;
 
@@ -74,11 +80,15 @@ TabLayout.OnTabSelectedListener
         setContentView(R.layout.activity_main);
         //testFirebase();
 
-        if(!AppPermissions.hasPermissionsGranted(this))
-            setUpTedPermission();
         mViewPager = (ViewPager)findViewById(R.id.pager);
-
-
+        mTestBtn = (Button)findViewById(R.id.testBtn);
+        mTestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddPuzzleDirectActivity.class);
+                startActivity(intent);
+            }
+        });
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
         mAdapter = new TabAdapter(getSupportFragmentManager());
         mAdapter.addFragment(new TabFriendsFragment());
@@ -96,10 +106,7 @@ TabLayout.OnTabSelectedListener
         mTabLayout.getTabAt(3).setIcon(R.drawable.review_selector);
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
         mFriendNum =(TextView)findViewById(R.id.tv_friend_num);
-
 
         mTabLayout.addOnTabSelectedListener(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,37 +118,16 @@ TabLayout.OnTabSelectedListener
 
 
     }
-    public void setUpTedPermission(){
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
 
 
-        new TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setRationaleMessage("you need permission external storage for photo.")
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setGotoSettingButtonText("setting")
-                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
-    }
     @Override
-    protected void onResume() {
-        super.onResume();
-
+    protected void onStart() {
+        super.onStart();
         //onCreate 에 하면 이상하게 안됨. listener 를 못찾음
         realm = Realm.getDefaultInstance();
+
         final RealmResults<Friend> results = realm.where(Friend.class)
-                .findAll();
-        mFriendNum.setText(String.valueOf(results.size()));
+                .findAllAsync();
 
         results.addChangeListener(new RealmChangeListener<RealmResults<Friend>>() {
             @Override
@@ -149,6 +135,13 @@ TabLayout.OnTabSelectedListener
                 mFriendNum.setText(String.valueOf(element.size()));
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
 
     }
 
@@ -161,14 +154,17 @@ TabLayout.OnTabSelectedListener
                 mFriendNum.setVisibility(View.VISIBLE);
                 break;
             case 1:
+                Utils.hideKeyboard(this);
                 mTitle.setText("랭킹");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 2:
+                Utils.hideKeyboard(this);
                 mTitle.setText("통계");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 3:
+                Utils.hideKeyboard(this);
                 mTitle.setText("오늘");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
