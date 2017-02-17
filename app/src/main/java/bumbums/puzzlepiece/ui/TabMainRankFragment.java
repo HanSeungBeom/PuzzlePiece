@@ -21,7 +21,7 @@ import io.realm.Sort;
  * Created by 한승범 on 2017-02-11.
  */
 
-public class RankFragment extends android.support.v4.app.Fragment {
+public class TabMainRankFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView mRecyclerView;
     private Realm realm;

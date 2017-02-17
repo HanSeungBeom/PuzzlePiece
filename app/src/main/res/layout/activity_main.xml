@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/Grey50"
+            android:layout_marginRight="15dp"
             >
 
             <TextView
@@ -35,12 +36,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/search"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@drawable/ic_settings"
                 android:layout_gravity="right"
-                android:paddingRight="10dp"
+
                 />
+
 
             </android.support.v7.widget.Toolbar>
         <View

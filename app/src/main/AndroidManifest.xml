@@ -22,7 +22,9 @@
         </activity>
         <activity
             android:name=".ui.FriendDetailActivity"
-            android:parentActivityName=".ui.MainActivity">
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:parentActivityName=".ui.MainActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="bumbums.puzzlepiece.ui.MainActivity" />
@@ -41,7 +43,7 @@
         <activity
             android:name=".ui.PuzzleDetailActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity android:name=".ui.Main2Activity"></activity>
+
     </application>
 
 </manifest>

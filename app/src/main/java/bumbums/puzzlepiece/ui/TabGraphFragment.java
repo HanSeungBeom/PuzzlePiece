@@ -45,7 +45,7 @@ import io.realm.RealmResults;
  * Created by han sb on 2017-02-14.
  */
 
-public class GraphFragment extends android.support.v4.app.Fragment {
+public class TabGraphFragment extends android.support.v4.app.Fragment {
     private LineChart mChart;
     private TextView mYearMonth;
     private TextView mTotalView,mTodayView;

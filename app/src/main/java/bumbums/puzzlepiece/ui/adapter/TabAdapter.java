@@ -7,10 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import bumbums.puzzlepiece.ui.TabFriendsFragment;
-import bumbums.puzzlepiece.ui.PuzzleLogFragment;
-import bumbums.puzzlepiece.ui.TabStatisticsFragment;
-
 /**
  * Created by han sb on 2017-02-08.
  */

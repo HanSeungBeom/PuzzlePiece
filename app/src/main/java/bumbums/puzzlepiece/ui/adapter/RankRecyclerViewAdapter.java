@@ -12,7 +12,7 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
-import bumbums.puzzlepiece.ui.RankFragment;
+import bumbums.puzzlepiece.ui.TabMainRankFragment;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -26,9 +26,9 @@ public class RankRecyclerViewAdapter extends
     public static final int ITEM_TYPE_NORMAL = 0;
     public static final int ITEM_TYPE_HEADER = 1;
 
-    private RankFragment rankFragment;
+    private TabMainRankFragment rankFragment;
 
-    public RankRecyclerViewAdapter(RankFragment rankFragment, OrderedRealmCollection<Friend> data) {
+    public RankRecyclerViewAdapter(TabMainRankFragment rankFragment, OrderedRealmCollection<Friend> data) {
         super(rankFragment.getContext(), data, true);
         this.rankFragment = rankFragment;
     }

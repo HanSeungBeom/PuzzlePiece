@@ -137,7 +137,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         mAdapter.addFragment(new TabPuzzlesFragment());
         mAdapter.addFragment(new TabRankFragment());
-        mAdapter.addFragment(new TabScheduleFragment());
+        //mAdapter.addFragment(new TabScheduleFragment());
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -148,7 +148,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         mTabLayout.getTabAt(0).setIcon(R.drawable.puzzles_selector);
         mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
-        mTabLayout.getTabAt(2).setIcon(R.drawable.schedule_selector);
+        //mTabLayout.getTabAt(2).setIcon(R.drawable.schedule_selector);
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
     }

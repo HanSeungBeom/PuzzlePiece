@@ -2,14 +2,10 @@ package bumbums.puzzlepiece.ui;
 
 import android.Manifest;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,16 +80,18 @@ TabLayout.OnTabSelectedListener
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
         mAdapter = new TabAdapter(getSupportFragmentManager());
         mAdapter.addFragment(new TabFriendsFragment());
-        mAdapter.addFragment(new TabStatisticsFragment());
-        mAdapter.addFragment(new TabSettingFragment());
+        mAdapter.addFragment(new TabMainRankFragment());
+        mAdapter.addFragment(new TabGraphFragment());
+        mAdapter.addFragment(new TabGraphFragment());
+
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
 
         mTabLayout.getTabAt(0).setIcon(R.drawable.friends_selector);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.statistics_selector);
-        mTabLayout.getTabAt(2).setIcon(R.drawable.settings_selector);
-
+        mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.graph_selector);
+        mTabLayout.getTabAt(3).setIcon(R.drawable.review_selector);
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -161,13 +159,18 @@ TabLayout.OnTabSelectedListener
                 mFriendNum.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                mTitle.setText("통계");
+                mTitle.setText("랭킹");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 2:
-                mTitle.setText("설정");
+                mTitle.setText("통계");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
+            case 3:
+                mTitle.setText("오늘");
+                mFriendNum.setVisibility(View.INVISIBLE);
+                break;
+
         }
     }
 
