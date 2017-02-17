@@ -99,6 +99,7 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
 
     public void initGraph() {
 
+        //TODO 그래프 서비스로 하기
         LineDataSet dataSet = new LineDataSet(getDataFromDB(), "퍼즐수");
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setDrawValues(false);

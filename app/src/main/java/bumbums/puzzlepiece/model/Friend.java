@@ -13,6 +13,7 @@ public class Friend extends RealmObject{
     public static final String PUZZLE_NUM = "puzzleNum";
     public static final String RANK = "rank";
 
+//TODO friend 필드이름 수정
 
     @PrimaryKey
     private long id;

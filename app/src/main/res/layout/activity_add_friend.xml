@@ -30,8 +30,8 @@
                 android:padding="8dp">
                 <ImageView
                     android:src="@drawable/default_user1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/et_add_friend_name"

@@ -17,7 +17,7 @@ public class TabScheduleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_schedule,container,false);
+        View view = inflater.inflate(R.layout.tab_review,container,false);
         return view;
     }
 }

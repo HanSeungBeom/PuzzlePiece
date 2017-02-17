@@ -115,7 +115,7 @@
             </LinearLayout>
 
             <!--<fragment
-                android:name="bumbums.puzzlepiece.ui.ReviewFragment"
+                android:name="bumbums.puzzlepiece.ui.TabReviewFragmentent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>-->
 

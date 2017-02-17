@@ -20,6 +20,7 @@ import bumbums.puzzlepiece.R;
 
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
+import bumbums.puzzlepiece.util.AppPermissions;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -73,7 +74,8 @@ TabLayout.OnTabSelectedListener
         setContentView(R.layout.activity_main);
         //testFirebase();
 
-        setUpTedPermission();
+        if(!AppPermissions.hasPermissionsGranted(this))
+            setUpTedPermission();
         mViewPager = (ViewPager)findViewById(R.id.pager);
 
 
@@ -82,7 +84,7 @@ TabLayout.OnTabSelectedListener
         mAdapter.addFragment(new TabFriendsFragment());
         mAdapter.addFragment(new TabMainRankFragment());
         mAdapter.addFragment(new TabGraphFragment());
-        mAdapter.addFragment(new TabGraphFragment());
+        mAdapter.addFragment(new TabReviewFragment());
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
