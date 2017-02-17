@@ -165,7 +165,7 @@ TabLayout.OnTabSelectedListener
                 break;
             case 3:
                 Utils.hideKeyboard(this);
-                mTitle.setText("오늘");
+                mTitle.setText("오늘 등록한 퍼즐");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
 

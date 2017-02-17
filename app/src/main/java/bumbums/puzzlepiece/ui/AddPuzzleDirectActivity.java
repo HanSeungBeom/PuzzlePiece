@@ -178,8 +178,6 @@ public void hideKeyboard(){
             case R.id.clear:
                 mSearch.setText("");
                 mClear.setVisibility(View.INVISIBLE);
-
-                //TODO 키보드 숨기기 안됨..
                 break;
         }
     }
@@ -187,7 +185,9 @@ public void hideKeyboard(){
     public void clickFriend(Friend friend){
         mFriend = friend;
         closeSearchTab(friend.getName());
-        //mText.requestFocus();
+        mText.requestFocus();
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mText, 0);
     }
 
     public void openSearchTab(){
@@ -197,18 +197,7 @@ public void hideKeyboard(){
     public void closeSearchTab(String name){
         mSearch.setText("");
         mClear.setVisibility(View.INVISIBLE);
-        mSearchTab.animate()
-                .translationY(mSearchTab.getHeight())
-                .alpha(0.0f)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mSearchTab.setVisibility(View.GONE);
-                    }
-                });
-
+        mSearchTab.setVisibility(View.GONE);
         mName.setText(name);
     }
 }
