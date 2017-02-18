@@ -1,6 +1,7 @@
 package bumbums.puzzlepiece.util;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -41,6 +42,9 @@ import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.MainActivity;
 import io.realm.Realm;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static bumbums.puzzlepiece.task.NotificationService.NOTIFICATION_CODE;
 
 /**
  * Created by 한승범 on 2017-02-07.
@@ -310,6 +314,11 @@ public class Utils {
             InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public static void cancelNotification(Context context,int id){
+        NotificationManager notificationmanager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        notificationmanager.cancel(id);
     }
 
 }

@@ -20,5 +20,6 @@
     <string name="add_puzzle">퍼즐조각을 등록하였습니다.</string>
     <string name="set_notification">알림바 설정</string>
     <string name="set_notification_detail">알림바 설정을 키시면 편하게 퍼즐을 등록하실 수 있습니다.</string>
+    <string name="pref_noti">notification</string>
 
 </resources>

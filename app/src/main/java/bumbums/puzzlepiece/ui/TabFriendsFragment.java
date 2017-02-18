@@ -145,7 +145,7 @@ MainActivity.onKeyBackPressedListener{
                 final View dialogView = inflater.inflate(R.layout.activity_add_friend,null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("지인 추가")
-                        .setIcon(R.drawable.tab_friends_on)
+                        .setIcon(R.drawable.ic_user_puzzle)
                         .setView(dialogView)
                         .setPositiveButton("등록", new DialogInterface.OnClickListener() {
                             @Override

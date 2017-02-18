@@ -246,7 +246,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("지인 정보")
-                .setIcon(R.drawable.tab_friends_on)
+                .setIcon(R.drawable.ic_user_puzzle)
                 .setView(dialogView)
                 .setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
@@ -427,6 +427,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         } else {
+            //TODO 메세지 바꾸기
             Toast.makeText(this, R.string.permission_deny, Toast.LENGTH_SHORT).show();
             setUpTedPermission();
         }

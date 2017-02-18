@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.ui.AddPuzzleDirectActivity;
+import bumbums.puzzlepiece.ui.MainActivity;
 import bumbums.puzzlepiece.ui.ReviewActivity;
 
 /**
@@ -19,23 +20,46 @@ import bumbums.puzzlepiece.ui.ReviewActivity;
 public class NotificationService extends IntentService {
 
     public static final int PENDING_REQUEST_CODE = 1;
-    public static final int NOTIFICATION_CODE = 1;
+    public static final int NOTIFICATION_CODE = 12;
     public NotificationService(){
         super(NotificationService.class.getName());
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Intent addPuzzleIntent = new Intent(this,AddPuzzleDirectActivity.class);
-        Intent reviewPuzzleIntent = new Intent(this,ReviewActivity.class);
-         android.support.v4.app.NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+
+        RemoteViews remoteViews = new RemoteViews(getPackageName(),R.layout.notify_always);
+        Intent addPuzzleintent = new Intent(this,AddPuzzleDirectActivity.class);
+        addPuzzleintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        addPuzzleintent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pIntentAddPuzzle = PendingIntent.getActivity(this,0,addPuzzleintent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent reviewPuzzleintent = new Intent(this,ReviewActivity.class);
+        reviewPuzzleintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        reviewPuzzleintent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pIntentReviewPuzzle = PendingIntent.getActivity(this,1,reviewPuzzleintent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent mainintent = new Intent(this,MainActivity.class);
+        mainintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mainintent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pIntentMain = PendingIntent.getActivity(this,1,mainintent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        android.support.v4.app.NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.puzzles_white)
-                .addAction(R.drawable.ic_noti_puzzle1,"퍼즐등록", PendingIntent.getActivity(this,PENDING_REQUEST_CODE,addPuzzleIntent,0))
-                .addAction(R.drawable.ic_noti_review1,"리뷰",PendingIntent.getActivity(this,PENDING_REQUEST_CODE,reviewPuzzleIntent,0))
+                .setContentIntent(pIntentAddPuzzle)
+                .setContentIntent(pIntentReviewPuzzle)
+                .setContentIntent(pIntentMain)
+                .setContent(remoteViews)
                 .setOngoing(true);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_CODE, mBuilder.build());
+
+        remoteViews.setImageViewResource(R.id.add_newpuzzle,R.drawable.ic_noti_puzzle1);
+        remoteViews.setImageViewResource(R.id.review_today_puzzles,R.drawable.ic_noti_review1);
+        remoteViews.setOnClickPendingIntent(R.id.add_newpuzzle,pIntentAddPuzzle);
+        remoteViews.setOnClickPendingIntent(R.id.review_today_puzzles,pIntentReviewPuzzle);
+        NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationmanager.notify(NOTIFICATION_CODE, builder.build());
 
     }
 }

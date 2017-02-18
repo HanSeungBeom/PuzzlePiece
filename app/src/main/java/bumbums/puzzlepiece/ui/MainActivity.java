@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -86,20 +88,18 @@ public class MainActivity extends AppCompatActivity implements
         //testFirebase();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mTestBtn = (Button) findViewById(R.id.testBtn);
+      /*  mTestBtn = (Button) findViewById(R.id.testBtn);
         mTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(MainActivity.this, AddPuzzleDirectActivity.class);
-                startActivity(intent);*/
-                test();
+
             }
-        });
+        });*/
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mAdapter = new TabAdapter(getSupportFragmentManager());
         mAdapter.addFragment(new TabFriendsFragment());
-        mAdapter.addFragment(new TabMainRankFragment());
         mAdapter.addFragment(new TabGraphFragment());
+        mAdapter.addFragment(new TabMainRankFragment());
         mAdapter.addFragment(new TabReviewFragment());
 
         mViewPager.setAdapter(mAdapter);
@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements
 
 
         mTabLayout.getTabAt(0).setIcon(R.drawable.friends_selector);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
-        mTabLayout.getTabAt(2).setIcon(R.drawable.graph_selector);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.graph_selector);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.rank_selector);
         mTabLayout.getTabAt(3).setIcon(R.drawable.review_selector);
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -158,12 +158,12 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case 1:
                 Utils.hideKeyboard(this);
-                mTitle.setText("랭킹");
+                mTitle.setText("통계");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 Utils.hideKeyboard(this);
-                mTitle.setText("통계");
+                mTitle.setText("랭킹");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 3:
@@ -209,7 +209,23 @@ public class MainActivity extends AppCompatActivity implements
         Intent i = new Intent(this, NotificationService.class);
         startService(i);
 
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_setting:
+                Intent i = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(i);
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
