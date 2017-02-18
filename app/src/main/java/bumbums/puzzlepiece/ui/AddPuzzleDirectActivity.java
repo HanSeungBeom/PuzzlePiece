@@ -3,6 +3,10 @@ package bumbums.puzzlepiece.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,20 +15,29 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.naver.speech.clientapi.SpeechRecognitionResult;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.adapter.FriendAddDirectAdapter;
+import bumbums.puzzlepiece.util.AudioWriterPCM;
+import bumbums.puzzlepiece.util.NaverRecognizer;
 import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 
@@ -40,6 +53,27 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
     private EditText mText;
     private ImageView mPuzzle;
     private Friend mFriend;
+
+    //TODO PERMISSION
+    private static final String CLIENT_ID = "g2FxRj3dmttVKEjkwG0Y";
+    private RecognitionHandler handler;
+    private NaverRecognizer naverRecognizer;
+    private Button btnStart;
+    private String mResult;
+    private TextView txtResult;
+    private AudioWriterPCM writer;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        naverRecognizer.getSpeechRecognizer().initialize();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        naverRecognizer.getSpeechRecognizer().release();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +142,30 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+
+        txtResult = (TextView)findViewById(R.id.tv_record_result);
+        handler = new RecognitionHandler(this);
+        naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
+        btnStart = (Button)findViewById(R.id.btn_record);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                    // Start button is pushed when SpeechRecognizer's state is inactive.
+                    // Run SpeechRecongizer by calling recognize().
+                    mResult = "";
+                    btnStart.setTextColor(Color.YELLOW);
+                    txtResult.setText("Connecting...");
+                    naverRecognizer.recognize();
+                } else {
+                    Log.d("###", "stop and wait Final Result");
+                    btnStart.setEnabled(false);
+
+                    naverRecognizer.getSpeechRecognizer().stop();
+                }
+            }
+        });
     }
 
 public void hideKeyboard(){
@@ -199,5 +257,82 @@ public void hideKeyboard(){
         mClear.setVisibility(View.INVISIBLE);
         mSearchTab.setVisibility(View.GONE);
         mName.setText(name);
+    }
+
+    static class RecognitionHandler extends Handler {
+        private final WeakReference<AddPuzzleDirectActivity> mActivity;
+
+        RecognitionHandler(AddPuzzleDirectActivity activity) {
+            mActivity = new WeakReference<AddPuzzleDirectActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            AddPuzzleDirectActivity activity = mActivity.get();
+            if (activity != null) {
+                activity.handleMessage(msg);
+            }
+        }
+    }
+
+    // Handle speech recognition Messages.
+    private void handleMessage(Message msg) {
+        switch (msg.what) {
+            case R.id.clientReady:
+                // Now an user can speak.
+                btnStart.setTextColor(Color.GREEN);
+                //txtResult.setText("Connected");
+                writer = new AudioWriterPCM(
+                        Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
+                writer.open("Test");
+                break;
+
+            case R.id.audioRecording:
+                writer.write((short[]) msg.obj);
+                break;
+
+            case R.id.partialResult:
+                // Extract obj property typed with String.
+                mResult = (String) (msg.obj);
+                txtResult.setText(mResult);
+                break;
+
+            case R.id.finalResult:
+                // Extract obj property typed with String array.
+                // The first element is recognition result for speech.
+                SpeechRecognitionResult speechRecognitionResult = (SpeechRecognitionResult) msg.obj;
+                List<String> results = speechRecognitionResult.getResults();
+                StringBuilder strBuf = new StringBuilder();
+
+                /*for(String result : results) {
+                    strBuf.append(result);
+                    strBuf.append("\n");
+                }
+                mResult = strBuf.toString();*/
+                mResult = results.get(0);
+                txtResult.setText(mResult);
+                mText.append(" "+txtResult.getText().toString());
+                break;
+
+            case R.id.recognitionError:
+                if (writer != null) {
+                    writer.close();
+                }
+
+                mResult = "Error code : " + msg.obj.toString();
+                txtResult.setText(mResult);
+                btnStart.setTextColor(Color.RED);
+                btnStart.setEnabled(true);
+                break;
+
+            case R.id.clientInactive:
+                if (writer != null) {
+                    writer.close();
+                }
+                btnStart.setTextColor(Color.RED);
+                //btnStart.setText(R.string.str_start);
+                btnStart.setEnabled(true);
+                break;
+        }
     }
 }
