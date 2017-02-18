@@ -1,16 +1,21 @@
 package bumbums.puzzlepiece.ui;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,8 +90,9 @@ TabLayout.OnTabSelectedListener
         mTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddPuzzleDirectActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(MainActivity.this, AddPuzzleDirectActivity.class);
+                startActivity(intent);*/
+                test();
             }
         });
         mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
@@ -198,5 +204,37 @@ TabLayout.OnTabSelectedListener
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void test(){
+
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pintent = PendingIntent.getActivity(this, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intent1 = new Intent("Add_Puzzle");
+        intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pintent1 = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intent2 = new Intent("Review_Puzzle");
+        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pintent2 = PendingIntent.getBroadcast(this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notify_always);
+
+        contentView.setOnClickPendingIntent(R.id.add_newpuzzle, pintent1);
+        contentView.setOnClickPendingIntent(R.id.review_today_puzzles,pintent2);
+
+        android.support.v4.app.NotificationCompat.Builder mBuilder=new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.puzzles_white)
+                .setContent(contentView)
+                .setContentIntent(pintent)
+                .setOngoing(true);
+
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(23, mBuilder.build());
+
+
     }
 }

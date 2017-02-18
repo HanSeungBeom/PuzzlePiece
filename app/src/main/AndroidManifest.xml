@@ -46,8 +46,20 @@
         <activity
             android:name=".ui.PuzzleDetailActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity android:name=".ui.AddPuzzleDirectActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+        <activity
+            android:name=".ui.AddPuzzleDirectActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity android:name=".ui.ReviewActivity"></activity>
+        <receiver android:name=".receiver.AddPuzzleReceiver">
+            <intent-filter>
+                <action  android:name="Add_Puzzle"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.ReviewReceiver">
+            <intent-filter>
+                <action  android:name="Review_Puzzle"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
