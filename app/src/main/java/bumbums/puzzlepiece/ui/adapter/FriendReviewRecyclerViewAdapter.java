@@ -40,7 +40,7 @@ import io.realm.RealmResults;
 public class FriendReviewRecyclerViewAdapter  extends
         RealmRecyclerViewAdapter<Friend, FriendReviewRecyclerViewAdapter.MyViewHolder>{
     private final TabReviewFragment tabReviewFragment;
-    private int mSelectedId;
+    private long mSelectedId;
 
 
     public FriendReviewRecyclerViewAdapter(TabReviewFragment tabReviewFragment, OrderedRealmCollection<Friend> data) {
@@ -65,7 +65,7 @@ public class FriendReviewRecyclerViewAdapter  extends
         FirebaseTasks.loadFriendPhoto(tabReviewFragment.getContext(),holder.data,holder.userProfileImage);
         // holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
-        if(mSelectedId == position)
+        if(mSelectedId == obj.getId())
             holder.border.setBackgroundResource(R.drawable.border_yellow);
         else
             holder.border.setBackgroundResource(R.drawable.border);
@@ -97,8 +97,14 @@ public class FriendReviewRecyclerViewAdapter  extends
 
         @Override
         public void onClick(View v) {
-            tabReviewFragment.settingClickedFriendLog(data.getId());
-            mSelectedId = getAdapterPosition();
+            if(mSelectedId == data.getId()) {
+                mSelectedId = -1;
+            }
+            else{
+                mSelectedId = data.getId();
+            }
+            tabReviewFragment.settingClickedFriendLog(mSelectedId);
+
             notifyDataSetChanged();
 
         }

@@ -121,7 +121,13 @@ public class TabReviewFragment extends Fragment{
     }
 
     public void settingClickedFriendLog(long friendId){
-        mReviewAdapter.updateData(getTodayFriendPuzzles(friendId));
+        if(friendId==-1){
+            mReviewAdapter.updateData(getTodayPuzzles());
+        }
+        else{
+            mReviewAdapter.updateData(getTodayFriendPuzzles(friendId));
+        }
+
 
     }
 

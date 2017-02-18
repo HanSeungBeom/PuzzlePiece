@@ -26,9 +26,12 @@
         android:layout_height="1dp"
         android:background="@color/Grey300"/>
     <fragment
-        android:name="bumbums.puzzlepiece.ui.TabReviewFragment"
+       android:name="bumbums.puzzlepiece.ui.TabReviewFragment"
+        android:id="@+id/review_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
+
     </fragment>
 
 </LinearLayout>

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import bumbums.puzzlepiece.R;
 
 import bumbums.puzzlepiece.model.Friend;
+import bumbums.puzzlepiece.task.NotificationService;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.util.Utils;
@@ -36,8 +37,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity implements
-TabLayout.OnTabSelectedListener
-{
+        TabLayout.OnTabSelectedListener {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -85,8 +85,8 @@ TabLayout.OnTabSelectedListener
         setContentView(R.layout.activity_main);
         //testFirebase();
 
-        mViewPager = (ViewPager)findViewById(R.id.pager);
-        mTestBtn = (Button)findViewById(R.id.testBtn);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mTestBtn = (Button) findViewById(R.id.testBtn);
         mTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +95,7 @@ TabLayout.OnTabSelectedListener
                 test();
             }
         });
-        mTabLayout = (TabLayout)findViewById(R.id.tab_layout);
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mAdapter = new TabAdapter(getSupportFragmentManager());
         mAdapter.addFragment(new TabFriendsFragment());
         mAdapter.addFragment(new TabMainRankFragment());
@@ -112,15 +112,13 @@ TabLayout.OnTabSelectedListener
         mTabLayout.getTabAt(3).setIcon(R.drawable.review_selector);
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        mFriendNum =(TextView)findViewById(R.id.tv_friend_num);
+        mFriendNum = (TextView) findViewById(R.id.tv_friend_num);
 
         mTabLayout.addOnTabSelectedListener(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        mTitle =(TextView)findViewById(R.id.tv_title);
-
-
+        mTitle = (TextView) findViewById(R.id.tv_title);
 
 
     }
@@ -148,13 +146,12 @@ TabLayout.OnTabSelectedListener
         super.onResume();
 
 
-
     }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         mViewPager.setCurrentItem(tab.getPosition());
-        switch (tab.getPosition()){
+        switch (tab.getPosition()) {
             case 0:
                 mTitle.setText("지인");
                 mFriendNum.setVisibility(View.VISIBLE);
@@ -192,11 +189,13 @@ TabLayout.OnTabSelectedListener
     public interface onKeyBackPressedListener {
         public void onBack();
     }
+
     private onKeyBackPressedListener mOnKeyBackPressedListener;
 
     public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
         mOnKeyBackPressedListener = listener;
     }
+
     @Override
     public void onBackPressed() {
         if (mOnKeyBackPressedListener != null) {
@@ -206,34 +205,10 @@ TabLayout.OnTabSelectedListener
         }
     }
 
-    public void test(){
+    public void test() {
+        Intent i = new Intent(this, NotificationService.class);
+        startService(i);
 
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pintent = PendingIntent.getActivity(this, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent intent1 = new Intent("Add_Puzzle");
-        intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pintent1 = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent intent2 = new Intent("Review_Puzzle");
-        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pintent2 = PendingIntent.getBroadcast(this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notify_always);
-
-        contentView.setOnClickPendingIntent(R.id.add_newpuzzle, pintent1);
-        contentView.setOnClickPendingIntent(R.id.review_today_puzzles,pintent2);
-
-        android.support.v4.app.NotificationCompat.Builder mBuilder=new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.puzzles_white)
-                .setContent(contentView)
-                .setContentIntent(pintent)
-                .setOngoing(true);
-
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(23, mBuilder.build());
 
 
     }
