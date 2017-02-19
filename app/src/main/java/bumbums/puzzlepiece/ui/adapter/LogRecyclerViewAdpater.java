@@ -51,7 +51,7 @@ public class LogRecyclerViewAdpater extends
         Realm realm = Realm.getDefaultInstance();
         Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,obj.getFriendId()).findFirst();
         FirebaseTasks.loadFriendPhoto(puzzleLogFragment.getContext(),friend,holder.photo);
-        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
+       // holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
 
         holder.name.setText(obj.getFriendName());
        //holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
@@ -69,10 +69,10 @@ public class LogRecyclerViewAdpater extends
 
         public ImageView photo;
         public Puzzle data;
-        public View colorView;
+        //public View colorView;
         public MyViewHolder(View view) {
             super(view);
-            colorView = (View)view.findViewById(R.id.color_view);
+           // colorView = (View)view.findViewById(R.id.color_view);
             photo = (ImageView)view.findViewById(R.id.iv_friend_photo);
             name = (TextView)view.findViewById(R.id.tv_row_log_name);
             time = (TextView)view.findViewById(R.id.tv_row_log_time);

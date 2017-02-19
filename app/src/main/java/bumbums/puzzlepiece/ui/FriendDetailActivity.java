@@ -140,8 +140,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         mAdapter.addFragment(new TabPuzzlesFragment());
         mAdapter.addFragment(new TabRankFragment());
-        //mAdapter.addFragment(new TabScheduleFragment());
-
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 

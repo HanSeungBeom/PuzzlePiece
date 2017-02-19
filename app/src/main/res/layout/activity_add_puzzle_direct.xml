@@ -121,7 +121,8 @@
         <EditText
             android:id="@+id/et_add_puzzle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="top"
             android:hint="무슨 얘기를 나누셨나요?"
             android:textColorHint="@color/Grey300"
             android:background="@null"/>

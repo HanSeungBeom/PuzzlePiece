@@ -54,19 +54,23 @@
 
         <service android:name=".task.NotificationService" />
 
-        <activity android:name=".ui.SettingActivity"
+        <activity
+            android:name=".ui.SettingActivity"
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="bumbums.puzzlepiece.ui.MainActivity" />
             >
         </activity>
+
         <receiver android:name=".receiver.RebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ui.LoginActivity" />
     </application>
 
 </manifest>
