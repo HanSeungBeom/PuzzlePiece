@@ -14,8 +14,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -52,39 +54,66 @@ public class SettingActivity extends AppCompatActivity
     private ProgressBar mLoginPb;
     private String userName;
     private String userToken;
+    private LinearLayout mLoginDetailView;
+    private TextView mLoginName;
+    private String mGoogleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         mContext = this;
-
+        mGoogleId = null;
         mLoginPb = (ProgressBar)findViewById(R.id.pb_login);
         mLoginSwitch = (SwitchCompat) findViewById(R.id.sw_login);
+        mLoginName = (TextView)findViewById(R.id.tv_login_name);
+        mNotiSwitch = (SwitchCompat) findViewById(R.id.sw_noti);
+        mLoginDetailView = (LinearLayout)findViewById(R.id.ll_login_detail);
+
         mLoginSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-                SharedPreferences.Editor editor = pref.edit();
-                if (isChecked) {
-                    login();
-                    editor.putBoolean(getString(R.string.pref_login), true);
-                } else {
-                    editor.putBoolean(getString(R.string.pref_login), false);
-                    logout();
+
+
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    boolean savedStatePref = pref.getBoolean(getString(R.string.pref_login), false);
+                    if (savedStatePref) {
+                        if (isChecked) {//값이 있는경우 그대로 출력
+                            mGoogleId = pref.getString(getString(R.string.pref_googleidkey), "-1");
+                            Log.d("###", "googleID=" + mGoogleId);
+                            setLoginData(pref.getString(getString(R.string.pref_googleidName), "-1"));
+                            mLoginDetailView.setVisibility(View.VISIBLE);
+                        } else {
+                            logout();
+                            mLoginDetailView.setVisibility(View.GONE);
+                        }
+                    } else {
+                        if (isChecked) {
+                            //사용자가 누른경우
+                            requestSignIn();
+                        } else {
+                            logout();
+                            mLoginDetailView.setVisibility(View.GONE);
+                        }
+                    }
+
+                    SharedPreferences.Editor editor = pref.edit();
+                    if (isChecked) {
+                        editor.putBoolean(getString(R.string.pref_login), true);
+                    } else {
+                        editor.putBoolean(getString(R.string.pref_login), false);
+                    }
+                    editor.commit();
                 }
-                editor.commit();
-            }
+
         });
         configureGoogleSignIn();
 
 
-        mNotiSwitch = (SwitchCompat) findViewById(R.id.sw_noti);
         mNotiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 SharedPreferences.Editor editor = pref.edit();
                 if (isChecked) {
@@ -107,6 +136,10 @@ public class SettingActivity extends AppCompatActivity
         init();
     }
 
+    public void setLoginData(String name){
+        mLoginName.setText(name);
+    }
+
     public void init(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.getBoolean(getString(R.string.pref_login),false)){
@@ -114,6 +147,7 @@ public class SettingActivity extends AppCompatActivity
         }
         else{
             mLoginSwitch.setChecked(false);
+            mLoginDetailView.setVisibility(View.GONE);
         }
 
         if(sharedPreferences.getBoolean(getString(R.string.pref_noti),false)){
@@ -141,30 +175,8 @@ public class SettingActivity extends AppCompatActivity
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public void login(){
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
-            // Not signed in, launch the Sign In activity
-            requestSignIn();
-            return;
-        } else {
-            if(mFirebaseUser.getDisplayName()!=null) {
-                Log.d("###", "name=" + mFirebaseUser.getDisplayName());
-
-                if (mFirebaseUser.getPhotoUrl() != null) {
-                    Log.d("###", "photoURL=" + mFirebaseUser.getPhotoUrl().toString());
-                }
-            }
-            else{
-                requestSignIn();
-            }
-        }
-
-    }
 
     public void logout(){
-        mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
     }
 
@@ -178,13 +190,29 @@ public class SettingActivity extends AppCompatActivity
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
+
+                Log.d("###",account.getId()+"accountID");
+                setGoogleIdToSharedPreference(account.getId(),account.getDisplayName());
+                hidePbLogin();
+                mGoogleId=account.getId();
+                setLoginData(account.getDisplayName());
+                mLoginDetailView.setVisibility(View.VISIBLE);
             } else {
                 hidePbLogin();
+                mGoogleId=null;
                 mLoginSwitch.setChecked(false);
+                mLoginDetailView.setVisibility(View.GONE);
                 Log.e("###", "Google Sign In failed.");
             }
         }
+    }
+
+    public void setGoogleIdToSharedPreference(String id,String name){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        editor.putString(getString(R.string.pref_googleidkey),id);
+        editor.putString(getString(R.string.pref_googleidName),name);
+        editor.commit();
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -194,19 +222,20 @@ public class SettingActivity extends AppCompatActivity
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        hidePbLogin();
+
+
                         Log.d("###", "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            mLoginSwitch.setChecked(false);
+
                             Log.w("###", "signInWithCredential", task.getException());
                             Toast.makeText(SettingActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-
+                            //setLoginData(mFirebaseUser.getDisplayName());
                         }
                     }
                 });
