@@ -1,9 +1,12 @@
 package bumbums.puzzlepiece.util;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +36,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -41,6 +45,7 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.MainActivity;
+import bumbums.puzzlepiece.ui.SettingActivity;
 import io.realm.Realm;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -226,7 +231,6 @@ public class Utils {
                 Log.d("###","filenot");
                 e.printStackTrace();
             } catch (Exception e) {
-                Log.d("###","e");
 
                 e.printStackTrace();
             }
@@ -319,6 +323,22 @@ public class Utils {
     public static void cancelNotification(Context context,int id){
         NotificationManager notificationmanager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         notificationmanager.cancel(id);
+    }
+
+    public static void restartApp(Context context){
+        Intent mStartActivity = new Intent(context, MainActivity.class);
+        int mPendingIntentId = 123456;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+    }
+
+    public static String getDateFromMilli(Long milli){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milli);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd (HH:mm)");
+        return new String(sdf.format(calendar.getTime()));
     }
 
 }

@@ -11,12 +11,29 @@ import android.support.v4.app.ActivityCompat;
  */
 
 public class AppPermissions {
-    public static final String[] VIDEO_PERMISSIONS = {
+    public static final String[] PHOTO_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
+    public static final String[] BACKUP_PERMISSIONS = {
 
-    public static boolean hasPermissionsGranted(Context context) {
-        for (String permission : VIDEO_PERMISSIONS) {
+
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+
+    public static boolean hasPhotoPermissionsGranted(Context context) {
+        for (String permission : PHOTO_PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean hasBackupPermissionsGranted(Context context){
+        for (String permission : BACKUP_PERMISSIONS) {
             if (ActivityCompat.checkSelfPermission(context, permission)
                     != PackageManager.PERMISSION_GRANTED) {
                 return false;

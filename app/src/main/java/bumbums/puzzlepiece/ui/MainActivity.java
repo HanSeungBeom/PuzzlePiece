@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements
     private TabAdapter mAdapter;
 
     private Button mTestBtn;
+    public static MainActivity mMainActivity;
+
     /*
     FirebaseAuth mAuth;
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mMainActivity = this;
         //testFirebase();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -182,6 +185,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+    public void aaa(View view) {
 
     }
 

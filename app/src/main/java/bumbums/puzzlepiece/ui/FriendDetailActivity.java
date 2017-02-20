@@ -8,12 +8,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,19 +34,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
-import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.AppPermissions;
-import bumbums.puzzlepiece.util.CircleTransform;
 import bumbums.puzzlepiece.task.FirebaseTasks;
-import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
@@ -399,7 +391,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
     public void addFriendPhoto() {
 
-        if (AppPermissions.hasPermissionsGranted(this)) {
+        if (AppPermissions.hasPhotoPermissionsGranted(this)) {
             final CharSequence[] items = {"사진촬영", "갤러리선택"};
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("프로필 사진");

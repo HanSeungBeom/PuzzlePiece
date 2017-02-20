@@ -11,18 +11,22 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.util.CircleTransform;
+import bumbums.puzzlepiece.util.RealmBackupRestore;
 import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
+import io.realm.RealmObjectSchema;
 import io.realm.RealmResults;
 
 /**
@@ -228,6 +232,60 @@ public class FirebaseTasks {
                     .into(iv);
         }
 
+    }
+
+    public static void upLoadRealmFile(String googleId,Uri realmFileUri){
+        StorageReference storage = FirebaseStorage.getInstance().getReference();
+        final StorageReference filePath_ = storage.child("UserRealm/" + googleId+"/"+RealmBackupRestore.EXPORT_REALM_FILE_NAME);
+
+        filePath_.putFile( realmFileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Log.d("###", "uploadDone");
+                Log.d("###", "SERVICE FILEPATH=" + filePath_);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("###", "uploadFailure");
+
+            }
+        });
+    }
+
+
+   public static void loadBackupDataFromFirebase(final Context context, final String googleId, final RealmBackupRestore realmBackupRestore){
+        StorageReference storage = FirebaseStorage.getInstance().getReference();
+        StorageReference targetPath_ = storage.child("UserRealm/" + googleId+"/"+RealmBackupRestore.EXPORT_REALM_FILE_NAME);
+
+        final File file = new File(context.getFilesDir(),"puzzle_piece.realm");
+        try {
+            file.createNewFile();
+            targetPath_.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("###", googleId + "폰으로 저장완료");
+                    //저장 성공했을시 복구하고 앱 재시작.
+                    realmBackupRestore.restore();
+                    Utils.restartApp(context);
+                    // Local temp file has been created
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.d("###", googleId + "폰으로 저장실패");
+                    Toast.makeText(context,context.getString(R.string.restore_failure),Toast.LENGTH_SHORT).show();
+                    if(!Utils.isInternetConnected(context)) {
+                        Toast.makeText(context,"인터넷 연결이 안되어있습니다. 다시 시도해주세요",Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
