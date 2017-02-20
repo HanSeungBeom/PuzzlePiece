@@ -408,17 +408,13 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                                 startActivityForResult(i, GALLERY_MODE);
                             }
 
-                          /*  Toast.makeText(getApplicationContext(),
-                                    items[id] + " 선택했습니다.",
-                                    Toast.LENGTH_SHORT).show();*/
                             dialog.dismiss();
                         }
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         } else {
-            //TODO 메세지 바꾸기
-            Toast.makeText(this, R.string.permission_deny, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.permission_deny), Toast.LENGTH_SHORT).show();
             setUpTedPermission();
         }
     }

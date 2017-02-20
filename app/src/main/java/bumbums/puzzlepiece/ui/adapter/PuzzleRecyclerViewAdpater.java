@@ -24,7 +24,7 @@ import io.realm.RealmRecyclerViewAdapter;
  */
 
 public class PuzzleRecyclerViewAdpater  extends
-        RealmRecyclerViewAdapter<Puzzle, PuzzleRecyclerViewAdpater.MyViewHolder> {
+        RealmRecyclerViewAdapter<Puzzle, PuzzleRecyclerViewAdpater.MyViewHolder>  {
     private final TabPuzzlesFragment tabPuzzlesFragment;
     public static final String EXTRA_PUZZLE_ID = "puzzle_id";
 

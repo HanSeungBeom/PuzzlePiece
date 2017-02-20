@@ -10,6 +10,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -40,8 +41,10 @@ import static android.app.Activity.RESULT_OK;
  * Created by han sb on 2017-02-08.
  */
 
-public class TabFriendsFragment extends android.support.v4.app.Fragment implements View.OnClickListener,
-MainActivity.onKeyBackPressedListener{
+public class TabFriendsFragment extends android.support.v4.app.Fragment implements
+        View.OnClickListener,
+MainActivity.onKeyBackPressedListener
+       {
     public static final int PICK_PHONE_DATA=1;
     private RecyclerView mRecyclerView;
     private Realm realm;
@@ -109,12 +112,19 @@ MainActivity.onKeyBackPressedListener{
                 else{
                     mAdapter.updateData(realm.where(Friend.class).findAllAsync());
                     mClear.setVisibility(View.INVISIBLE);
-                    Utils.hideKeyboard((MainActivity)getActivity());
+
                 }
             }
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        mRecyclerView.addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Utils.hideKeyboard(getContext(),mSearchText);
+                super.onScrollStateChanged(recyclerView, newState);
             }
         });
         return view;
@@ -161,6 +171,7 @@ MainActivity.onKeyBackPressedListener{
                 builder.setTitle("지인 추가")
                         .setIcon(R.drawable.ic_user_puzzle)
                         .setView(dialogView)
+                        .setCancelable(true)
                         .setPositiveButton("등록", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -191,8 +202,8 @@ MainActivity.onKeyBackPressedListener{
             case R.id.clear:
                 mSearchText.setText("");
                 mClear.setVisibility(View.INVISIBLE);
-                Utils.hideKeyboard((MainActivity)getActivity());
-                //TODO 키보드 숨기기 안됨..
+
+
                 break;
 
 

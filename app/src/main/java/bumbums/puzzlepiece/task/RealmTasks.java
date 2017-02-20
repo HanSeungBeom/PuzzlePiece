@@ -12,12 +12,13 @@ public class RealmTasks {
     public static void addFriend(final String name, final String phone, final String relation){
         Realm realm = Realm.getDefaultInstance();
         final long id = Utils.getNextKeyFriend(realm);
+        final String newPhoneNumber = phone.replace("-","");
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Friend friend = realm.createObject(Friend.class, id);
                 friend.setName(name);
-                friend.setPhoneNumber(phone);
+                friend.setPhoneNumber(newPhoneNumber);
                 friend.setRelation(relation);
             }
         });

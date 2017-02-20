@@ -2,6 +2,7 @@ package bumbums.puzzlepiece.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -67,6 +69,7 @@ public class SettingActivity extends AppCompatActivity implements
 
     SwitchCompat mLoginSwitch;
     SwitchCompat mNotiSwitch;
+    SwitchCompat mCallingSwitch;
     Context mContext;
     Button mBackupBtn, mRestoreBtn;
 
@@ -92,6 +95,8 @@ public class SettingActivity extends AppCompatActivity implements
         mLoginSwitch = (SwitchCompat) findViewById(R.id.sw_login);
         mLoginName = (TextView) findViewById(R.id.tv_login_name);
         mNotiSwitch = (SwitchCompat) findViewById(R.id.sw_noti);
+        mCallingSwitch = (SwitchCompat)findViewById(R.id.sw_calling);
+
         mLoginDetailView = (LinearLayout) findViewById(R.id.ll_login_detail);
         mBackupBtn = (Button) findViewById(R.id.btn_backup);
         mRestoreBtn = (Button) findViewById(R.id.btn_restore);
@@ -99,6 +104,7 @@ public class SettingActivity extends AppCompatActivity implements
         configureGoogleSignIn();
         mLoginSwitch.setOnCheckedChangeListener(this);
         mNotiSwitch.setOnCheckedChangeListener(this);
+        mCallingSwitch.setOnCheckedChangeListener(this);
         mBackupBtn.setOnClickListener(this);
         mRestoreBtn.setOnClickListener(this);
 
@@ -133,7 +139,7 @@ public class SettingActivity extends AppCompatActivity implements
             }
         }
     }
-//TODO 불러올때 경고창 띄우기
+
     public void init() {
         if(!Utils.isInternetConnected(this)){
             mRestoreBtn.setEnabled(false);
@@ -159,6 +165,12 @@ public class SettingActivity extends AppCompatActivity implements
             mNotiSwitch.setChecked(false);
         }
 
+        if(sharedPreferences.getBoolean(getString(R.string.pref_calling),false)){
+            mCallingSwitch.setChecked(true);
+        }
+        else{
+            mCallingSwitch.setChecked(false);
+        }
 
     }
 
@@ -290,7 +302,28 @@ public class SettingActivity extends AppCompatActivity implements
                 editor.commit();
             }
             break;
+            case R.id.sw_calling:{
+                Log.d("###","컴");
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+                SharedPreferences.Editor editor = pref.edit();
+                if (isChecked) {
+                    if(AppPermissions.hasCallingPermissionsGranted(this)){
+                        Log.d("###","허가");
+                        editor.putBoolean(getString(R.string.pref_calling), true);
+                    }
+                    else{
+                        Log.d("###","불허");
+                        setUpTedPermissionForCalling();
+                        mCallingSwitch.setChecked(false);
+                    }
 
+                } else {
+                    Log.d("###","NO");
+                    editor.putBoolean(getString(R.string.pref_calling), false);
+                }
+                editor.commit();
+            }
+                break;
         }
     }
 
@@ -302,24 +335,47 @@ public class SettingActivity extends AppCompatActivity implements
                     Uri backupFileUri = mRealmBackupRestore.backup(mGoogleId);
                     upLoadRealmFile(backupFileUri);
                 } else {
-                    setUpTedPermission();
+                    setUpTedPermissionForBackup();
                 }
 
                 break;
             case R.id.btn_restore:
                 if (AppPermissions.hasBackupPermissionsGranted(this)) {
-                    MainActivity.mMainActivity.finish();
-                    FirebaseTasks.loadBackupDataFromFirebase(this, mGoogleId, mRealmBackupRestore);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("백업 파일 불러오기")
+                            .setMessage(getString(R.string.restore))
+                            .setCancelable(true)
+                            .setIcon(R.drawable.ic_user_puzzle)
+
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                                // 확인 버튼 클릭시 설정
+                                public void onClick(DialogInterface dialog, int whichButton){
+                                    MainActivity.mMainActivity.finish();
+                                    FirebaseTasks.loadBackupDataFromFirebase(SettingActivity.this, mGoogleId, mRealmBackupRestore);
+                                }
+                            })
+                            .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                                // 취소 버튼 클릭시 설정
+                                public void onClick(DialogInterface dialog, int whichButton){
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                    dialog.show();
+
+
 
                 } else {
-                    setUpTedPermission();
+                    setUpTedPermissionForBackup();
                 }
 
                 break;
         }
     }
 
-    public void setUpTedPermission() {
+    public void setUpTedPermissionForBackup() {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -341,6 +397,32 @@ public class SettingActivity extends AppCompatActivity implements
                 .setPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                .check();
+    }
+
+    public void setUpTedPermissionForCalling() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(SettingActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(SettingActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("you need permission call state for calling option.")
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setGotoSettingButtonText("setting")
+                .setPermissions(
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.PROCESS_OUTGOING_CALLS
                 )
                 .check();
     }

@@ -312,13 +312,23 @@ public class Utils {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    public static void hideKeyboard(MainActivity mainActivity){
-        View view = mainActivity.getCurrentFocus();
+    public static void hideKeyboard(Context context,EditText et){
+
+        if (et != null) {
+            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+        }
+    }
+
+    public static void hideKeyboard(MainActivity activity){
+        View view= activity.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+
 
     public static void cancelNotification(Context context,int id){
         NotificationManager notificationmanager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);

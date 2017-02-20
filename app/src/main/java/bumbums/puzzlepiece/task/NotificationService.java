@@ -41,7 +41,7 @@ public class NotificationService extends IntentService {
 
 
         android.support.v4.app.NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.puzzles_white)
+                .setSmallIcon(R.drawable.puzzles_blue)
                 .setContentIntent(pIntentAddPuzzle)
                 .setContentIntent(pIntentReviewPuzzle)
                 .setContent(remoteViews)

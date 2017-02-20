@@ -15,10 +15,12 @@ public class AppPermissions {
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     public static final String[] BACKUP_PERMISSIONS = {
-
-
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    public static final String[] CALLING_PERMISSIONS={
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS
     };
 
 
@@ -34,6 +36,17 @@ public class AppPermissions {
 
     public static boolean hasBackupPermissionsGranted(Context context){
         for (String permission : BACKUP_PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public static boolean hasCallingPermissionsGranted(Context context){
+        for (String permission : CALLING_PERMISSIONS) {
             if (ActivityCompat.checkSelfPermission(context, permission)
                     != PackageManager.PERMISSION_GRANTED) {
                 return false;

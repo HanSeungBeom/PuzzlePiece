@@ -63,8 +63,11 @@ public class TabPuzzlesFragment extends Fragment {
         if(context instanceof FriendDetailActivity){
             FriendDetailActivity friendDetailActivity = (FriendDetailActivity)context;
             Intent intent = friendDetailActivity.getIntent();
+
             mFriendId = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID,-1);
+
         }
+
 
     }
 

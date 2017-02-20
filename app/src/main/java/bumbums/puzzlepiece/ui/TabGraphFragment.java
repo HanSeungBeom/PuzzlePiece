@@ -54,7 +54,7 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
     private TextView mTotalView,mTodayView;
     private Calendar mToday;
 
-    //TODO 레이아웃 짤리는거 해결
+
     public static final int X_COUNT = 8;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
