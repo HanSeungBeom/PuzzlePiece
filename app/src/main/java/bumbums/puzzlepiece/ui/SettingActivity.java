@@ -133,7 +133,7 @@ public class SettingActivity extends AppCompatActivity implements
             }
         }
     }
-
+//TODO 불러올때 경고창 띄우기
     public void init() {
         if(!Utils.isInternetConnected(this)){
             mRestoreBtn.setEnabled(false);

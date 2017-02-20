@@ -25,11 +25,13 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.task.RealmTasks;
 import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 import static android.app.Activity.RESULT_OK;
@@ -49,14 +51,26 @@ MainActivity.onKeyBackPressedListener{
     private Context mContext;
     private EditText mSearchText;
     private ImageView mClear;
-
-
+    private LinearLayout mEmptyView;
+    private RealmResults<Friend> friends;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         mAdapter =new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync());
         mContext = getActivity();
+        friends = realm.where(Friend.class).findAllAsync();
+        friends.addChangeListener(new RealmChangeListener<RealmResults<Friend>>() {
+            @Override
+            public void onChange(RealmResults<Friend> element) {
+                if(element.size()==0){
+                    showEmptyView();
+                }
+                else{
+                    hideEmptyView();
+                }
+            }
+        });
     }
 
 
@@ -69,7 +83,7 @@ MainActivity.onKeyBackPressedListener{
         mClear = (ImageView)view.findViewById(R.id.clear);
         mClear.setOnClickListener(this);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_friends);
-
+        mEmptyView = (LinearLayout)view.findViewById(R.id.empty_view);
         setUpRecyclerView();
         //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.dimen4);
        // mRecyclerView.addItemDecoration(itemDecoration);
@@ -140,9 +154,9 @@ MainActivity.onKeyBackPressedListener{
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.fab_new_register:
+            case R.id.fab_new_register: {
                 LayoutInflater inflater = getLayoutInflater(null);
-                final View dialogView = inflater.inflate(R.layout.activity_add_friend,null);
+                final View dialogView = inflater.inflate(R.layout.activity_add_friend, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("지인 추가")
                         .setIcon(R.drawable.ic_user_puzzle)
@@ -150,25 +164,24 @@ MainActivity.onKeyBackPressedListener{
                         .setPositiveButton("등록", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                EditText name = (EditText)dialogView.findViewById(R.id.et_add_friend_name);
-                                EditText phone = (EditText)dialogView.findViewById(R.id.et_add_friend_phone);
-                                EditText relation = (EditText)dialogView.findViewById(R.id.et_add_friend_relation);
-                                addFriend(name.getText().toString(), phone.getText().toString(),relation.getText().toString());
+                                EditText name = (EditText) dialogView.findViewById(R.id.et_add_friend_name);
+                                EditText phone = (EditText) dialogView.findViewById(R.id.et_add_friend_phone);
+                                EditText relation = (EditText) dialogView.findViewById(R.id.et_add_friend_relation);
+                                RealmTasks.addFriend(name.getText().toString(), phone.getText().toString(), relation.getText().toString());
                             }
                         })
-                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
+                            }
+                        });
 
-                AlertDialog dialog=builder.create();
+                AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-                dialog.getWindow().setLayout(600,900);
-
-
+                dialog.getWindow().setLayout(600, 900);
+            }
                 fab.collapse();
                 break;
             case R.id.fab_load_phonebook:
@@ -190,21 +203,7 @@ MainActivity.onKeyBackPressedListener{
         }
     }
 
-    public void addFriend(final String name, final String phone, final String relation){
-        final long id = Utils.getNextKeyFriend(realm);
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Friend friend = realm.createObject(Friend.class, id);
-                friend.setName(name);
-                friend.setPhoneNumber(phone);
-                friend.setRelation(relation);
 
-                //Log.d("###",friend.getId()+friend.getName()+friend.getPhoneNumber());
-            }
-        });
-        Toast.makeText(getContext(),"id="+id+" created",Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -218,7 +217,7 @@ MainActivity.onKeyBackPressedListener{
                     cursor.moveToFirst();
                     String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
                     String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
-                    addFriend(name,phone,"null");
+                    RealmTasks.addFriend(name,phone,"null");
                     cursor.close();
                     break;
                 default:
@@ -259,5 +258,11 @@ MainActivity.onKeyBackPressedListener{
 
     }
 
+    public void showEmptyView(){
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+    public void hideEmptyView(){
+        mEmptyView.setVisibility(View.INVISIBLE);
+    }
 
 }

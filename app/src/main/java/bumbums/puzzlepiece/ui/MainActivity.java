@@ -47,41 +47,9 @@ public class MainActivity extends AppCompatActivity implements
     private TextView mTitle;
     private Realm realm;
     private TabAdapter mAdapter;
+    private RealmResults<Friend> results;
 
-    private Button mTestBtn;
     public static MainActivity mMainActivity;
-
-    /*
-    FirebaseAuth mAuth;
-
-    @Override
-    protected void onStart() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            // do your stuff
-        } else {
-            signInAnonymously();
-        }
-        super.onStart();
-    }
-    private void signInAnonymously() {
-        mAuth.signInAnonymously().addOnSuccessListener(this, new  OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                // do your stuff
-            }
-        })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e("###", "signInAnonymously:FAILURE", exception);
-                    }
-                });
-    }
-    public void testFirebase(){
-        mAuth = FirebaseAuth.getInstance();
-    }
-    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        //onCreate 에 하면 이상하게 안됨. listener 를 못찾음
+
         realm = Realm.getDefaultInstance();
 
-        final RealmResults<Friend> results = realm.where(Friend.class)
+        results = realm.where(Friend.class)
                 .findAllAsync();
 
         results.addChangeListener(new RealmChangeListener<RealmResults<Friend>>() {
@@ -171,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case 3:
                 Utils.hideKeyboard(this);
-                mTitle.setText("오늘 등록한 퍼즐");
+                mTitle.setText("오늘의 퍼즐");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
 
@@ -187,11 +155,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
-
-    public void aaa(View view) {
-
-    }
-
 
     public interface onKeyBackPressedListener {
         public void onBack();

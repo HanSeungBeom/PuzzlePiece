@@ -55,13 +55,46 @@
             android:id="@+id/rv_friends"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/Grey50"
+            android:background="@color/blueGrey50"
             android:clipToPadding="false"
             android:padding="3dp"
 
             ></android.support.v7.widget.RecyclerView>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:background="@color/blueGrey50">
+        <ImageView
+            android:src="@drawable/tab_friends_on"
+            android:tint="@color/Grey500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:paddingTop="10dp"
+            android:textColor="@color/Grey700"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@string/no_friend_data"
+            android:textSize="17dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="13dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/Grey500"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@string/no_friend_data_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+
+    </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab"

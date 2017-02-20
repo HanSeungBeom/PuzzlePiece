@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
@@ -31,6 +32,7 @@ public class TabRankFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         realm = Realm.getDefaultInstance();
 
         realm.executeTransactionAsync(new Realm.Transaction() {

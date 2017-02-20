@@ -3,7 +3,14 @@ package bumbums.puzzlepiece.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.PersistableBundle;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +32,14 @@ import android.widget.Toast;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
+import bumbums.puzzlepiece.task.RealmTasks;
 import bumbums.puzzlepiece.ui.adapter.FriendAddDirectAdapter;
 import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
+
+import static bumbums.puzzlepiece.ui.TabFriendsFragment.PICK_PHONE_DATA;
 
 public class AddPuzzleDirectActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -40,6 +53,9 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
     private EditText mText;
     private ImageView mPuzzle;
     private Friend mFriend;
+    private FloatingActionButton mFab;
+    private LinearLayout mEmptyView;
+    private RealmResults<Friend> friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +70,9 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
         mSearchTab = (LinearLayout)findViewById(R.id.ll_search_zone);
         mPuzzle = (ImageView)findViewById(R.id.iv_puzzle);
         mSearch=(EditText)findViewById(R.id.et_search);
+        mFab = (FloatingActionButton)findViewById(R.id.fab);
+        mEmptyView = (LinearLayout)findViewById(R.id.empty_view);
+        mFab.setOnClickListener(this);
         mSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -103,6 +122,19 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
         mClear =(ImageView)findViewById(R.id.clear);
         mClear.setOnClickListener(this);
         mAdapter = new FriendAddDirectAdapter(this, realm.where(Friend.class).findAllAsync());
+        friends = realm.where(Friend.class).findAllAsync();
+        friends.addChangeListener(new RealmChangeListener<RealmResults<Friend>>() {
+            @Override
+            public void onChange(RealmResults<Friend> element) {
+                if(element.size()==0){
+                    showEmptyView();
+                }
+                else{
+                    hideEmptyView();
+                }
+            }
+        });
+
         setUpRecyclerView();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -179,6 +211,54 @@ public void hideKeyboard(){
                 mSearch.setText("");
                 mClear.setVisibility(View.INVISIBLE);
                 break;
+            case R.id.fab:
+                final CharSequence[] items = {"새로 등록하기", "전화번호부로 등록하기"};
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("지인 추가");
+                alertDialogBuilder.setItems(items,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int id) {
+                                if (id == 0) { //새로등록하기
+                                    {
+                                        LayoutInflater inflater = getLayoutInflater();
+                                    final View dialogView = inflater.inflate(R.layout.activity_add_friend, null);
+                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AddPuzzleDirectActivity.this);
+                                    builder.setTitle("지인 추가")
+                                            .setIcon(R.drawable.ic_user_puzzle)
+                                            .setView(dialogView)
+                                            .setPositiveButton("등록", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    EditText name = (EditText) dialogView.findViewById(R.id.et_add_friend_name);
+                                                    EditText phone = (EditText) dialogView.findViewById(R.id.et_add_friend_phone);
+                                                    EditText relation = (EditText) dialogView.findViewById(R.id.et_add_friend_relation);
+                                                    RealmTasks.addFriend(name.getText().toString(), phone.getText().toString(), relation.getText().toString());
+                                                }
+                                            })
+                                            .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            });
+
+                                    android.app.AlertDialog dialog1 = builder.create();
+                                        dialog1.setCanceledOnTouchOutside(false);
+                                        dialog1.show();
+                                        dialog1.getWindow().setLayout(600, 900);
+                                    }
+                                } else if (id == 1) { //전화번호부 등록하기
+                                    Intent intent = new Intent(Intent.ACTION_PICK);
+                                    intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                                    startActivityForResult(intent, PICK_PHONE_DATA);
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                break;
         }
     }
 
@@ -200,4 +280,33 @@ public void hideKeyboard(){
         mSearchTab.setVisibility(View.GONE);
         mName.setText(name);
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK)
+        {
+            switch (requestCode){
+                case PICK_PHONE_DATA:
+                    Cursor cursor = getContentResolver().query(data.getData(),
+                            new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                    cursor.moveToFirst();
+                    String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
+                    String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
+                    RealmTasks.addFriend(name,phone,"null");
+                    cursor.close();
+                    break;
+                default:
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    public void showEmptyView(){
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+    public void hideEmptyView(){
+        mEmptyView.setVisibility(View.INVISIBLE);
+    }
+
 }

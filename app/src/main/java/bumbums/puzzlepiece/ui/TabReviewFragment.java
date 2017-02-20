@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ import bumbums.puzzlepiece.ui.adapter.FriendReviewRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.ReviewRecyclerViewAdapter;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -38,15 +40,28 @@ public class TabReviewFragment extends Fragment{
     private RecyclerView mReviewRecyclerView;
     private RecyclerView mFriendRecyclerView;
     private Realm realm;
+    private LinearLayout mEmptyView;
     private ReviewRecyclerViewAdapter mReviewAdapter;
     private FriendReviewRecyclerViewAdapter mFriendAdapter;
+    private RealmResults<Friend> todayFriends;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-
+        todayFriends = getTodayFriend();
+        todayFriends.addChangeListener(new RealmChangeListener<RealmResults<Friend>>() {
+            @Override
+            public void onChange(RealmResults<Friend> element) {
+                if(element.size()==0){
+                    showEmptyView();
+                }
+                else{
+                    hideEmptyView();
+                }
+            }
+        });
         mFriendAdapter = new FriendReviewRecyclerViewAdapter(this, getTodayFriend());
         mReviewAdapter = new ReviewRecyclerViewAdapter(this, getTodayPuzzles());
 
@@ -135,6 +150,7 @@ public class TabReviewFragment extends Fragment{
         View view = inflater.inflate(R.layout.tab_review, container,false);
         mReviewRecyclerView =(RecyclerView) view.findViewById(R.id.rv_review);
         mFriendRecyclerView =(RecyclerView) view.findViewById(R.id.rv_review_friend);
+        mEmptyView = (LinearLayout)view.findViewById(R.id.empty_view);
         setUpRecyclerView();
         return view;
     }
@@ -147,5 +163,11 @@ public class TabReviewFragment extends Fragment{
         mReviewRecyclerView.setAdapter(mReviewAdapter);
         mReviewRecyclerView.setHasFixedSize(true);
 
+    }
+    public void showEmptyView(){
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+    public void hideEmptyView(){
+        mEmptyView.setVisibility(View.INVISIBLE);
     }
 }

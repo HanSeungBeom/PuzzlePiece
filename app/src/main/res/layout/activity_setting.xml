@@ -84,10 +84,6 @@
 
 </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/Grey300"/>
 <LinearLayout
     android:id="@+id/ll_login_detail"
     android:layout_width="match_parent"
