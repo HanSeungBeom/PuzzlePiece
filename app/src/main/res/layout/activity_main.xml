@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/Grey50"
+            android:background="@color/white"
 
             >
 
@@ -37,7 +37,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:src="@drawable/setting_selector"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"
+                />
 
             </android.support.v7.widget.Toolbar>
         <View
@@ -51,7 +58,7 @@
             android:layout_height="40dp"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabSelectedTextColor="@color/colorPrimary"
-            android:background="@color/Grey50"
+            android:background="@color/white"
             />
         <View
             android:layout_width="match_parent"

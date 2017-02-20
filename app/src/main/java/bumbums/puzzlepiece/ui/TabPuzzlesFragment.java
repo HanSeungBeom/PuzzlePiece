@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
@@ -19,6 +20,7 @@ import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -31,7 +33,8 @@ public class TabPuzzlesFragment extends Fragment {
     private Realm realm;
     private PuzzleRecyclerViewAdpater mAdapter;
     private Long mFriendId;
-
+    private LinearLayout mEmptyView;
+    private RealmResults<Puzzle> puzzles;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +42,18 @@ public class TabPuzzlesFragment extends Fragment {
         realm = Realm.getDefaultInstance();
        // Log.d("###",mFriendId.toString());
         mAdapter =new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllSortedAsync(Puzzle.DATE_TO_MILLISECONDS,Sort.DESCENDING));
+        puzzles = realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllAsync();
+        puzzles.addChangeListener(new RealmChangeListener<RealmResults<Puzzle>>() {
+            @Override
+            public void onChange(RealmResults<Puzzle> element) {
+                if(element.size()==0){
+                    showEmptyView();
+                }
+                else{
+                    hideEmptyView();
+                }
+            }
+        });
 
     }
 
@@ -58,6 +73,7 @@ public class TabPuzzlesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_puzzles, container,false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_puzzles);
+        mEmptyView = (LinearLayout)view.findViewById(R.id.empty_view);
         setUpRecyclerView();
         return view;
     }
@@ -83,5 +99,11 @@ public class TabPuzzlesFragment extends Fragment {
         });
 
        // Toast.makeText(getContext(),"id="+id+" deleted",Toast.LENGTH_SHORT).show();
+    }
+    public void showEmptyView(){
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+    public void hideEmptyView(){
+        mEmptyView.setVisibility(View.INVISIBLE);
     }
 }

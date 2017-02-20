@@ -96,27 +96,6 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
             }
         });
         mText = (EditText) findViewById(R.id.et_add_puzzle);
-        mText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(mText.length()!=0){
-                    mPuzzle.setImageResource(R.drawable.puzzles_blue);
-                }
-                else{
-                    mPuzzle.setImageResource(R.drawable.puzzles_gray);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         mName = (TextView)findViewById(R.id.tv_name);
         mName.setOnClickListener(this);
         mClear =(ImageView)findViewById(R.id.clear);

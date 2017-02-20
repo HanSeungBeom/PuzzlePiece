@@ -3,7 +3,6 @@ package bumbums.puzzlepiece.task;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
@@ -39,25 +38,20 @@ public class NotificationService extends IntentService {
         reviewPuzzleintent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pIntentReviewPuzzle = PendingIntent.getActivity(this,1,reviewPuzzleintent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent mainintent = new Intent(this,MainActivity.class);
-        mainintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mainintent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pIntentMain = PendingIntent.getActivity(this,1,mainintent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         android.support.v4.app.NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.puzzles_white)
                 .setContentIntent(pIntentAddPuzzle)
                 .setContentIntent(pIntentReviewPuzzle)
-                .setContentIntent(pIntentMain)
                 .setContent(remoteViews)
                 .setOngoing(true);
 
 
         remoteViews.setImageViewResource(R.id.add_newpuzzle,R.drawable.ic_noti_puzzle1);
         remoteViews.setImageViewResource(R.id.review_today_puzzles,R.drawable.ic_noti_review1);
-        remoteViews.setOnClickPendingIntent(R.id.add_newpuzzle,pIntentAddPuzzle);
-        remoteViews.setOnClickPendingIntent(R.id.review_today_puzzles,pIntentReviewPuzzle);
+        remoteViews.setOnClickPendingIntent(R.id.ll_new_puzzle,pIntentAddPuzzle);
+        remoteViews.setOnClickPendingIntent(R.id.ll_review_puzzle,pIntentReviewPuzzle);
         NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationmanager.notify(NOTIFICATION_CODE, builder.build());
 

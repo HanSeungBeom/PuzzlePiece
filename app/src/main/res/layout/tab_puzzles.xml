@@ -11,10 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:background="@color/Grey100"
+        android:background="@color/blueGrey50"
         android:padding="3dp"
         >
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:gravity="center"
+        android:background="@color/blueGrey50">
+        <ImageView
+            android:src="@drawable/ic_puzzles_grey"
+            android:tint="@color/Grey500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:textSize="13dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/Grey500"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@string/no_puzzle_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
 
 </FrameLayout>
 

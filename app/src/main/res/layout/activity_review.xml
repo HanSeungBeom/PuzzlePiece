@@ -7,15 +7,18 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
+        android:layout_height="45dp"
+        android:background="@color/material_amber">
         <ImageView
+            android:tint="@color/white"
             android:src="@drawable/ic_noti_review1"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"/>
         <TextView
-            android:text="오늘 등록한 퍼즐들"
+            android:text="오늘 작성한 퍼즐들"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

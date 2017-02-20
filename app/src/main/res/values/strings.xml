@@ -38,5 +38,7 @@
     <string name="no_today_puzzle_detail">소중한 지인의 퍼즐을 등록해 보세요!</string>
     <string name="no_friend_direct_puzzle">퍼즐을 저정할 수 있는 지인이 없습니다.</string>
     <string name="no_friend_direct_puzzle_detail">버튼을 눌러 지인을 추가하세요!</string>
+    <string name="no_puzzle">퍼즐이 없어요 ㅠ_ㅠ.</string>
+    <string name="no_puzzle_detail">지인의 첫 퍼즐을 등록해 보세요!</string>
 
 </resources>

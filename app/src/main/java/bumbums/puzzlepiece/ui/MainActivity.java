@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -48,13 +49,21 @@ public class MainActivity extends AppCompatActivity implements
     private Realm realm;
     private TabAdapter mAdapter;
     private RealmResults<Friend> results;
-
+    private ImageView mSettingBtn;
     public static MainActivity mMainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSettingBtn= (ImageView)findViewById(R.id.iv_setting);
+        mSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(i);
+            }
+        });
         mMainActivity = this;
         //testFirebase();
 
@@ -181,21 +190,4 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_setting:
-                Intent i = new Intent(MainActivity.this, SettingActivity.class);
-                startActivity(i);
-                break;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

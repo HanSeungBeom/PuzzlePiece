@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="100dp"
     android:background="@color/white"
     android:elevation="1dp"
 
@@ -27,15 +27,14 @@
         <TextView
             android:id="@+id/tv_row_grid_detail_text"
             android:textColor="@color/Grey700"
-            android:text="이 글은 테스트 글입니다 샬dddddddddddddddddddddddddd"
+            android:text="이 글은 테스트 글입니다 샬ddddddddddddddddddddddddddddddddddddddddddddddddddd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:padding="4dp"
-            android:ellipsize="marquee"
+            android:ellipsize="end"
             android:focusable="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
+            android:maxLines="3"
             />
 
         <LinearLayout

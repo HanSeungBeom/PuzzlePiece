@@ -5,5 +5,7 @@
 
     <item android:id="@+id/action_register"
         android:title="@string/register"
-        app:showAsAction="always" />
+        app:showAsAction="always"></item>
+
+
 </menu>

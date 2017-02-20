@@ -103,8 +103,9 @@
                 <EditText
                     android:id="@+id/et_edit_puzle"
                     android:textSize="15dp"
+                    android:gravity="top"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                 />
 
 
