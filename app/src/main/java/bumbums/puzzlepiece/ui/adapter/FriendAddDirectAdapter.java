@@ -54,6 +54,7 @@ public class FriendAddDirectAdapter  extends
         FirebaseTasks.loadFriendPhoto(addPuzzleDirectActivity,holder.data,holder.userProfileImage);
         // holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
+
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements
@@ -74,6 +75,7 @@ public class FriendAddDirectAdapter  extends
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
             border = (LinearLayout)view.findViewById(R.id.ll_friendreview);
             view.setOnClickListener(this);
+
 
         }
 

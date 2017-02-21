@@ -48,8 +48,8 @@ public class NotificationService extends IntentService {
                 .setOngoing(true);
 
 
-        remoteViews.setImageViewResource(R.id.add_newpuzzle,R.drawable.ic_noti_puzzle1);
-        remoteViews.setImageViewResource(R.id.review_today_puzzles,R.drawable.ic_noti_review1);
+        remoteViews.setImageViewResource(R.id.add_newpuzzle,R.drawable.ic_add_puzzle_on);
+        remoteViews.setImageViewResource(R.id.review_today_puzzles,R.drawable.ic_review_puzzle_on);
         remoteViews.setOnClickPendingIntent(R.id.ll_new_puzzle,pIntentAddPuzzle);
         remoteViews.setOnClickPendingIntent(R.id.ll_review_puzzle,pIntentReviewPuzzle);
         NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

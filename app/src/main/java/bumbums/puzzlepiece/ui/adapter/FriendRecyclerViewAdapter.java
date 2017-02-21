@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -84,10 +85,10 @@ public class FriendRecyclerViewAdapter  extends
        // public ImageView editFriend;
         public View colorView;
         public Friend data;
-
+        public LinearLayout selectorBack;
         public MyViewHolder(View view) {
             super(view);
-
+            selectorBack = (LinearLayout)view.findViewById(R.id.ll_friend_back);
             userProfileImage = (ImageView)view.findViewById(R.id.iv_row_grid_profile);
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
             //userPuzzleNum = (TextView)view.findViewById(R.id.tv_row_grid_puzzle_num);
@@ -95,6 +96,8 @@ public class FriendRecyclerViewAdapter  extends
             lastPuzzleText = (TextView)view.findViewById(R.id.tv_last_puzzle_text);
            // editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
           //  editFriend.setOnClickListener(this);
+            selectorBack.setOnClickListener(this);
+            selectorBack.setOnLongClickListener(this);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }
@@ -102,22 +105,13 @@ public class FriendRecyclerViewAdapter  extends
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-             /*   case R.id.iv_row_grid_edit: {
-                  *//*  Intent intent = new Intent(tabFriendsFragment.getContext(), EditFriendActivity.class);
-                    intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
-                    tabFriendsFragment.getContext().startActivity(intent);
-                    //Log.d("###","edit click");*//*
-                    break;
-                }*/
-                default:
+              default:
                     Intent intent = new Intent(tabFriendsFragment.getContext(),FriendDetailActivity.class);
                     intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
                     tabFriendsFragment.getContext().startActivity(intent);
                     break;
             }
 
-
-           // Log.d("###","click");
         }
 
         @Override

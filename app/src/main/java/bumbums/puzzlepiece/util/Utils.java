@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -234,17 +236,15 @@ public class Utils {
         Boolean isEnterIf = false;
         try {
             // Part 1: Decode image
-            Bitmap unscaledBitmap = ScalingUtilities.decodeFile(path, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
 
+            Bitmap unscaledBitmap = ScalingUtilities.decodeFile(path, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
+            unscaledBitmap = getRotatedPicture(path,unscaledBitmap);
             if (!(unscaledBitmap.getWidth() <= DESIREDWIDTH && unscaledBitmap.getHeight() <= DESIREDHEIGHT)) {
                 // Part 2: Scale image
                 isEnterIf = true;
                 scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
-            }/* else {
-                Log.d("###","unscaledBitmap");
-                unscaledBitmap.recycle();
-                return path;
-            }*/
+
+            }
 
             File mFolder = new File(context.getFilesDir(),"/profile_pictures");
 
@@ -266,9 +266,9 @@ public class Utils {
             try {
                 fos = new FileOutputStream(f);
                 if(isEnterIf)
-                    scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
                 else
-                    unscaledBitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                    unscaledBitmap.compress(Bitmap.CompressFormat.JPEG,80,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -284,12 +284,50 @@ public class Utils {
         }
 
         if (strMyImagePath == null) {
+            Log.d("###","설마");
             return path;
         }
+        Log.d("###","설마X");
+
+
         return strMyImagePath;
 
     }
 
+    public  static Bitmap getRotatedPicture(String filePath, Bitmap bitmap){
+        boolean isVertical = true;
+
+        try {
+            ExifInterface exif = new ExifInterface(filePath);
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    Log.d("###","270");
+                    isVertical = false;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    Log.d("###","90");
+                    isVertical = false;
+                    break;
+            }
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+
+        if (isVertical) {
+            Log.d("###","vertical="+isVertical);
+            return bitmap;
+        } else {
+            Matrix rotateMatrix = new Matrix();
+           rotateMatrix.postRotate(90); //-360~360
+          // rotateMatrix.setRotate(90,(float)bitmap.getWidth(),(float)bitmap.getHeight());
+            Bitmap sideInversionImg = Bitmap.createBitmap(bitmap, 0, 0,
+                    bitmap.getWidth(), bitmap.getHeight(), rotateMatrix, true);
+
+            return sideInversionImg;
+        }
+    }
 
     //target to save
     private static Target getTarget(final Context context,final String url,final String fileName){

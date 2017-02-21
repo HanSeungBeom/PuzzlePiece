@@ -7,6 +7,7 @@
     <LinearLayout
         android:id="@+id/ll_review_puzzle"
         android:gravity="center"
+        android:background="@drawable/layout_border_noti"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
@@ -17,7 +18,7 @@
             android:scaleType="centerInside"
             android:layout_weight="1"
             android:id="@+id/review_today_puzzles"
-            android:src="@drawable/ic_noti_review1"
+            android:src="@drawable/ic_review_puzzle_on"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <TextView
@@ -31,6 +32,7 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_new_puzzle"
+        android:background="@drawable/layout_border_noti"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -42,7 +44,7 @@
             android:tint="@color/material_amber"
             android:scaleType="centerInside"
             android:id="@+id/add_newpuzzle"
-            android:src="@drawable/ic_noti_puzzle1"
+            android:src="@drawable/ic_add_puzzle_on"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="match_parent" />

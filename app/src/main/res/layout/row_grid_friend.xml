@@ -4,29 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:layout_margin="3dp"
-
+    android:background="@drawable/border"
   >
 
-    <!--
-    <View
-        android:id="@+id/view_friend"
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-        android:background="@color/blue">
-
-    </View>
-
-    -->
 
     <LinearLayout
+        android:id="@+id/ll_friend_back"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/border"
+        android:background="@drawable/layout_border"
         android:padding="8dp"
         android:gravity="center"
         >
+
 
         <ImageView
             android:id="@+id/iv_row_grid_profile"
@@ -46,6 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+
             />
         <TextView
                 android:id="@+id/tv_last_puzzle_text"
@@ -66,7 +61,12 @@
 
 </LinearLayout>
 
+<LinearLayout
+    android:background="@drawable/border_transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+</LinearLayout>
 
 </FrameLayout>
 

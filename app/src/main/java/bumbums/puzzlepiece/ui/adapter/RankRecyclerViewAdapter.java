@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
@@ -77,18 +78,15 @@ public class RankRecyclerViewAdapter extends
         public TextView puzzleNum;
         public TextView name;
         public ImageView photo;
-
+        public LinearLayout back;
         public MyHeaderViewHolder(View view) {
             super(view);
 
             puzzleNum = (TextView)view.findViewById(R.id.tv_puzzle_num);
             name = (TextView)view.findViewById(R.id.tv_row_rank_name);
             photo = (ImageView)view.findViewById(R.id.iv_rank_user_profile);
-          /*  rank = (TextView) view.findViewById(R.id.tv_row_rank);
-            name = (TextView) view.findViewById(R.id.tv_row_rank_name);
-            puzzleNum = (TextView) view.findViewById(R.id.tv_puzzle_num);
-            photo = (ImageView) view.findViewById(R.id.iv_rank_user_profile);
-            viewDetail = (ImageView) view.findViewById(R.id.iv_friend_detail);*/
+            back = (LinearLayout)view.findViewById(R.id.ll_rank_back);
+            back.setOnClickListener(this);
             view.setOnClickListener(this);
         }
 
@@ -108,7 +106,7 @@ public class RankRecyclerViewAdapter extends
         public TextView puzzleNum;
         public ImageView photo;
         public ImageView viewDetail;
-
+        public LinearLayout back;
 
         public Friend data;
 
@@ -120,7 +118,8 @@ public class RankRecyclerViewAdapter extends
             puzzleNum = (TextView) view.findViewById(R.id.tv_puzzle_num);
             photo = (ImageView) view.findViewById(R.id.iv_rank_user_profile);
             viewDetail = (ImageView) view.findViewById(R.id.iv_friend_detail);
-
+            back = (LinearLayout)view.findViewById(R.id.ll_rank_back);
+            back.setOnClickListener(this);
             view.setOnClickListener(this);
         }
 

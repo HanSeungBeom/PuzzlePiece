@@ -42,5 +42,7 @@
     <string name="relation_is_empty"> - </string>
     <string name="name_empty">이름을 입력해주세요.</string>
     <string name="phone_number_is_empty">전화번호를 등록해주세요.</string>
+    <string name="set_version">버전 정보</string>
+    <string name="set_version_detail">PuzzlePiece v1.0</string>
 
 </resources>

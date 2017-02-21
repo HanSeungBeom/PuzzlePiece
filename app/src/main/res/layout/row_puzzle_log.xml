@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/white"
-    android:layout_margin="3dp">
+
+    android:orientation="vertical">
 
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
         <FrameLayout
             android:id="@+id/fr_log"
             android:layout_width="0dp"
@@ -46,6 +48,8 @@
                     android:text="name"
                     android:textStyle="bold"
                     android:layout_gravity="bottom"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -93,7 +97,12 @@
                 android:layout_weight="2">
             </View>
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Grey300"
+        />
 
 </LinearLayout>

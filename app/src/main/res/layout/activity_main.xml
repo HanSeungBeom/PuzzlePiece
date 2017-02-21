@@ -44,6 +44,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="right"
                 android:paddingRight="10dp"
+
                 />
 
             </android.support.v7.widget.Toolbar>
