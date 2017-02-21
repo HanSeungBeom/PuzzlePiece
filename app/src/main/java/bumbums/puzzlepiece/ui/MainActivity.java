@@ -34,6 +34,7 @@ import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.task.NotificationService;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.AppPermissions;
+import bumbums.puzzlepiece.util.BackPressCloseHandler;
 import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements
     private RealmResults<Friend> results;
     private ImageView mSettingBtn;
     public static MainActivity mMainActivity;
+    private BackPressCloseHandler backPressCloseHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         mTitle = (TextView) findViewById(R.id.tv_title);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
 
     }
@@ -180,7 +184,8 @@ public class MainActivity extends AppCompatActivity implements
         if (mOnKeyBackPressedListener != null) {
             mOnKeyBackPressedListener.onBack();
         } else {
-            super.onBackPressed();
+            backPressCloseHandler.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
