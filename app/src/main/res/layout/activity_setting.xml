@@ -145,7 +145,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_last_backup_date"
-            android:text="-"
+            android:text="마지막 백업날짜 : 없음"
             android:textSize="13dp"
             android:paddingTop="5dp"
             android:paddingLeft="3dp"

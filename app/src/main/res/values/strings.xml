@@ -25,7 +25,7 @@
     <string name="pref_googleidName">googleid_name</string>
     <string name="restore_failure">복구를 실패하였습니다.</string>
     <string name="internet_disconnection">인터넷이 연결되어 있지 않습니다. 인터넷 연결을 확인해주세요.</string>
-    <string name="no_backup_data">백업 파일이 없습니다.</string>
+    <string name="no_backup_data">마지막 백업날짜 : 없음</string>
     <string name="no_friend_data">소중한 지인을 추가해보세요.</string>
     <string name="no_friend_data_detail">아래 버튼을 눌러 추가해보세요!</string>
     <string name="no_friend_no_rank">지인을 먼저 추가해주세요.</string>
