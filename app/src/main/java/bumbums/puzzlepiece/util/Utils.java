@@ -153,13 +153,57 @@ public class Utils {
             return ampm+" "+hour+":"+min;
         }
         else{
-            return String.format("%2d/%02d/%2d",Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day));
+            return String.format("%2d/%02d/%02d",Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day));
+        }
+    }
+
+    public static String getFullFormatFromDate(String dateStr){
+        StringTokenizer stringTokenizer = new StringTokenizer(dateStr,"/");
+        String year = stringTokenizer.nextToken();
+        String month = stringTokenizer.nextToken();
+        String day =stringTokenizer.nextToken();
+        String time = stringTokenizer.nextToken();
+        stringTokenizer = new StringTokenizer(time,":");
+        int hourOfDay = Integer.parseInt(stringTokenizer.nextToken());
+        int minutes = Integer.parseInt(stringTokenizer.nextToken());
+        String hour,min,ampm;
+
+        if (hourOfDay >= 12) ampm = "오후";
+        else ampm = "오전";
+
+
+        if (ampm.equals("오후")) {
+            if (hourOfDay != 12) hourOfDay = hourOfDay - 12;
         }
 
+        if (hourOfDay < 10) {
+            hour = "0" + String.valueOf(hourOfDay);
+        }
+        else{
+            hour = String.valueOf(hourOfDay);
+        }
+        if (minutes < 10) {
+            min = "0" + String.valueOf(minutes);
+        }
+        else{
+            min = String.valueOf(minutes);
+        }
+        return String.format("%2d/%02d/%02d %s %02d:%02d"
+                ,Integer.parseInt(year)
+                ,Integer.parseInt(month)
+                ,Integer.parseInt(day)
+                ,ampm
+                ,Integer.parseInt(hour)
+                ,Integer.parseInt(min)
+                );
+    }
 
-
-
-
+    public static int getDayFromDate(String dateStr){
+        StringTokenizer stringTokenizer = new StringTokenizer(dateStr,"/");
+        String year = stringTokenizer.nextToken();
+        String month = stringTokenizer.nextToken();
+        String day =stringTokenizer.nextToken();
+        return Integer.parseInt(day);
     }
 
     public static String getUUID(){

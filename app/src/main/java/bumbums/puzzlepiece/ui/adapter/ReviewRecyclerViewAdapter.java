@@ -56,7 +56,7 @@ public class ReviewRecyclerViewAdapter extends
 //        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
 
         holder.name.setText(obj.getFriendName());
-        //holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
+        holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
         holder.text.setText(obj.getText());
 
     }

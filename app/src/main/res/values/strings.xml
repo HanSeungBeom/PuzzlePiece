@@ -44,5 +44,8 @@
     <string name="set_calling">통화시 팝업설정</string>
     <string name="set_calling_detail">지인으로 등록 되어 있는 번호로 전화가 오거나 전화를 걸 때 작성한 퍼즐들을 보여줍니다.</string>
     <string name="pref_calling">calling</string>
+    <string name="relation_is_empty"> - </string>
+    <string name="name_empty">이름을 입력해주세요.</string>
+    <string name="phone_number_is_empty">전화번호를 등록해주세요.</string>
 
 </resources>

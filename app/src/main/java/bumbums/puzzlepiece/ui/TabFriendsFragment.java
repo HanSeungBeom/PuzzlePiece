@@ -157,7 +157,7 @@ MainActivity.onKeyBackPressedListener
             }
         });
 
-        Toast.makeText(getContext(),"id="+id+" deleted",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"id="+id+" deleted",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -178,7 +178,7 @@ MainActivity.onKeyBackPressedListener
                                 EditText name = (EditText) dialogView.findViewById(R.id.et_add_friend_name);
                                 EditText phone = (EditText) dialogView.findViewById(R.id.et_add_friend_phone);
                                 EditText relation = (EditText) dialogView.findViewById(R.id.et_add_friend_relation);
-                                RealmTasks.addFriend(name.getText().toString(), phone.getText().toString(), relation.getText().toString());
+                                RealmTasks.addFriend(getContext(),name.getText().toString(), phone.getText().toString(), relation.getText().toString());
                             }
                         })
                         .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -228,7 +228,7 @@ MainActivity.onKeyBackPressedListener
                     cursor.moveToFirst();
                     String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
                     String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
-                    RealmTasks.addFriend(name,phone,"null");
+                    RealmTasks.addFriend(getContext(),name,phone,"");
                     cursor.close();
                     break;
                 default:

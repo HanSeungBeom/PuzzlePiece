@@ -1,5 +1,9 @@
 package bumbums.puzzlepiece.task;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
@@ -9,10 +13,20 @@ import io.realm.Realm;
  */
 
 public class RealmTasks {
-    public static void addFriend(final String name, final String phone, final String relation){
+    //시간 날때 모든 realm 함수들 여기다 모아놓기.
+
+
+    public static void addFriend(Context context, final String name, final String phone, final String relation){
+        if(name.equals("")){
+            Toast.makeText(context,context.getString(R.string.name_empty),Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Realm realm = Realm.getDefaultInstance();
         final long id = Utils.getNextKeyFriend(realm);
         final String newPhoneNumber = phone.replace("-","");
+
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -22,5 +36,19 @@ public class RealmTasks {
                 friend.setRelation(relation);
             }
         });
+        realm.close();
+    }
+
+    public static void modifyFriend(final Friend friend, final String name, final String phone, final String relation){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                friend.setName(name);
+                friend.setPhoneNumber(phone);
+                friend.setRelation(relation);
+            }
+        });
+        realm.close();
     }
 }

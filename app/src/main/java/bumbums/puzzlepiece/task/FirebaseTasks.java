@@ -48,7 +48,7 @@ public class FirebaseTasks {
         File dir = context.getFilesDir();
         File file = new File(dir, "profile_pictures/" + profileUrl);
         boolean isDeleted = file.delete();
-        Log.d("###", "isDeleted=" + isDeleted + "//filePath=" + file.getAbsolutePath());
+        //Log.d("###", "isDeleted=" + isDeleted + "//filePath=" + file.getAbsolutePath());
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -63,7 +63,7 @@ public class FirebaseTasks {
         targetPath_.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("###", "FIREBASE에서 파일삭제=" + fileName);
+               // Log.d("###", "FIREBASE에서 파일삭제=" + fileName);
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -75,7 +75,7 @@ public class FirebaseTasks {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("###", "FIREBASE에서 파일삭제 실패=" + fileName);
+              //  Log.d("###", "FIREBASE에서 파일삭제 실패=" + fileName);
 
             }
         });
@@ -99,8 +99,7 @@ public class FirebaseTasks {
         //Log.d("###", context.getFilesDir().toString());
         final String newFilePath = Utils.decodeFile(context, filePath, 400, 400);
         final String fileName = new File(newFilePath).getName();
-        Log.d("###", "NEW=" + newFilePath + "//NAME=" + new File(newFilePath).getName());
-        // Log.d("###","UriPath="+Utils.getContentUri(this,newFilePath));
+        //Log.d("###", "NEW=" + newFilePath + "//NAME=" + new File(newFilePath).getName());
         Uri newFileUri = Uri.fromFile(new File(newFilePath));
 
         //DB에 경로저장
@@ -109,9 +108,7 @@ public class FirebaseTasks {
             public void execute(Realm realm) {
                 Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst();
                 friend.setProfilePath(newFilePath);
-                //Log.e("###","photoPath="+newFilePath);
                 friend.setProfileName(fileName);
-
             }
         });
 
@@ -136,8 +133,8 @@ public class FirebaseTasks {
                 });
 
                 Log.d("###", "uploadDone");
-                Log.d("###", "SERVICE FILEPATH=" + filePath_);
-                //Log.d("###","DOWNLOADURL = "+filePath_.getDownloadUrl());
+               // Log.d("###", "SERVICE FILEPATH=" + filePath_);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -160,7 +157,7 @@ public class FirebaseTasks {
         StorageReference storage = FirebaseStorage.getInstance().getReference();
         StorageReference targetPath_ = storage.child("Photos/" + fileName);
 
-        Log.d("###", "fileName=" + fileName);
+      //  Log.d("###", "fileName=" + fileName);
 
 
         File folder = new File(context.getFilesDir() + "/profile_pictures");
@@ -173,14 +170,14 @@ public class FirebaseTasks {
             targetPath_.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("###", fileName + "추가완료");
+                   // Log.d("###", fileName + "추가완료");
                     // Local temp file has been created
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Log.d("###", fileName + "추가실패");
-                    Log.d("###",fileName+"의 photo 정보를 삭제합니다");
+                  //  Log.d("###", fileName + "추가실패");
+                 //   Log.d("###",fileName+"의 photo 정보를 삭제합니다");
 
                     if(Utils.isInternetConnected(context)) {
                         realm.executeTransaction(new Realm.Transaction() {
@@ -242,8 +239,8 @@ public class FirebaseTasks {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                Log.d("###", "uploadDone");
-                Log.d("###", "SERVICE FILEPATH=" + filePath_);
+               // Log.d("###", "uploadDone");
+               // Log.d("###", "SERVICE FILEPATH=" + filePath_);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -266,7 +263,7 @@ public class FirebaseTasks {
             targetPath_.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("###", googleId + "폰으로 저장완료");
+                    //Log.d("###", googleId + "폰으로 저장완료");
                     //저장 성공했을시 복구하고 앱 재시작.
                     realmBackupRestore.restore();
                     Utils.restartApp(context);
@@ -275,7 +272,7 @@ public class FirebaseTasks {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Log.d("###", googleId + "폰으로 저장실패");
+                   // Log.d("###", googleId + "폰으로 저장실패");
                     Toast.makeText(context,context.getString(R.string.restore_failure),Toast.LENGTH_SHORT).show();
                     if(!Utils.isInternetConnected(context)) {
                         Toast.makeText(context,"인터넷 연결이 안되어있습니다. 다시 시도해주세요",Toast.LENGTH_SHORT)

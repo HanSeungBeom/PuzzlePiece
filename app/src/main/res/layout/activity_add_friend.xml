@@ -35,7 +35,7 @@
                     android:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/et_add_friend_name"
-                    android:hint="이름"
+                    android:hint="이름(필수)"
                     android:textColorHint="@color/Grey500"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

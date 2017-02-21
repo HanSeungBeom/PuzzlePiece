@@ -20,6 +20,7 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
+import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 
 public class PuzzleDetailActivity extends AppCompatActivity {
@@ -68,7 +69,8 @@ public class PuzzleDetailActivity extends AppCompatActivity {
                 .findFirst();
 
         mName.setText(friend.getName());
-        mTime.setText(puzzle.getDate());
+        //TODO 시간은 datetoMilli 로 한가지만 설정했으면 되었겠다..
+        mTime.setText(Utils.getFullFormatFromDate(puzzle.getDate()));
         String text = puzzle.getText();
         mTextView.setText(text);
         mEditText.setText(text);

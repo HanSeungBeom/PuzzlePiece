@@ -38,28 +38,29 @@ public class CallingService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
-        String phoneNumber = intent.getStringExtra(EXTRA_CALL_NUMBER);
         Realm realm = Realm.getDefaultInstance();
-        //Log.d("###","phone="+phoneNumber);
+        String phoneNumber = intent.getStringExtra(EXTRA_CALL_NUMBER);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //설정 값 가져오기.
         boolean isEnable = sharedPreferences.getBoolean(getString(R.string.pref_calling),false);
-        Log.d("###","BOOL="+isEnable);
         if(isEnable) {
             Friend friend = realm.where(Friend.class).equalTo("phoneNumber", phoneNumber).findFirst();
             if (friend != null) {
+                //전화번호가 DB에 있는 경우만.
                 RealmList<Puzzle> puzzles = friend.getPuzzles();
                 if (puzzles.size() != 0) {
+                    //퍼즐이 있는 경우만.
                     try {
+                        //전화거는 액티비티에 가려 안보이는걸 방지하기 위해 3초후.
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
 
                     }
-                    Intent intent1 = new Intent(this, CallingDialog.class);
-                    intent1.putExtra(FriendDetailActivity.EXTRA_FRIENDID, friend.getId());
-                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent1.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-                    startActivity(intent1);
+                    Intent callingIntent = new Intent(this, CallingDialog.class);
+                    callingIntent.putExtra(FriendDetailActivity.EXTRA_FRIENDID, friend.getId());
+                    callingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    callingIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+                    startActivity(callingIntent);
                 }
             }
         }

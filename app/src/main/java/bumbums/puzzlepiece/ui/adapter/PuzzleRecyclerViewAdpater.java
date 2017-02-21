@@ -51,7 +51,9 @@ public class PuzzleRecyclerViewAdpater  extends
         //holder.userProfileImage =
         holder.puzzleText.setText(obj.getText());
         holder.puzzleDate.setText(Utils.dateToCurrentFormat(obj.getDate()));
-        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
+
+        //날짜 별로 색깔 보여주기 위함.
+        holder.colorView.setBackgroundResource(Utils.colors[(Utils.getDayFromDate(obj.getDate())%15)]);
 
     }
 

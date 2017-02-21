@@ -38,6 +38,7 @@ import com.gun0912.tedpermission.TedPermission;
 import java.util.ArrayList;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.task.RealmTasks;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.task.FirebaseTasks;
@@ -102,7 +103,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mFriendImage.setOnClickListener(this);
         mFriendImageDefault = (ImageView) findViewById(R.id.iv_friend_photo_default);
         mFriendImageDefault.setOnClickListener(this);
-        //  mRecyclerView=(RecyclerView)findViewById(R.id.rv_friend_detail);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -115,11 +115,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         initData();
         setUpFireBase();
-
         setUpTabLayout();
-
-
-        //setUpRecyclerView();
     }
 
     public void setUpTabLayout() {
@@ -127,21 +123,15 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mAdapter = new TabAdapter(getSupportFragmentManager());
 
-
         //setFragment
-
         mAdapter.addFragment(new TabPuzzlesFragment());
         mAdapter.addFragment(new TabRankFragment());
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         //setIcon
-
-        //mTabLayout.getTabAt(0).setCustomView(R.layout.custom_tab).setIcon(R.drawable.puzzles_selector);
-
-        mTabLayout.getTabAt(0).setIcon(R.drawable.puzzles_selector);
+     mTabLayout.getTabAt(0).setIcon(R.drawable.puzzles_selector);
         mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
-        //mTabLayout.getTabAt(2).setIcon(R.drawable.schedule_selector);
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
     }
@@ -160,19 +150,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mFriend = realm.where(Friend.class)
                 .equalTo("id", id)
                 .findFirst();
-        mFriend.addChangeListener(new RealmChangeListener<Friend>() {
-            @Override
-            public void onChange(Friend friend) {
-                //   mPuzzle.setText(String.valueOf(friend.getPuzzles().size()));
-            }
-        });
         mFriendId = mFriend.getId();
-        mName.setText(mFriend.getName());
-        mRelation.setText("(" + mFriend.getRelation() + ")");
-        mPhone.setText(mFriend.getPhoneNumber());
-//        mPuzzle.setText(String.valueOf(mFriend.getPuzzles().size()));
-//        mRank.setText(String.valueOf(mFriend.getRank()));
 
+        syncFriendData(mFriend);
         syncPhoto(mFriend);
 
         mFriend.addChangeListener(new RealmChangeListener<Friend>() {
@@ -183,15 +163,24 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
-
-
         getSupportActionBar().setTitle("");
     }
 
     public void syncFriendData(Friend friend) {
         mName.setText(friend.getName());
         mPhone.setText(friend.getPhoneNumber());
-        mRelation.setText("(" + friend.getRelation() + ")");
+        if(!mFriend.getRelation().equals("")) {
+            mRelation.setText("(" + mFriend.getRelation() + ")");
+        }
+        else {
+            mRelation.setText("("+getString(R.string.relation_is_empty)+")");
+        }
+        if(!mFriend.getPhoneNumber().equals("")){
+            mPhone.setText(mFriend.getPhoneNumber());
+        }
+        else{
+            mPhone.setText(getString(R.string.phone_number_is_empty));
+        }
     }
 
     public void syncPhoto(Friend friend) {
@@ -241,16 +230,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 .setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                mFriend.setName(name.getText().toString());
-                                mFriend.setPhoneNumber(phone.getText().toString());
-                                mFriend.setRelation(relation.getText().toString());
-                            }
-                        });
-
-                        //addFriend(name.getText().toString(), phone.getText().toString(),relation.getText().toString());
+                        RealmTasks.modifyFriend(mFriend,name.getText().toString(),phone.getText().toString(),relation.getText().toString());
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
