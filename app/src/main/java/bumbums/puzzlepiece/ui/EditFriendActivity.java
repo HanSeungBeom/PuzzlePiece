@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.model.Friend;
 import io.realm.Realm;
 
@@ -47,7 +46,7 @@ public class EditFriendActivity extends AppCompatActivity {
         mId = intent.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID, -1);
         //Log.d("###","id="+mId);
         Friend friend = realm.where(Friend.class)
-                .equalTo(Friend.USER_ID, mId)
+                .equalTo(Friend.FRIEND_ID, mId)
                 .findFirst();
         mName.setText(friend.getName());
         mPhone.setText(friend.getPhoneNumber());

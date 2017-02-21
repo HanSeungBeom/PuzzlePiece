@@ -53,7 +53,6 @@ public class PuzzleLogFragment extends android.support.v4.app.Fragment {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_puzzle_log);
         CallingDialog callingDialog = (CallingDialog)getActivity();
         mFriendId = callingDialog.getmFriendId();
-        Log.d("###","IDIDIDID="+mFriendId);
         mAdapter =new LogRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllSortedAsync(Puzzle.DATE_TO_MILLISECONDS, Sort.DESCENDING));
         setUpRecyclerView();
 

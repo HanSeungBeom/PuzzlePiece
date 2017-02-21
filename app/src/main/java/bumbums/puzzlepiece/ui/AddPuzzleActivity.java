@@ -87,7 +87,7 @@ public class AddPuzzleActivity extends AppCompatActivity {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,mFriendId).findFirst();
+                            Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,mFriendId).findFirst();
                             Puzzle puzzle = realm.createObject(Puzzle.class, Utils.getNextKeyPuzzle(realm));
                             puzzle.setFriendId(mFriendId);
                             puzzle.setText(mPuzzleText.getText().toString());

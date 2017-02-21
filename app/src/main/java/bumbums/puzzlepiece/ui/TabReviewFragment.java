@@ -1,9 +1,7 @@
 package bumbums.puzzlepiece.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,10 +19,8 @@ import java.util.List;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
-import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.FriendReviewRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.ReviewRecyclerViewAdapter;
-import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -85,17 +81,16 @@ public class TabReviewFragment extends Fragment{
         //오늘 퍼즐등록한 친구들만 긁어온다.
         RealmQuery<Friend> query = realm.where(Friend.class);
         if(uniqueFriendId.size()>0) {
-            query = query.equalTo(Friend.USER_ID,uniqueFriendId.get(0));
+            query = query.equalTo(Friend.FRIEND_ID,uniqueFriendId.get(0));
             for (int i = 1; i < uniqueFriendId.size(); i++) {
-                query = query.or().equalTo(Friend.USER_ID, uniqueFriendId.get(i));
+                query = query.or().equalTo(Friend.FRIEND_ID, uniqueFriendId.get(i));
             }
         }
         else{
-            query = query.equalTo(Friend.USER_ID,-1);
+            query = query.equalTo(Friend.FRIEND_ID,-1);
             //값이 없는경우는 결과값을 안줌.
         }
-        //TODO 나중에 필드추가
-        RealmResults<Friend> todayFriends = query.findAllSortedAsync("name",Sort.ASCENDING);
+        RealmResults<Friend> todayFriends = query.findAllSortedAsync(Friend.FRIEND_NAME,Sort.ASCENDING);
        // Log.d("###",todayFriends.size()+"");
         return todayFriends;
 

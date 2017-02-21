@@ -122,7 +122,7 @@ public class SettingActivity extends AppCompatActivity implements
 
     public void setUpdateData(Long updatedTime) {
         if (updatedTime != null) {
-            Log.d("###", "updatedTime=" + Utils.getDateFromMilli(updatedTime));
+            //Log.d("###", "updatedTime=" + Utils.getDateFromMilli(updatedTime));
             mBackupBtn.setEnabled(true);//인터넷을 껏다가 연결하는경우 여기서 켜지게 하기 위해서.
             mRestoreBtn.setEnabled(true);
             mLastBackupDate.setText("마지막 백업날짜 : " + Utils.getDateFromMilli(updatedTime));
@@ -130,7 +130,7 @@ public class SettingActivity extends AppCompatActivity implements
         } else {
             mRestoreBtn.setEnabled(false);
             if (Utils.isInternetConnected(this)) {
-                Log.d("###", "updatedTime=null");
+                //Log.d("###", "updatedTime=null");
 
                 mLastBackupDate.setText(getString(R.string.no_backup_data));
             } else {
@@ -208,7 +208,7 @@ public class SettingActivity extends AppCompatActivity implements
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
 
-                Log.d("###", account.getId() + "accountID");
+                //Log.d("###", account.getId() + "accountID");
                 setGoogleIdToSharedPreference(account.getId(), account.getDisplayName());
                 hidePbLogin();
                 mGoogleId = account.getId();
@@ -254,7 +254,6 @@ public class SettingActivity extends AppCompatActivity implements
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.sw_login: {
-                Log.d("###", "sw_login");
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 boolean savedStatePref = pref.getBoolean(getString(R.string.pref_login), false);
                 if (savedStatePref) {
@@ -288,7 +287,6 @@ public class SettingActivity extends AppCompatActivity implements
             }
             break;
             case R.id.sw_noti: {
-                Log.d("###", "sw_noti");
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 SharedPreferences.Editor editor = pref.edit();
                 if (isChecked) {
@@ -303,22 +301,18 @@ public class SettingActivity extends AppCompatActivity implements
             }
             break;
             case R.id.sw_calling:{
-                Log.d("###","컴");
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 SharedPreferences.Editor editor = pref.edit();
                 if (isChecked) {
                     if(AppPermissions.hasCallingPermissionsGranted(this)){
-                        Log.d("###","허가");
                         editor.putBoolean(getString(R.string.pref_calling), true);
                     }
                     else{
-                        Log.d("###","불허");
                         setUpTedPermissionForCalling();
                         mCallingSwitch.setChecked(false);
                     }
 
                 } else {
-                    Log.d("###","NO");
                     editor.putBoolean(getString(R.string.pref_calling), false);
                 }
                 editor.commit();

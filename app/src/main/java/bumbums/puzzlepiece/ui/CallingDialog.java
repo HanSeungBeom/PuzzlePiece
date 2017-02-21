@@ -1,14 +1,11 @@
 package bumbums.puzzlepiece.ui;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
@@ -44,7 +41,7 @@ public class CallingDialog extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         Intent i = getIntent();
         long id = i.getLongExtra(FriendDetailActivity.EXTRA_FRIENDID,-1);
-        mFriend = realm.where(Friend.class).equalTo(Friend.USER_ID,id).findFirst();
+        mFriend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,id).findFirst();
         mName.setText(mFriend.getName());
         mPhone.setText(mFriend.getPhoneNumber());
 

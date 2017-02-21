@@ -11,14 +11,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
@@ -26,8 +24,6 @@ import bumbums.puzzlepiece.util.CircleTransform;
 import bumbums.puzzlepiece.util.RealmBackupRestore;
 import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
-import io.realm.RealmObjectSchema;
-import io.realm.RealmResults;
 
 /**
  * Created by han sb on 2017-02-14.
@@ -39,8 +35,8 @@ public class FirebaseTasks {
     public static void deletePhoto(Context context, final long friendId) {
         final Realm realm = Realm.getDefaultInstance();
         //제거하기
-        String profileUrl = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst().getProfileUrl();
-        final String fileName = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst().getProfileName();
+        String profileUrl = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst().getProfileUrl();
+        final String fileName = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst().getProfileName();
 
         if (fileName == null) return;
 
@@ -52,7 +48,7 @@ public class FirebaseTasks {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst();
+                Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst();
                 friend.setProfilePath(null);
                 friend.setProfileName(null);
             }
@@ -67,7 +63,7 @@ public class FirebaseTasks {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst();
+                        Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst();
                         friend.setProfileUrl(null);
                     }
                 });
@@ -106,7 +102,7 @@ public class FirebaseTasks {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst();
+                Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst();
                 friend.setProfilePath(newFilePath);
                 friend.setProfileName(fileName);
             }
@@ -125,7 +121,7 @@ public class FirebaseTasks {
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID, friendId).findFirst();
+                                Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst();
                                 friend.setProfileUrl(uri.toString());
                             }
                         });

@@ -9,11 +9,10 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Friend extends RealmObject{
-    public static final String USER_ID = "id";
+    public static final String FRIEND_ID = "id";
     public static final String PUZZLE_NUM = "puzzleNum";
-    public static final String RANK = "rank";
-
-//TODO friend 필드이름 수정
+    public static final String FRIEND_NAME = "name";
+    public static final String FRIEND_PHONE_NUMBER = "phoneNumber";
 
     @PrimaryKey
     private long id;
@@ -22,7 +21,6 @@ public class Friend extends RealmObject{
     private String relation;
 
     private int puzzleNum;
-    private int rank;
     private String profileUrl;
     private String profilePath;
 
@@ -61,14 +59,6 @@ public class Friend extends RealmObject{
 
     public void setPuzzleNum(int puzzleNum) {
         this.puzzleNum = puzzleNum;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
     }
 
     public RealmList<Puzzle> getPuzzles() {

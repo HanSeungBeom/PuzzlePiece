@@ -51,7 +51,7 @@ public class ReviewRecyclerViewAdapter extends
         Puzzle obj = getData().get(position);
         holder.data = obj;
         Realm realm = Realm.getDefaultInstance();
-        Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,obj.getFriendId()).findFirst();
+        Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,obj.getFriendId()).findFirst();
         FirebaseTasks.loadFriendPhoto(reviewFragment.getContext(),friend,holder.photo);
 //        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
 

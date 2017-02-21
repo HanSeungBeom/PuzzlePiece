@@ -7,17 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
-import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -96,7 +93,7 @@ public class TabPuzzlesFragment extends Fragment {
                 Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID,id).findFirst();
                 puzzle.deleteFromRealm();
                 //갱신
-                Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,mFriendId).findFirst();
+                Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,mFriendId).findFirst();
                 friend.setPuzzleNum(friend.getPuzzles().size());
             }
         });

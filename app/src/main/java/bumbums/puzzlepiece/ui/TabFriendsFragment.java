@@ -13,15 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -104,9 +101,8 @@ MainActivity.onKeyBackPressedListener
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //TODO 필드 나중에 변경.
                 if (!mSearchText.getText().toString().equals("")){
-                    mAdapter.updateData(realm.where(Friend.class).contains("name", mSearchText.getText().toString()).findAllAsync());
+                    mAdapter.updateData(realm.where(Friend.class).contains(Friend.FRIEND_NAME, mSearchText.getText().toString()).findAllAsync());
                     mClear.setVisibility(View.VISIBLE);
                 }
                 else{
@@ -149,7 +145,7 @@ MainActivity.onKeyBackPressedListener
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<Friend> rows = realm.where(Friend.class).equalTo(Friend.USER_ID,id).findAll();
+                RealmResults<Friend> rows = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,id).findAll();
                 rows.deleteAllFromRealm();
 
                 RealmResults<Puzzle> puzzlesWithFriend =realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,id).findAll();

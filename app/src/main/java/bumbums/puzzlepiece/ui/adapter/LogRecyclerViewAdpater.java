@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,7 +48,7 @@ public class LogRecyclerViewAdpater extends
         Puzzle obj = getData().get(position);
         holder.data = obj;
         Realm realm = Realm.getDefaultInstance();
-        Friend friend = realm.where(Friend.class).equalTo(Friend.USER_ID,obj.getFriendId()).findFirst();
+        Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,obj.getFriendId()).findFirst();
         FirebaseTasks.loadFriendPhoto(puzzleLogFragment.getContext(),friend,holder.photo);
        // holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
 
