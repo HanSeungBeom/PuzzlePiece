@@ -42,6 +42,7 @@ import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.util.CustomMarkerView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 /**
@@ -51,25 +52,44 @@ import io.realm.RealmResults;
 public class TabGraphFragment extends android.support.v4.app.Fragment {
     private LineChart mChart;
     private TextView mYearMonth;
-    private TextView mTotalView,mTodayView;
+    private TextView mTotalView, mTodayView;
     private Calendar mToday;
-
-
+    private RealmResults<Puzzle> puzzles;
+    private Realm mRealm;
+    private int mSize = 0;
     public static final int X_COUNT = 8;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        mRealm = Realm.getDefaultInstance();
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
         mChart = (LineChart) view.findViewById(R.id.chart);
-        mYearMonth = (TextView)view.findViewById(R.id.tv_graph_year_month);
-        mTotalView = (TextView)view.findViewById(R.id.tv_puzzle_num);
-        mTodayView = (TextView)view.findViewById(R.id.tv_today_puzzle_num);
+        mYearMonth = (TextView) view.findViewById(R.id.tv_graph_year_month);
+        mTotalView = (TextView) view.findViewById(R.id.tv_puzzle_num);
+        mTodayView = (TextView) view.findViewById(R.id.tv_today_puzzle_num);
+
 
         initDate();
-        String yearMonth = String.format("%4d. %02d",mToday.get(Calendar.YEAR),mToday.get(Calendar.MONTH)+1);
+
+
+        String yearMonth = String.format("%4d. %02d", mToday.get(Calendar.YEAR), mToday.get(Calendar.MONTH) + 1);
         mYearMonth.setText(yearMonth);
         //getDataFromDB();
 
         //getXDays();
         initGraph();
+
+        puzzles = mRealm.where(Puzzle.class).findAllAsync();
+        puzzles.addChangeListener(new RealmChangeListener<RealmResults<Puzzle>>() {
+            @Override
+            public void onChange(RealmResults<Puzzle> element) {
+                if (element.size() != mSize) {
+                    mSize = element.size();
+                    initDate();
+                    initGraph();
+                }
+            }
+        });
         return view;
 
 
@@ -77,20 +97,21 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
 
     public void initDate() {
         mToday = Calendar.getInstance();
-        mToday.set(Calendar.HOUR_OF_DAY,0);
-        mToday.set(Calendar.MINUTE,0);
-        mToday.set(Calendar.SECOND,0);
-        mToday.set(Calendar.MILLISECOND,0);
+        mToday.set(Calendar.HOUR_OF_DAY, 0);
+        mToday.set(Calendar.MINUTE, 0);
+        mToday.set(Calendar.SECOND, 0);
+        mToday.set(Calendar.MILLISECOND, 0);
 
 
-        Calendar tomorrow = (Calendar)mToday.clone();
-        tomorrow.add(Calendar.DAY_OF_MONTH,1);
+        Calendar tomorrow = (Calendar) mToday.clone();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-        Realm realm = Realm.getDefaultInstance();
-        int totalPuzzle = realm.where(Puzzle.class).findAll().size();
-        int todayPuzzle = realm.where(Puzzle.class)
-                .greaterThanOrEqualTo(Puzzle.DATE_TO_MILLISECONDS,mToday.getTimeInMillis())
-                .lessThan(Puzzle.DATE_TO_MILLISECONDS,tomorrow.getTimeInMillis())
+
+        int totalPuzzle = mRealm.where(Puzzle.class).findAll().size();
+        mSize = totalPuzzle;
+        int todayPuzzle = mRealm.where(Puzzle.class)
+                .greaterThanOrEqualTo(Puzzle.DATE_TO_MILLISECONDS, mToday.getTimeInMillis())
+                .lessThan(Puzzle.DATE_TO_MILLISECONDS, tomorrow.getTimeInMillis())
                 .findAll()
                 .size();
         mTotalView.setText(String.valueOf(totalPuzzle));
@@ -103,7 +124,6 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
 
     public void initGraph() {
 
-        //TODO 그래프 서비스로 하기
         LineDataSet dataSet = new LineDataSet(getDataFromDB(), "퍼즐수");
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setDrawValues(false);
@@ -121,7 +141,7 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
         lineData.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return Math.round(value)+"";
+                return Math.round(value) + "";
             }
         });
 
@@ -138,7 +158,7 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
 
-         final String[] strs = getXDays();
+        final String[] strs = getXDays();
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -154,7 +174,6 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
         leftyAxis.setEnabled(false);
 
 
-
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(true);
         rightAxis.setDrawLabels(false);
@@ -164,15 +183,19 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
         mChart.setDescription(null);
         mChart.setNoDataText("데이터가 없어요~!");
         mChart.animateY(1000, Easing.EasingOption.EaseInOutBack);
-        IMarker marker = new CustomMarkerView(getContext(),R.layout.custom_marker_view_layout);
+        IMarker marker = new CustomMarkerView(getContext(), R.layout.custom_marker_view_layout);
         mChart.setMarker(marker);
-        Highlight h = new Highlight(X_COUNT-1,0,0);
-        mChart.highlightValue(h,false);
+        Highlight h = new Highlight(X_COUNT - 1, 0, 0);
+        mChart.highlightValue(h, false);
 
         mChart.invalidate();
-
-
     }
+
+    //TODO 그래프 서비스로 하기
+
+
+
+
 
     public List<Entry> getDataFromDB() {
         Realm realm = Realm.getDefaultInstance();

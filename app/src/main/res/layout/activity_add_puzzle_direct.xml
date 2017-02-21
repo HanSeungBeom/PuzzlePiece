@@ -50,18 +50,26 @@
     <LinearLayout
         android:animateLayoutChanges="true"
         android:id="@+id/ll_search_zone"
+        android:background="@color/blueGrey50"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-
+            android:layout_marginRight="10dp"
             android:background="@color/blueGrey50"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:padding="10dp"
+
             android:focusable="true"
             android:focusableInTouchMode="true">
+            <ImageView
+                android:id="@+id/iv_new_friend"
+                android:padding="7dp"
+                android:src="@drawable/ic_new_friend"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
             <ImageView
                 android:src="@drawable/search"
                 android:layout_width="20dp"
@@ -85,8 +93,8 @@
                 android:visibility="invisible"
                 android:id="@+id/clear"
                 android:src="@drawable/ic_clear"
-                android:layout_width="15dp"
-                android:layout_height="15dp" />
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -97,7 +105,7 @@
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="120dp"
                 android:padding="5dp"
                 android:background="@color/blueGrey50"
                 android:orientation="vertical">
@@ -145,18 +153,6 @@
 
             </LinearLayout>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:tint="@color/white"
-                android:src="@drawable/ic_user_puzzle"
-                android:layout_margin="10dp"
-                android:scaleType="center"
-                android:layout_gravity="bottom|right"
-                android:backgroundTint="@color/Grey900"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:elevation="0dp"/>
-
         </FrameLayout>
     </LinearLayout>
 
@@ -164,21 +160,36 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/Grey300"/>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:padding="16dp"
-        android:background="@color/white">
-
-        <EditText
-            android:id="@+id/et_add_puzzle"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top"
-            android:hint="무슨 얘기를 나누셨나요?"
-            android:textColorHint="@color/Grey300"
-            android:background="@null"/>
-    </LinearLayout>
+            android:padding="16dp"
+            android:background="@color/white">
+
+            <EditText
+                android:id="@+id/et_add_puzzle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:hint="무슨 얘기를 나누셨나요?"
+                android:textColorHint="@color/Grey300"
+                android:background="@null"/>
+        </LinearLayout>
+        <ImageView
+            android:onClick="startRecord"
+            android:src="@drawable/record_black1"
+            android:textSize="20dp"
+            android:id="@+id/iv_stt"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_gravity="right"
+            android:layout_margin="8dp"
+            />
+    </FrameLayout>
+
 
 </LinearLayout>

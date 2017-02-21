@@ -23,6 +23,11 @@ public class AppPermissions {
             Manifest.permission.PROCESS_OUTGOING_CALLS
     };
 
+    public static final String[] STT_PERMISSIONS={
+            Manifest.permission.RECORD_AUDIO
+    };
+
+
 
     public static boolean hasPhotoPermissionsGranted(Context context) {
         for (String permission : PHOTO_PERMISSIONS) {

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
     <color name="Grey900">#212121</color>
     <color name="Grey700">#616161</color>
@@ -12,14 +10,11 @@
     <color name="Grey50">#fafafa</color>
     <color name="white">#ffffff</color>
     <color name="blue">#3573BF</color>
-    <color name="lightblue">#03A9F4</color>
     <color name="blueGrey50">#ECEFF1</color>
-    <color name="blueGrey100">#CFD8DC</color>
     <color name="green">#28AE61</color>
     <color name="orange">#FFC107</color>
     <color name="greengrey">#E8EBEB</color>
     <color name="black_semi_transparent">#B2000000</color>
-    <color name="transparent">#00000000</color>
 
     <color name="material_red">#F44336</color>
     <color name="material_pink">#e91e63</color>
