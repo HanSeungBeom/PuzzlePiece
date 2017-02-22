@@ -243,7 +243,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         android.app.AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        dialog.getWindow().setLayout(600, 900);
+        dialog.getWindow().setLayout(450, 900);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class TabReviewFragment extends Fragment{
             }
         });
 
-        mReviewAdapter = new ReviewRecyclerViewAdapter(this, getTodayPuzzles());
+        mReviewAdapter = new ReviewRecyclerViewAdapter(getContext(), getTodayPuzzles());
 
     }
 
@@ -128,16 +128,7 @@ public class TabReviewFragment extends Fragment{
                 .findAllSortedAsync(Puzzle.DATE_TO_MILLISECONDS,Sort.ASCENDING);
     }
 
-    public void settingClickedFriendLog(long friendId){
-        if(friendId==-1){
-            mReviewAdapter.updateData(getTodayPuzzles());
-        }
-        else{
-            mReviewAdapter.updateData(getTodayFriendPuzzles(friendId));
-        }
 
-
-    }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_review, container,false);

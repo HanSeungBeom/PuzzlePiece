@@ -246,7 +246,7 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
                                         android.app.AlertDialog dialog1 = builder.create();
                                         dialog1.setCanceledOnTouchOutside(false);
                                         dialog1.show();
-                                        dialog1.getWindow().setLayout(600, 900);
+                                        dialog1.getWindow().setLayout(450, 900);
                                     }
                                 } else if (id == 1) { //전화번호부 등록하기
                                     Intent intent = new Intent(Intent.ACTION_PICK);

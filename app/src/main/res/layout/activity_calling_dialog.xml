@@ -7,12 +7,11 @@
     >
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="50dp">
         <LinearLayout
             android:background="@color/material_amber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:paddingLeft="25dp">
@@ -29,9 +28,8 @@
                 android:id="@+id/tv_phone_number"
                 android:text="000-0000-0000"
                 android:textSize="13dp"
-                android:paddingTop="5dp"
-                android:paddingLeft="3dp"
-                android:textColor="@color/Grey50"
+
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -43,14 +41,49 @@
             android:tint="@color/white"
             android:src="@drawable/ic_clear"
             android:layout_gravity="right|top"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_calling"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:background="@color/blueGrey50">
+            <ImageView
+                android:src="@drawable/ic_puzzles_grey"
+                android:tint="@color/Grey500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:textSize="13dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/Grey500"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="@string/no_puzzle_calling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </FrameLayout>
 
-    <fragment
+
+<!--    <fragment
         android:name="bumbums.puzzlepiece.ui.PuzzleLogFragment"
         android:id="@+id/puzzle_log_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"/>-->
 
 </LinearLayout>

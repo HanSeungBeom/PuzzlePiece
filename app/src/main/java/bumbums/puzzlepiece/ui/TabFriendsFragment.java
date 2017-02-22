@@ -187,7 +187,7 @@ MainActivity.onKeyBackPressedListener
                 AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-                dialog.getWindow().setLayout(600, 900);
+                dialog.getWindow().setLayout(450, 900);
             }
                 fab.collapse();
                 break;

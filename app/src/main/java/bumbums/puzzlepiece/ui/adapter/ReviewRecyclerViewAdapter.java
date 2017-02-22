@@ -1,5 +1,6 @@
 package bumbums.puzzlepiece.ui.adapter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,10 +28,10 @@ import io.realm.RealmRecyclerViewAdapter;
 public class ReviewRecyclerViewAdapter extends
         RealmRecyclerViewAdapter<Puzzle, ReviewRecyclerViewAdapter.MyViewHolder> {
 
-    private final TabReviewFragment reviewFragment;
-    public ReviewRecyclerViewAdapter(TabReviewFragment tabReviewFragment, OrderedRealmCollection<Puzzle> data){
-        super(tabReviewFragment.getContext(),data,true);
-        this.reviewFragment = tabReviewFragment;
+    private final Context mContext;
+    public ReviewRecyclerViewAdapter(Context context, OrderedRealmCollection<Puzzle> data){
+        super(context,data,true);
+        this.mContext = context;
     }
 
 
@@ -54,7 +55,7 @@ public class ReviewRecyclerViewAdapter extends
         holder.data = obj;
         Realm realm = Realm.getDefaultInstance();
         Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,obj.getFriendId()).findFirst();
-        FirebaseTasks.loadFriendPhoto(reviewFragment.getContext(),friend,holder.photo);
+        FirebaseTasks.loadFriendPhoto(mContext,friend,holder.photo);
 //        holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getFriendId())%15]);
 
         holder.name.setText(obj.getFriendName());
@@ -86,17 +87,12 @@ public class ReviewRecyclerViewAdapter extends
             expTv = (ExpandableTextView)view
                     .findViewById(R.id.expand_text_view);
 
-            view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
 
-               /*  Intent intent = new Intent(tabFriendsFragment.getContext(),FriendDetailActivity.class);
-                    intent.putExtra(EXTRA_ID,data.getId());
-                    tabFriendsFragment.getContext().startActivity(intent);*/
-            // Log.d("###","click");
         }
 
         @Override
@@ -107,12 +103,6 @@ public class ReviewRecyclerViewAdapter extends
 
 
 
-       /* @Override
-        public void onClick(View v) {
-            for(int i=0;i<data.getDogs().size();i++){
-                Log.d("###",data.getDogs().get(i).getName());
-            }
-        }*/
 
     }
 }

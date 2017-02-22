@@ -103,9 +103,7 @@ public class FriendReviewRecyclerViewAdapter  extends
             else{
                 mSelectedId = data.getId();
             }
-            tabReviewFragment.settingClickedFriendLog(mSelectedId);
 
-            notifyDataSetChanged();
 
         }
 

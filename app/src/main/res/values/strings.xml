@@ -44,5 +44,6 @@
     <string name="phone_number_is_empty">전화번호를 등록해주세요.</string>
     <string name="set_version">버전 정보</string>
     <string name="set_version_detail">PuzzlePiece v1.0</string>
+    <string name="no_puzzle_calling">표시할 퍼즐이 없습니다.</string>
 
 </resources>
