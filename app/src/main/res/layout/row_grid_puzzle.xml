@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/white"
-        android:layout_margin="3dp"
-
-
+        android:layout_margin="6dp"
+        android:elevation="1dp"
         >
         <View
             android:id="@+id/color_view"
@@ -70,5 +69,6 @@
         android:layout_gravity="right|center"
         android:src="@drawable/semi_circle"
         android:layout_width="wrap_content"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:layout_marginRight="6dp"/>
 </FrameLayout>
