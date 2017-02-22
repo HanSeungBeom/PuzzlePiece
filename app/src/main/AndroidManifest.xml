@@ -9,11 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".MyApplication"
@@ -23,21 +21,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
-        <activity
-            android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+        <activity android:name=".ui.Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize">
+
         </activity>
         <activity
             android:name=".ui.FriendDetailActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="bumbums.puzzlepiece.ui.MainActivity" />
@@ -45,27 +47,28 @@
         </activity>
         <activity
             android:name=".ui.AddPuzzleActivity"
-            android:windowSoftInputMode="stateVisible"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.AddFriendActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Translucent"
-            android:windowSoftInputMode="stateVisible"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.EditFriendActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name=".ui.PuzzleDetailActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name=".ui.AddPuzzleDirectActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.ReviewActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".ui.ReviewActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".task.NotificationService" />
 
@@ -86,16 +89,18 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".receiver.IncomingCallBroadcastReceiver">
-
             <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".task.CallingService"/>
-        <activity android:name=".ui.CallingDialog"
-            android:screenOrientation="portrait"></activity>
+        <service android:name=".task.CallingService" />
+
+        <activity
+            android:name=".ui.CallingDialog"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
