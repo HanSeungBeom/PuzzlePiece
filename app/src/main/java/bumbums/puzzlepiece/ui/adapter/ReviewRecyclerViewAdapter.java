@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ms.square.android.expandabletextview.ExpandableTextView;
+
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
@@ -41,7 +43,7 @@ public class ReviewRecyclerViewAdapter extends
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_puzzle_log, parent, false);
+                .inflate(R.layout.row_review_text, parent, false);
         //itemView.setMinimumWidth(parent.getMeasuredWidth()/2);
         return new MyViewHolder(itemView);
     }
@@ -57,7 +59,8 @@ public class ReviewRecyclerViewAdapter extends
 
         holder.name.setText(obj.getFriendName());
         holder.time.setText(Utils.dateToCurrentFormat(obj.getDate()));
-        holder.text.setText(obj.getText());
+        holder.expTv.setText(obj.getText());
+      //  holder.text.setText(obj.getText());
 
     }
 
@@ -68,9 +71,10 @@ public class ReviewRecyclerViewAdapter extends
         public TextView name;
         public TextView time;
         public TextView text;
-
         public ImageView photo;
         public Puzzle data;
+        public ExpandableTextView expTv;
+
         //public View colorView;
         public MyViewHolder(View view) {
             super(view);
@@ -78,7 +82,9 @@ public class ReviewRecyclerViewAdapter extends
             photo = (ImageView)view.findViewById(R.id.iv_friend_photo);
             name = (TextView)view.findViewById(R.id.tv_row_log_name);
             time = (TextView)view.findViewById(R.id.tv_row_log_time);
-            text = (TextView)view.findViewById(R.id.tv_row_log_text);
+           // text = (TextView)view.findViewById(R.id.tv_row_log_text);
+            expTv = (ExpandableTextView)view
+                    .findViewById(R.id.expand_text_view);
 
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);

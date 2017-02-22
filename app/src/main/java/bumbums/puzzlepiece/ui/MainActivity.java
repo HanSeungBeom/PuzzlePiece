@@ -142,12 +142,12 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case 1:
                 Utils.hideKeyboard(this);
-                mTitle.setText("통계");
+                mTitle.setText("퍼즐 그래프");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 Utils.hideKeyboard(this);
-                mTitle.setText("랭킹");
+                mTitle.setText("퍼즐 랭킹");
                 mFriendNum.setVisibility(View.INVISIBLE);
                 break;
             case 3:

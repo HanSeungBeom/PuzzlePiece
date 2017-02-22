@@ -48,7 +48,7 @@ dependencies {
     compile 'gun0912.ted:tedpermission:1.0.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-
+    compile 'com.ms-square:expandableTextView:0.1.4'
 
 
     testCompile 'junit:junit:4.12'

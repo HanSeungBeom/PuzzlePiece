@@ -34,11 +34,9 @@ import io.realm.Sort;
 public class TabReviewFragment extends Fragment{
 
     private RecyclerView mReviewRecyclerView;
-    private RecyclerView mFriendRecyclerView;
     private Realm realm;
     private LinearLayout mEmptyView;
     private ReviewRecyclerViewAdapter mReviewAdapter;
-    private FriendReviewRecyclerViewAdapter mFriendAdapter;
     private RealmResults<Friend> todayFriends;
 
 
@@ -58,7 +56,7 @@ public class TabReviewFragment extends Fragment{
                 }
             }
         });
-        mFriendAdapter = new FriendReviewRecyclerViewAdapter(this, getTodayFriend());
+
         mReviewAdapter = new ReviewRecyclerViewAdapter(this, getTodayPuzzles());
 
     }
@@ -108,7 +106,7 @@ public class TabReviewFragment extends Fragment{
         RealmResults<Puzzle> todayPuzzles = realm.where(Puzzle.class)
                 .greaterThanOrEqualTo(Puzzle.DATE_TO_MILLISECONDS,today.getTimeInMillis())
                 .lessThan(Puzzle.DATE_TO_MILLISECONDS,tomorrow.getTimeInMillis())
-                .findAllSorted(Puzzle.DATE_TO_MILLISECONDS,Sort.ASCENDING);;
+                .findAllSorted(Puzzle.DATE_TO_MILLISECONDS,Sort.ASCENDING);
 
         return todayPuzzles;
     }
@@ -144,15 +142,11 @@ public class TabReviewFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_review, container,false);
         mReviewRecyclerView =(RecyclerView) view.findViewById(R.id.rv_review);
-        mFriendRecyclerView =(RecyclerView) view.findViewById(R.id.rv_review_friend);
         mEmptyView = (LinearLayout)view.findViewById(R.id.empty_view);
         setUpRecyclerView();
         return view;
     }
     private void setUpRecyclerView(){
-        mFriendRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        mFriendRecyclerView.setAdapter(mFriendAdapter);
-        mFriendRecyclerView.setHasFixedSize(true);
 
         mReviewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mReviewRecyclerView.setAdapter(mReviewAdapter);

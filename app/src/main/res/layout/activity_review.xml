@@ -11,7 +11,7 @@
         android:background="@color/material_amber">
         <ImageView
             android:tint="@color/white"
-            android:src="@drawable/ic_noti_review1"
+            android:src="@drawable/puzzles_white"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"/>
