@@ -66,6 +66,7 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
     private SpeechRecognizer mRecognizer;
     private ImageView mRecord;
     private ImageView mNewFriend;
+    private LinearLayout mNewFriendBg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +83,8 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
         mPuzzle = (ImageView) findViewById(R.id.iv_puzzle);
         mSearch = (EditText) findViewById(R.id.et_search);
         mEmptyView = (LinearLayout) findViewById(R.id.empty_view);
+        mNewFriendBg = (LinearLayout)findViewById(R.id.ll_add_new_friend) ;
+        mNewFriendBg.setOnClickListener(this);
         mSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

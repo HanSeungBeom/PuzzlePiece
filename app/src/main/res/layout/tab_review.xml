@@ -47,13 +47,13 @@
         android:gravity="center"
         android:background="@color/blueGrey50">
         <ImageView
-            android:src="@drawable/tab_review_on"
-            android:tint="@color/Grey500"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/puzzles_black"
+            android:tint="@color/Grey300"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
         <TextView
             android:paddingTop="10dp"
-            android:textColor="@color/Grey700"
+            android:textColor="@color/Grey500"
             android:textStyle="bold"
             android:gravity="center"
             android:text="@string/no_today_puzzle"
@@ -61,9 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textSize="13dp"
+            android:textSize="11dp"
             android:paddingTop="10dp"
-            android:textColor="@color/Grey500"
+            android:textColor="@color/material_blue_grey"
             android:textStyle="bold"
             android:gravity="center"
             android:text="@string/no_today_puzzle_detail"
