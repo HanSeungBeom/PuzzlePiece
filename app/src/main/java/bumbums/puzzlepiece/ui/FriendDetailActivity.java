@@ -44,6 +44,7 @@ import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
+import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -243,7 +244,10 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         android.app.AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        dialog.getWindow().setLayout(450, 900);
+        int width = Utils.getScreenWidth(FriendDetailActivity.this);
+        int height = Utils.getScreenHeight(FriendDetailActivity.this);
+        //ialog.getWindow().setLayout((int)(width *  0.8), (int) (height *  0.8));
+
     }
 
     @Override

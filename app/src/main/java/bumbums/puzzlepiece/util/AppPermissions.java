@@ -20,7 +20,9 @@ public class AppPermissions {
     };
     public static final String[] CALLING_PERMISSIONS={
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.PROCESS_OUTGOING_CALLS
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.SYSTEM_ALERT_WINDOW
+
     };
 
     public static final String[] STT_PERMISSIONS={
@@ -59,4 +61,6 @@ public class AppPermissions {
         }
         return true;
     }
+
+
 }

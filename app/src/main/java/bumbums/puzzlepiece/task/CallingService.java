@@ -92,14 +92,19 @@ public class CallingService extends Service {
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         rootView = layoutInflater.inflate(R.layout.activity_calling_dialog, null);
+       /* name = (TextView) rootView.findViewById(R.id.tv_name);
+        phone = (TextView) rootView.findViewById(R.id.tv_phone_number);
+        clear = (ImageView) rootView.findViewById(R.id.iv_clear);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_calling);
+        mEmptyView = (LinearLayout) rootView.findViewById(R.id.empty_view);*/
+        realm = Realm.getDefaultInstance();
+
         name = (TextView) rootView.findViewById(R.id.tv_name);
         phone = (TextView) rootView.findViewById(R.id.tv_phone_number);
         clear = (ImageView) rootView.findViewById(R.id.iv_clear);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_calling);
         mEmptyView = (LinearLayout) rootView.findViewById(R.id.empty_view);
-        realm = Realm.getDefaultInstance();
         mAdapter = new ReviewRecyclerViewAdapter(this, null);
-
         setUpRecyclerView();
 
         clear.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +113,7 @@ public class CallingService extends Service {
                 removePopup();
             }
         });
+
         // setDraggable();
 
 
@@ -132,7 +138,13 @@ public class CallingService extends Service {
             }catch (InterruptedException ie){
 
             }
+
+            if(rootView.getWindowToken()!=null){
+                windowManager.removeView(rootView);
+            }
             windowManager.addView(rootView, params);
+
+
             if (!TextUtils.isEmpty(call_number)) {
                 phone.setText(call_number);
                 name.setText(friend.getName());

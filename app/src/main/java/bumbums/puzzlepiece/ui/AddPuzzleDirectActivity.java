@@ -21,10 +21,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -245,8 +247,14 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
 
                                         android.app.AlertDialog dialog1 = builder.create();
                                         dialog1.setCanceledOnTouchOutside(false);
+
+
+
                                         dialog1.show();
-                                        dialog1.getWindow().setLayout(450, 900);
+                                        int width = Utils.getScreenWidth(AddPuzzleDirectActivity.this);
+                                        int height = Utils.getScreenHeight(AddPuzzleDirectActivity.this);
+
+                                        //dialog1.getWindow().setLayout((int)(width *  0.8), (int) (height *  0.7));
                                     }
                                 } else if (id == 1) { //전화번호부 등록하기
                                     Intent intent = new Intent(Intent.ACTION_PICK);

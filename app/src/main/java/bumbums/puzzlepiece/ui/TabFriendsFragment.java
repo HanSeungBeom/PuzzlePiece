@@ -190,7 +190,9 @@ MainActivity.onKeyBackPressedListener
                 AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-                dialog.getWindow().setLayout(450, 900);
+                int width = Utils.getScreenWidth(mContext);
+                int height = Utils.getScreenHeight(mContext);
+                //dialog.getWindow().setLayout((int)(width *  0.8), (int) (height *  0.8));;
             }
                 fab.collapse();
                 break;

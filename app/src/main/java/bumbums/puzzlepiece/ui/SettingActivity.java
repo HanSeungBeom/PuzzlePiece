@@ -416,7 +416,8 @@ public class SettingActivity extends AppCompatActivity implements
                 .setGotoSettingButtonText("setting")
                 .setPermissions(
                         Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.PROCESS_OUTGOING_CALLS
+                        Manifest.permission.PROCESS_OUTGOING_CALLS,
+                        Manifest.permission.SYSTEM_ALERT_WINDOW
                 )
                 .check();
     }

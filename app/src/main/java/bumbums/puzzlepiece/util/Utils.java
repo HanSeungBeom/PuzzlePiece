@@ -21,8 +21,10 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -51,6 +53,7 @@ import bumbums.puzzlepiece.ui.SettingActivity;
 import io.realm.Realm;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.WINDOW_SERVICE;
 import static bumbums.puzzlepiece.task.NotificationService.NOTIFICATION_CODE;
 
 /**
@@ -433,4 +436,16 @@ public class Utils {
         return new String(sdf.format(calendar.getTime()));
     }
 
+    public static int getScreenWidth(Context context){
+        WindowManager windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displaymetrics);
+        return displaymetrics.widthPixels;
+    }
+    public static int getScreenHeight(Context context){
+        WindowManager windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displaymetrics);
+        return displaymetrics.heightPixels;
+    }
 }
