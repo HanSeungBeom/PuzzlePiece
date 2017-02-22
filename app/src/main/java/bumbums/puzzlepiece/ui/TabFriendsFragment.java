@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.task.RealmTasks;
 import bumbums.puzzlepiece.ui.adapter.FriendRecyclerViewAdapter;
 import bumbums.puzzlepiece.util.Utils;
@@ -142,9 +143,11 @@ MainActivity.onKeyBackPressedListener
     }
 
     public void deleteFriend(final long id){
+        FirebaseTasks.deletePhoto(getContext(),id);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+
                 RealmResults<Friend> rows = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,id).findAll();
                 rows.deleteAllFromRealm();
 

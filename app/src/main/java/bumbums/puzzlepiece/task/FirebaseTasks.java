@@ -32,6 +32,7 @@ import io.realm.Realm;
 public class FirebaseTasks {
 
 
+
     public static void deletePhoto(Context context, final long friendId) {
         final Realm realm = Realm.getDefaultInstance();
         //제거하기
@@ -49,8 +50,10 @@ public class FirebaseTasks {
             @Override
             public void execute(Realm realm) {
                 Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst();
-                friend.setProfilePath(null);
-                friend.setProfileName(null);
+               if(friend!=null) {
+                   friend.setProfilePath(null);
+                   friend.setProfileName(null);
+               }
             }
         });
 
@@ -64,7 +67,8 @@ public class FirebaseTasks {
                     @Override
                     public void execute(Realm realm) {
                         Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, friendId).findFirst();
-                        friend.setProfileUrl(null);
+                        if(friend!=null)
+                            friend.setProfileUrl(null);
                     }
                 });
             }
