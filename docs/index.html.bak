@@ -92,8 +92,8 @@
 					<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="second">
 						<div class="content">
 							<h2>기록의 활용</h2>
-							<p>지인과 나누셨던 소중한 대화가 기억 안나시나요?<br>
-								갑자기 전화할 일이 생겨서 당황스러우신가요.<br>
+							<p>Out of Sight, Out of Mind.<br><br>
+								지인과 나누셨던 소중한 대화가 기억 안나시나요?<br>
 								그 동안 저에게 작성해 주신 소중한 퍼즐들로 도와드릴게요.</p>
 							<ul class="actions vertical">
 								<li><a href="#three"  class="button big wide smooth-scroll-middle">Next</a></li>
@@ -127,17 +127,12 @@
 					<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="four">
 						<div class="content">
 							<h1>시연 영상</h1>
-							<h3>-지인 등록<br>
-								-퍼즐 등록<br>
-		
-								-퍼즐 분석<br>
-
-								-<b><font size="13" color="#ff6600">백업 및 복구</font></b><br>
-								-<b><font size="13" color="#ff6600">간편성</font></b><br>
-								-<b><font size="13" color="#ff6600">기록의 활용</font></b><br>
-								</h3>
+							<p>-지인 등록, 퍼즐 등록, 퍼즐 활용영상<br>
+							-3가지 목표 구현영상
+							</p>
+					
 							<ul class="actions vertical">
-								<li><a href="six"  class="button big wide smooth-scroll-middle">Next</a></li>
+								<li><a href="#six"  class="button big wide smooth-scroll-middle">Next</a></li>
 							</ul>
 						</div>
 						<div class="image">
