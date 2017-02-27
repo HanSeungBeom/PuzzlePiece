@@ -120,7 +120,6 @@ public class CallingService extends Service {
     }
 
     private void setUpRecyclerView() {
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
