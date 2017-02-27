@@ -3,7 +3,9 @@ package bumbums.puzzlepiece.util;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 
 /**
@@ -21,7 +23,7 @@ public class AppPermissions {
     public static final String[] CALLING_PERMISSIONS={
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.PROCESS_OUTGOING_CALLS,
-            Manifest.permission.SYSTEM_ALERT_WINDOW
+           // Manifest.permission.SYSTEM_ALERT_WINDOW
 
     };
 

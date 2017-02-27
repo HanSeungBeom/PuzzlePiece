@@ -13,7 +13,9 @@ import android.util.Log;
 
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.task.CallingService;
+import io.realm.Realm;
 
 /**
  * Created by han sb on 2017-02-21.
@@ -36,6 +38,8 @@ public class IncomingCallBroadcastReceiver extends BroadcastReceiver {
         boolean isCallingOn = sharedPreferences.getBoolean(context.getString(R.string.pref_calling), false);
 
         if (isCallingOn) {
+
+
             // Log.d(TAG, "onReceive()");
             String action = intent.getAction();
             Bundle bundle = intent.getExtras();
@@ -50,9 +54,12 @@ public class IncomingCallBroadcastReceiver extends BroadcastReceiver {
                 } else if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
 
                     phone_number = bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    Intent serviceIntent = new Intent(context, CallingService.class);
-                    serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, phone_number);
-                    context.startService(serviceIntent);
+
+                    if(isFriendExist(phone_number)){
+                        Intent serviceIntent = new Intent(context, CallingService.class);
+                        serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, phone_number);
+                        context.startService(serviceIntent);
+                    }
                     Log.d("###", " EXTRA_STATE_RINGING INCOMMING NUMBER : " + bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER));
                 } else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
 
@@ -60,13 +67,22 @@ public class IncomingCallBroadcastReceiver extends BroadcastReceiver {
                 }
             } else if (action.equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
                 phone_number = bundle.getString(Intent.EXTRA_PHONE_NUMBER);
-                Intent serviceIntent = new Intent(context, CallingService.class);
-                serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, phone_number);
-                context.startService(serviceIntent);
 
+                if(isFriendExist(phone_number)) {
+                    Intent serviceIntent = new Intent(context, CallingService.class);
+                    serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, phone_number);
+                    context.startService(serviceIntent);
+                }
                 Log.d("###", " OUTGOING CALL : " + bundle.getString(Intent.EXTRA_PHONE_NUMBER));
             }
         }
+    }
+
+    public boolean isFriendExist(String phoenNumber){
+        Realm realm = Realm.getDefaultInstance();
+        Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_PHONE_NUMBER,phoenNumber).findFirst();
+        if(friend!=null) return true;
+        else return false;
     }
 
 }

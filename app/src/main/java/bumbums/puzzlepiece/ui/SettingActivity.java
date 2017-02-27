@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +19,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,6 +63,8 @@ import bumbums.puzzlepiece.task.NotificationService;
 import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.util.RealmBackupRestore;
 import bumbums.puzzlepiece.util.Utils;
+
+import static android.provider.Settings.canDrawOverlays;
 
 public class SettingActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -303,15 +309,21 @@ public class SettingActivity extends AppCompatActivity implements
             case R.id.sw_calling:{
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 SharedPreferences.Editor editor = pref.edit();
+                Boolean isHasPermissionForAlertWindow =false;
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                     isHasPermissionForAlertWindow = Settings.canDrawOverlays(this);
+                }
+                else{
+                    isHasPermissionForAlertWindow = true;
+                }
+
                 if (isChecked) {
-                    if(AppPermissions.hasCallingPermissionsGranted(this)){
+                    if(AppPermissions.hasCallingPermissionsGranted(this) && isHasPermissionForAlertWindow){
                         editor.putBoolean(getString(R.string.pref_calling), true);
                     }
-                    else{
+                      else{
                         setUpTedPermissionForCalling();
-                        mCallingSwitch.setChecked(false);
                     }
-
                 } else {
                     editor.putBoolean(getString(R.string.pref_calling), false);
                 }
@@ -400,11 +412,16 @@ public class SettingActivity extends AppCompatActivity implements
             @Override
             public void onPermissionGranted() {
                 Toast.makeText(SettingActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean(getString(R.string.pref_calling), true);
+                editor.commit();
             }
 
             @Override
             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
                 Toast.makeText(SettingActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                mCallingSwitch.setChecked(false);
             }
         };
 

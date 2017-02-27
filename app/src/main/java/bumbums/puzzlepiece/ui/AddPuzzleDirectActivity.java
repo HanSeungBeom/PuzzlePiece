@@ -67,6 +67,7 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
     private ImageView mRecord;
     private ImageView mNewFriend;
     private LinearLayout mNewFriendBg;
+    private Toast mToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -328,6 +329,11 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
         public void onReadyForSpeech(Bundle params) {
             mRecord.setImageResource(R.drawable.record_red);
 
+            if(mToast!=null)
+                mToast.cancel();
+            mToast=Toast.makeText(AddPuzzleDirectActivity.this,"말씀해주세요~",Toast.LENGTH_SHORT);
+            mToast.show();
+
         }
 
         @Override
@@ -352,7 +358,10 @@ public class AddPuzzleDirectActivity extends AppCompatActivity implements View.O
 
         @Override
         public void onError(int error) {
-
+            if(mToast!=null)
+                mToast.cancel();
+            mToast=Toast.makeText(AddPuzzleDirectActivity.this,"에러가 발생하였습니다. 다시 시도해주세요.",Toast.LENGTH_SHORT);
+            mToast.show();
         }
 
         @Override

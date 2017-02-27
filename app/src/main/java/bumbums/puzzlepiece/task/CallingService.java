@@ -2,8 +2,10 @@ package bumbums.puzzlepiece.task;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +53,8 @@ public class CallingService extends Service {
     private RecyclerView mRecyclerView;
     private Realm realm;
     private LinearLayout mEmptyView;
-
+    public static int PARAM_DEFAULT_INT = -11111;
+    private Boolean mIsRemoved ;
     @Override
     public IBinder onBind(Intent intent) {
 
@@ -85,18 +88,14 @@ public class CallingService extends Service {
                         | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
                 PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.TOP;
-        params.y =20;
+
+        settingParamXY();
 
         params.windowAnimations = android.R.style.Animation_Toast;
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         rootView = layoutInflater.inflate(R.layout.activity_calling_dialog, null);
-       /* name = (TextView) rootView.findViewById(R.id.tv_name);
-        phone = (TextView) rootView.findViewById(R.id.tv_phone_number);
-        clear = (ImageView) rootView.findViewById(R.id.iv_clear);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_calling);
-        mEmptyView = (LinearLayout) rootView.findViewById(R.id.empty_view);*/
+
         realm = Realm.getDefaultInstance();
 
         name = (TextView) rootView.findViewById(R.id.tv_name);
@@ -105,6 +104,7 @@ public class CallingService extends Service {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_calling);
         mEmptyView = (LinearLayout) rootView.findViewById(R.id.empty_view);
         mAdapter = new ReviewRecyclerViewAdapter(this, null);
+        mIsRemoved = false;
         setUpRecyclerView();
 
         clear.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +114,60 @@ public class CallingService extends Service {
             }
         });
 
-        // setDraggable();
+        setDraggable();
 
 
     }
+
+    private void settingParamXY() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        int savedX = pref.getInt(getString(R.string.pref_calling_param_x),PARAM_DEFAULT_INT);
+        int savedY = pref.getInt(getString(R.string.pref_calling_param_y),PARAM_DEFAULT_INT);
+        if(savedX!=PARAM_DEFAULT_INT && savedY!=PARAM_DEFAULT_INT){
+            //저장된 값이 있으면
+            params.x = savedX;
+            params.y = savedY;
+        }
+        else{
+            params.gravity = Gravity.TOP;
+            params.y =20;
+        }
+    }
+
+    private void setDraggable() {
+
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            private int initialX;
+            private int initialY;
+            private float initialTouchX;
+            private float initialTouchY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        initialX = params.x;
+                        initialY = params.y;
+                        initialTouchX = event.getRawX();
+                        initialTouchY = event.getRawY();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        params.x = initialX + (int) (event.getRawX() - initialTouchX);
+                        params.y = initialY + (int) (event.getRawY() - initialTouchY);
+
+                        if (rootView != null)
+                            windowManager.updateViewLayout(rootView, params);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+
 
     private void setUpRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -182,14 +232,28 @@ public class CallingService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         removePopup();
+        super.onDestroy();
+
     }
 
 
     //Onclick
     public void removePopup() {
-        if (rootView != null && windowManager != null) windowManager.removeView(rootView);
+
+        if(!mIsRemoved) {
+            if (rootView != null && windowManager != null) {
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt(getString(R.string.pref_calling_param_x), params.x);
+                editor.putInt(getString(R.string.pref_calling_param_y), params.y);
+                editor.commit();
+
+
+                windowManager.removeView(rootView);
+                mIsRemoved = true;
+            }
+        }
     }
 
     public void showEmptyView() {

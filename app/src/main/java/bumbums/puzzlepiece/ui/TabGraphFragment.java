@@ -80,21 +80,31 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
         initGraph();
 
         puzzles = mRealm.where(Puzzle.class).findAllAsync();
-        puzzles.addChangeListener(new RealmChangeListener<RealmResults<Puzzle>>() {
-            @Override
-            public void onChange(RealmResults<Puzzle> element) {
-                if (element.size() != mSize) {
-                    mSize = element.size();
-                    initDate();
-                    initGraph();
-                }
-            }
-        });
+
         return view;
 
 
     }
 
+    @Override
+    public void onStart() {
+
+        super.onStart();
+        initDate();
+        initGraph();
+        puzzles.addChangeListener(callback);
+    }
+
+    private RealmChangeListener callback = new RealmChangeListener<RealmResults<Puzzle>>() {
+        @Override
+        public void onChange(RealmResults<Puzzle> element) {
+            if (element.size() != mSize) {
+                mSize = element.size();
+                initDate();
+                initGraph();
+            }
+        }
+    };
     public void initDate() {
         mToday = Calendar.getInstance();
         mToday.set(Calendar.HOUR_OF_DAY, 0);
@@ -247,5 +257,9 @@ public class TabGraphFragment extends android.support.v4.app.Fragment {
         return xValues;
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        puzzles.removeChangeListener(callback);
+    }
 }

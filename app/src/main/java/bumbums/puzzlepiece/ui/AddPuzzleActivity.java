@@ -37,6 +37,7 @@ public class AddPuzzleActivity extends AppCompatActivity {
     private Intent recordIntent;
     private SpeechRecognizer mRecognizer;
     private ImageView mRecord;
+    private Toast mToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +145,10 @@ public class AddPuzzleActivity extends AppCompatActivity {
         @Override
         public void onReadyForSpeech(Bundle params) {
             mRecord.setImageResource(R.drawable.record_red);
-
+            if(mToast!=null)
+                mToast.cancel();
+            mToast=Toast.makeText(AddPuzzleActivity.this,"말씀해주세요~",Toast.LENGTH_SHORT);
+            mToast.show();
         }
 
         @Override
@@ -169,7 +173,10 @@ public class AddPuzzleActivity extends AppCompatActivity {
 
         @Override
         public void onError(int error) {
-
+            if(mToast!=null)
+                mToast.cancel();
+            mToast=Toast.makeText(AddPuzzleActivity.this,"에러가 발생하였습니다. 다시 시도해주세요.",Toast.LENGTH_SHORT);
+            mToast.show();
         }
 
         @Override
