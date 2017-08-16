@@ -7,11 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.ui.TabPuzzlesFragment;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
@@ -25,13 +23,13 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class PuzzleRecyclerViewAdpater  extends
         RealmRecyclerViewAdapter<Puzzle, PuzzleRecyclerViewAdpater.MyViewHolder>  {
-    private final TabPuzzlesFragment tabPuzzlesFragment;
+    private final FriendDetailActivity friendDetailActivity;
     public static final String EXTRA_PUZZLE_ID = "puzzle_id";
 
 
-    public PuzzleRecyclerViewAdpater(TabPuzzlesFragment tabPuzzlesFragment, OrderedRealmCollection<Puzzle> data) {
-        super(tabPuzzlesFragment.getContext(), data, true);
-        this.tabPuzzlesFragment = tabPuzzlesFragment;
+    public PuzzleRecyclerViewAdpater(FriendDetailActivity friendDetailActivity , OrderedRealmCollection<Puzzle> data) {
+        super(friendDetailActivity, data, true);
+        this.friendDetailActivity = friendDetailActivity;
     }
 
     @Override
@@ -77,15 +75,15 @@ public class PuzzleRecyclerViewAdpater  extends
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(tabPuzzlesFragment.getContext(),PuzzleDetailActivity.class);
+            Intent intent = new Intent(friendDetailActivity,PuzzleDetailActivity.class);
             intent.putExtra(EXTRA_PUZZLE_ID,data.getId());
             intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getFriendId());
-            tabPuzzlesFragment.startActivity(intent);
+            friendDetailActivity.startActivity(intent);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(tabPuzzlesFragment.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(friendDetailActivity);
             builder.setTitle("퍼즐 삭제")
                     .setMessage("지인의 퍼즐을 삭제 하시겠습니까?")
                     .setCancelable(false)
@@ -94,7 +92,7 @@ public class PuzzleRecyclerViewAdpater  extends
                     .setPositiveButton("확인", new DialogInterface.OnClickListener(){
                         // 확인 버튼 클릭시 설정
                         public void onClick(DialogInterface dialog, int whichButton){
-                            tabPuzzlesFragment.deletePuzzle(data.getId());
+                            friendDetailActivity.deletePuzzle(data.getId());
                         }
                     })
                     .setNegativeButton("취소", new DialogInterface.OnClickListener(){

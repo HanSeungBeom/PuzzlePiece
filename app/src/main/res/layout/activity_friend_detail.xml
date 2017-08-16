@@ -7,12 +7,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="45dp" />
+        android:orientation="vertical">  <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -73,34 +73,67 @@
                     android:text="01012345678"
                     android:textColor="@color/Grey500" />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
+        <View
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/Grey700">
+        </View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_weight="3">
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:tabIndicatorColor="@color/colorPrimary"
-                app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextColor="@color/Grey500"
-                android:background="@color/white"
-                android:elevation="1dp"
-                />
-            <!--     <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/Grey300"
-                />-->
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="bumbums.puzzlepiece.ui.MainActivity">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_puzzles"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:background="@color/blueGrey50"
+                    android:padding="3dp"
+                    >
+                </android.support.v7.widget.RecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    android:gravity="center"
+                    android:background="@color/blueGrey50">
+                    <ImageView
+                        android:src="@drawable/ic_puzzles_grey"
+                        android:tint="@color/Grey300"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        />
+
+                    <TextView
+                        android:textSize="13dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/Grey500"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="@string/no_puzzle_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+            </FrameLayout>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -109,7 +142,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:tint="@color/white"
         app:backgroundTint="@color/blue"

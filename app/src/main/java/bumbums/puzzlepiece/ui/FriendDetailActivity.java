@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.task.RealmTasks;
+import bumbums.puzzlepiece.ui.adapter.PuzzleRecyclerViewAdpater;
 import bumbums.puzzlepiece.ui.adapter.TabAdapter;
 import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.task.FirebaseTasks;
@@ -48,13 +50,14 @@ import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private FloatingActionButton fab;
     private TextView mName, mRelation, mPhone;
     private ImageView mFriendImage, mFriendImageDefault;
-
     private RecyclerView mRecyclerView;
+    private LinearLayout mEmptyView;
     private Realm realm;
     private Friend mFriend;
     private long mFriendId;
@@ -62,11 +65,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private StorageReference mStorage;
     FirebaseAuth mAuth;
     private Context mContext;
-
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-    private TabAdapter mAdapter;
+    private PuzzleRecyclerViewAdpater mAdapter;
     private LinearLayout mFriendInfo;
+    private RealmResults<Puzzle> puzzles;
     //
     public static final String EXTRA_FRIENDID = "friend_id";
 
@@ -104,7 +105,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mFriendImage.setOnClickListener(this);
         mFriendImageDefault = (ImageView) findViewById(R.id.iv_friend_photo_default);
         mFriendImageDefault.setOnClickListener(this);
-
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv_puzzles);
+        mEmptyView = (LinearLayout)findViewById(R.id.empty_view);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
@@ -116,25 +118,48 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         initData();
         setUpFireBase();
-        setUpTabLayout();
+
+        mAdapter =new PuzzleRecyclerViewAdpater(this, realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllSortedAsync(Puzzle.DATE_TO_MILLISECONDS, Sort.DESCENDING));
+        puzzles = realm.where(Puzzle.class).equalTo(Puzzle.FRIEND_ID,mFriendId).findAllAsync();
+        puzzles.addChangeListener(new RealmChangeListener<RealmResults<Puzzle>>() {
+            @Override
+            public void onChange(RealmResults<Puzzle> element) {
+                if(element.size()==0){
+                    showEmptyView();
+                }
+                else{
+                    hideEmptyView();
+                }
+            }
+        });
+
+        setUpRecyclerView();
     }
+    public void deletePuzzle(final long id){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID,id).findFirst();
+                puzzle.deleteFromRealm();
+                //갱신
+                Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID,mFriendId).findFirst();
+                friend.setPuzzleNum(friend.getPuzzles().size());
+            }
+        });
 
-    public void setUpTabLayout() {
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mAdapter = new TabAdapter(getSupportFragmentManager());
-
-        //setFragment
-        mAdapter.addFragment(new TabPuzzlesFragment());
-        mAdapter.addFragment(new TabRankFragment());
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-
-        //setIcon
-     mTabLayout.getTabAt(0).setIcon(R.drawable.puzzles_selector);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.rank_selector);
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
+        // Toast.makeText(getContext(),"id="+id+" deleted",Toast.LENGTH_SHORT).show();
+    }
+    public void showEmptyView(){
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+    public void hideEmptyView(){
+        mEmptyView.setVisibility(View.INVISIBLE);
+    }
+    private void setUpRecyclerView() {
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 
     public void setUpFireBase() {
