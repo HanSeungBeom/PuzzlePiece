@@ -1,10 +1,16 @@
 package bumbums.puzzlepiece.ui;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.provider.MediaStore;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -20,6 +26,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,6 +78,11 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private PuzzleRecyclerViewAdpater mAdapter;
     private LinearLayout mFriendInfo;
     private RealmResults<Puzzle> puzzles;
+    private AlertDialog dialog;
+    private EditText mText;
+
+
+
     //
     public static final String EXTRA_FRIENDID = "friend_id";
 
@@ -134,7 +149,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         });
 
         setUpRecyclerView();
+
     }
+
     public void deletePuzzle(final long id){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -334,9 +351,12 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.fab:
-                Intent intent = new Intent(this, AddPuzzleActivity.class);
+                /*Intent intent = new Intent(this, AddPuzzleActivity.class);
                 intent.putExtra(EXTRA_FRIENDID, mFriendId);
-                startActivity(intent);
+                startActivity(intent);*/
+                showDialog();
+
+
                 //startActivityForResult(intent,REQUESTCODE_PUZZLE);
                 //Log.d("###","click");
                 break;
@@ -398,6 +418,60 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void showDialog(){
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(FriendDetailActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_puzzle_add,null);
+        ImageView mAdd = (ImageView)mView.findViewById(R.id.dialog_add);
+        mText = (EditText)mView.findViewById(R.id.dialog_edittext);
+
+        mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mText.length() > 0) {
+                    Realm realm = Realm.getDefaultInstance();
+
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            Friend friend = realm.where(Friend.class).equalTo(Friend.FRIEND_ID, mFriendId).findFirst();
+                            Puzzle puzzle = realm.createObject(Puzzle.class, Utils.getNextKeyPuzzle(realm));
+                            puzzle.setFriendId(mFriendId);
+                            puzzle.setText(mText.getText().toString());
+                            puzzle.setFriendName(friend.getName());
+                            puzzle.setDate(Utils.getNowDate());
+                            puzzle.setDateToMilliSeconds(Utils.getNowDateToMilliSeconds());
+                            friend.getPuzzles().add(puzzle);
+                            //갱신
+                            friend.setPuzzleNum(friend.getPuzzles().size());
+                        }
+
+                    });
+
+                    View view = getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                    Toast.makeText(FriendDetailActivity.this, "등록되었습니다", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+
+                } else {
+                    Toast.makeText(FriendDetailActivity.this, "내용을 입력해 주세요", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        mBuilder.setView(mView);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
+        // int height = (int)(getResources().getDisplayMetrics().heightPixels*0.50);//<-- int height =300;
+        dialog = mBuilder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        mText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+    }
     public void addFriendPhoto() {
 
         if (AppPermissions.hasPhotoPermissionsGranted(this)) {
@@ -469,4 +543,5 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
     }
+
 }

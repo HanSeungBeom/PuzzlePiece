@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.util.FriendDataDialog;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
@@ -25,11 +26,13 @@ public class PuzzleRecyclerViewAdpater  extends
         RealmRecyclerViewAdapter<Puzzle, PuzzleRecyclerViewAdpater.MyViewHolder>  {
     private final FriendDetailActivity friendDetailActivity;
     public static final String EXTRA_PUZZLE_ID = "puzzle_id";
+    private FriendDataDialog mDialog;
 
 
     public PuzzleRecyclerViewAdpater(FriendDetailActivity friendDetailActivity , OrderedRealmCollection<Puzzle> data) {
         super(friendDetailActivity, data, true);
         this.friendDetailActivity = friendDetailActivity;
+        mDialog = new FriendDataDialog(friendDetailActivity);
     }
 
     @Override
@@ -75,10 +78,12 @@ public class PuzzleRecyclerViewAdpater  extends
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(friendDetailActivity,PuzzleDetailActivity.class);
+            mDialog.showData(data.getId());
+
+            /*Intent intent = new Intent(friendDetailActivity,PuzzleDetailActivity.class);
             intent.putExtra(EXTRA_PUZZLE_ID,data.getId());
             intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getFriendId());
-            friendDetailActivity.startActivity(intent);
+            friendDetailActivity.startActivity(intent);*/
         }
 
         @Override

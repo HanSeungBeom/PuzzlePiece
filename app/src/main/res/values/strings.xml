@@ -47,5 +47,6 @@
     <string name="no_puzzle_calling">표시할 퍼즐이 없습니다.</string>
     <string name="pref_calling_param_x">paramx</string>
     <string name="pref_calling_param_y">paramy</string>
+    <string name="dialog_add_hint">내용을 입력해주세요.</string>
 
 </resources>
