@@ -39,6 +39,7 @@ public class PuzzleRecyclerViewAdpater  extends
     public PuzzleRecyclerViewAdpater.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_grid_puzzle, parent, false);
+
         itemView.setMinimumWidth(parent.getMeasuredWidth()/3);
 
 
@@ -54,7 +55,7 @@ public class PuzzleRecyclerViewAdpater  extends
         holder.puzzleDate.setText(Utils.dateToCurrentFormat(obj.getDate()));
 
         //날짜 별로 색깔 보여주기 위함.
-        holder.colorView.setBackgroundResource(Utils.colors[(Utils.getDayFromDate(obj.getDate())%15)]);
+        //holder.colorView.setBackgroundResource(Utils.colors[(Utils.getDayFromDate(obj.getDate())%15)]);
 
     }
 

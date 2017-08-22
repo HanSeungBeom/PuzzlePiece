@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="6dp"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_row_grid_detail_date"
+                android:paddingTop="15dp"
+                android:paddingLeft="10dp"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:text="2015/2/3"
+                android:textColor="@color/Grey700"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"/>
+
+
+            <!--<TextView
+                android:textColor="@color/Grey700"
+                android:text="10:30"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />-->
+
+        </LinearLayout>
+        <View
+            android:layout_margin="10dp"
+            android:background="@color/Grey300"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            >
+            <TextView
+                android:id="@+id/tv_row_grid_detail_text"
+                android:padding="15dp"
+                android:textColor="@color/Grey700"
+                android:text="굿굿"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

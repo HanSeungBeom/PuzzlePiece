@@ -1,31 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-
+    android:layout_margin="6dp"
    >
 
-    <LinearLayout
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/white"
-        android:layout_margin="6dp"
 
         >
-        <View
-            android:id="@+id/color_view"
+        <LinearLayout
             android:layout_width="3dp"
             android:layout_height="match_parent"
-            android:background="@color/material_teal"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/Grey50"/>
+            android:orientation="vertical">
+            <View
+                android:id="@+id/color_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+              />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                />
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
+
+
             android:padding="10dp"
             android:layout_weight="1">
 
@@ -45,7 +62,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right|bottom">
+                android:gravity="right|bottom"
+                >
                 <TextView
                     android:id="@+id/tv_row_grid_detail_date"
                     android:textSize="13dp"
@@ -63,12 +81,21 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <ImageView
+        android:layout_margin="3dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_phone"
+        android:layout_gravity="right"/>
+</FrameLayout>
+
+
+   <!-- <ImageView
         android:adjustViewBounds="true"
         android:layout_gravity="right|center"
         android:src="@drawable/semi_circle"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginRight="6dp"/>
-</FrameLayout>
+        android:layout_marginRight="6dp"/>-->
+
+</android.support.v7.widget.CardView>

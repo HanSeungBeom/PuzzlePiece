@@ -19,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -461,10 +462,11 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
             }
         });
         mBuilder.setView(mView);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
+
         // int height = (int)(getResources().getDisplayMetrics().heightPixels*0.50);//<-- int height =300;
         dialog = mBuilder.create();
         dialog.show();
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mText.requestFocus();

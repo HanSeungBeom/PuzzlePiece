@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
@@ -23,6 +24,7 @@ public class FriendDataDialog extends Dialog {
     private TextView mText;
     private TextView mTime;
     private Realm realm;
+    private int width;
     public FriendDataDialog(Context context){
         super(context);
         mContext = context;
@@ -34,6 +36,7 @@ public class FriendDataDialog extends Dialog {
         builder.setView(mDialogView);
         mDialog = builder.create();
         realm = Realm.getDefaultInstance();
+        width = (int)(mContext.getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
     }
     public void showData(long puzzleId){
 
@@ -46,6 +49,7 @@ public class FriendDataDialog extends Dialog {
         mText.setText(text);
         mTime.setText(Utils.getFullFormatFromDate(puzzle.getDate()));
         mDialog.show();
+        mDialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
       //  mEditText.setText(text);
     }
 
