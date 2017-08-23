@@ -81,8 +81,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private RealmResults<Puzzle> puzzles;
     private AlertDialog dialog;
     private EditText mText;
-
-
+    private ImageView mCall;
+    private boolean mFlag;
+    private Toast mToast;
 
     //
     public static final String EXTRA_FRIENDID = "friend_id";
@@ -422,9 +423,25 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     public void showDialog(){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(FriendDetailActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.dialog_puzzle_add,null);
-        ImageView mAdd = (ImageView)mView.findViewById(R.id.dialog_add);
+        LinearLayout mAdd = (LinearLayout)mView.findViewById(R.id.dialog_add);
+        mFlag = false;
         mText = (EditText)mView.findViewById(R.id.dialog_edittext);
-
+        mCall = (ImageView)mView.findViewById(R.id.iv_call);
+        mCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mFlag){
+                    showMsg(getString(R.string.msg_call_unsetup));
+                    mCall.setImageResource(R.drawable.ic_phone_off);
+                    mFlag = false;
+                }
+                else{
+                    showMsg(getString(R.string.msg_call_setup));
+                    mCall.setImageResource(R.drawable.ic_phone_on);
+                    mFlag = true;
+                }
+            }
+        });
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -441,6 +458,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                             puzzle.setFriendName(friend.getName());
                             puzzle.setDate(Utils.getNowDate());
                             puzzle.setDateToMilliSeconds(Utils.getNowDateToMilliSeconds());
+                            puzzle.setCallShow(mFlag);
                             friend.getPuzzles().add(puzzle);
                             //갱신
                             friend.setPuzzleNum(friend.getPuzzles().size());
@@ -544,6 +562,13 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 .setGotoSettingButtonText("setting")
                 .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
+    }
+    public void showMsg(String str){
+        if(mToast!=null)
+            mToast.cancel();
+
+        mToast = Toast.makeText(FriendDetailActivity.this,str,Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
 }

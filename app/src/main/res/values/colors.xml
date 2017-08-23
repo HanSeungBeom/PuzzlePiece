@@ -15,8 +15,8 @@
     <color name="green">#28AE61</color>
     <color name="orange">#FFC107</color>
     <color name="greengrey">#E8EBEB</color>
-    <color name="black_semi_transparent">#B2000000</color>
-
+    <color name="black_semi_transparent70">#B3000000</color>
+    <color name="black_semi_transparent">#33000000</color>
     <color name="material_red">#F44336</color>
     <color name="material_pink">#e91e63</color>
     <color name="material_pupple">#9C27B0</color>

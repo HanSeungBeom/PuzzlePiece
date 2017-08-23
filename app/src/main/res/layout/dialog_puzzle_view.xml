@@ -17,6 +17,8 @@
             android:tint="@color/white"
             android:src="@drawable/ic_memo"
             android:layout_gravity="center"/>
+
+
     </FrameLayout>
 
     <LinearLayout
@@ -27,6 +29,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="20dp">
+
          <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -34,7 +37,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
+                <ImageView
+                    android:id="@+id/iv_call"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_phone_on"
+                    android:layout_gravity="right"/>
                 <LinearLayout
+                    android:id="@+id/ll_textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -49,11 +59,12 @@
                     <TextView
                         android:id="@+id/tv_dialog_text"
                         android:text="내용입니다."
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/Grey900"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_editView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="invisible">
@@ -65,8 +76,9 @@
                         android:gravity="top"
                         android:background="@android:color/transparent"
                         android:hint="@string/dialog_add_hint"
-                        android:textColor="#bc3e3e3e"
+                        android:textColor="@color/Grey900"
                         android:textSize="15sp"
+
                         />
                 </LinearLayout>
 
@@ -80,24 +92,85 @@
             android:src="@drawable/ic_record1" />
 
     </LinearLayout>
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:background="@color/Grey200"
-        >
+        android:background="@color/Grey200">
 
-        <ImageView
-            android:id="@+id/dialog_edit"
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="30dp"
+        <LinearLayout
+            android:id="@+id/ll_remove_edit_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@color/Grey200"
+            >
 
-            android:tint="@color/material_blue_grey"
-            android:src="@drawable/ic_check"
-            android:layout_gravity="center"/>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_remove_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layout_border"
+                android:clickable="true"
+                >
+                <ImageView
+                    android:id="@+id/iv_delete"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="20dp"
+
+                    android:tint="@color/material_blue_grey"
+                    android:src="@drawable/ic_del"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_edit_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layout_border"
+                android:clickable="true">
+                <ImageView
+
+                    android:id="@+id/iv_edit"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="20dp"
+
+                    android:tint="@color/material_blue_grey"
+                    android:src="@drawable/pencil"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/layout_border"
+            android:clickable="true"
+            >
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+
+                >
+                <ImageView
+
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:tint="@color/material_blue_grey"
+                    android:src="@drawable/ic_check"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 
 
 </LinearLayout>

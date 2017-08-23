@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -80,6 +82,7 @@ public class FriendRecyclerViewAdapter  extends
         public ImageView userProfileImage;
         public TextView userName;
         public TextView lastPuzzleText;
+        public CardView friendView;
 
        // public TextView userPuzzleNum;
        // public ImageView editFriend;
@@ -88,6 +91,7 @@ public class FriendRecyclerViewAdapter  extends
         public LinearLayout selectorBack;
         public MyViewHolder(View view) {
             super(view);
+            friendView = (CardView)view.findViewById(R.id.cv_friend);
             selectorBack = (LinearLayout)view.findViewById(R.id.ll_friend_back);
             userProfileImage = (ImageView)view.findViewById(R.id.iv_row_grid_profile);
             userName = (TextView)view.findViewById(R.id.tv_row_grid_name);
@@ -96,20 +100,24 @@ public class FriendRecyclerViewAdapter  extends
             lastPuzzleText = (TextView)view.findViewById(R.id.tv_last_puzzle_text);
            // editFriend = (ImageView)view.findViewById(R.id.iv_row_grid_edit);
           //  editFriend.setOnClickListener(this);
-            selectorBack.setOnClickListener(this);
-            selectorBack.setOnLongClickListener(this);
-            view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
+            friendView.setOnClickListener(this);
+            friendView.setOnLongClickListener(this);
+            //selectorBack.setOnClickListener(this);
+            //selectorBack.setOnLongClickListener(this);
+            //view.setOnClickListener(this);
+            //view.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-              default:
-                    Intent intent = new Intent(tabFriendsFragment.getContext(),FriendDetailActivity.class);
-                    intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getId());
-                    tabFriendsFragment.getContext().startActivity(intent);
-                    break;
+              default: {
+                  Intent intent = new Intent(tabFriendsFragment.getContext(), FriendDetailActivity.class);
+                  intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID, data.getId());
+                  tabFriendsFragment.getContext().startActivity(intent);
+                  //Toast.makeText(tabFriendsFragment.getContext(),"click",Toast.LENGTH_SHORT).show();
+                  break;
+              }
             }
 
         }

@@ -2,6 +2,7 @@ package bumbums.puzzlepiece.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -28,9 +29,6 @@ import io.realm.Realm;
 
 public class AddPuzzleActivity extends AppCompatActivity {
 
-    public static final String EXTRA_PUZZLE_TEXT = "puzzle";
-    public static final String EXTRA_PUZZLE_DATE = "date";
-    public static final String EXTRA_PUZZLE_DATE_TO_MILLISECONDS = "date_to_milliseconds";
     private EditText mPuzzleText;
     private ImageView mPuzzle;
     private long mFriendId;

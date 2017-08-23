@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="6dp"
+    android:foreground="@drawable/layout_border"
+    android:clickable="true"
    >
 
 <FrameLayout
@@ -82,10 +84,11 @@
 
     </LinearLayout>
     <ImageView
+        android:id="@+id/iv_call"
         android:layout_margin="3dp"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ic_phone"
+        android:src="@drawable/ic_phone_on"
         android:layout_gravity="right"/>
 </FrameLayout>
 

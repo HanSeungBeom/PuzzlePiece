@@ -20,6 +20,7 @@ public class Puzzle extends RealmObject {
     private String text;
     private String date;
     private long dateToMilliSeconds;
+    private boolean callShow;
 
 
     private String location;
@@ -77,5 +78,10 @@ public class Puzzle extends RealmObject {
     public void setDateToMilliSeconds(long dateToMilliSeconds) {
         this.dateToMilliSeconds = dateToMilliSeconds;
     }
-
+    public boolean getCallShow(){
+        return callShow;
+    }
+    public void setCallShow(boolean callShow){
+        this.callShow = callShow;
+    }
 }

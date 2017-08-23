@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
@@ -53,7 +54,11 @@ public class PuzzleRecyclerViewAdpater  extends
         //holder.userProfileImage =
         holder.puzzleText.setText(obj.getText());
         holder.puzzleDate.setText(Utils.dateToCurrentFormat(obj.getDate()));
-
+        if(!obj.getCallShow()){
+            holder.call.setVisibility(View.INVISIBLE);
+        }
+        else
+            holder.call.setVisibility(View.VISIBLE);
         //날짜 별로 색깔 보여주기 위함.
         //holder.colorView.setBackgroundResource(Utils.colors[(Utils.getDayFromDate(obj.getDate())%15)]);
 
@@ -66,13 +71,14 @@ public class PuzzleRecyclerViewAdpater  extends
         public TextView puzzleDate;
         public View colorView;
         public Puzzle data;
+        public ImageView call;
 
         public MyViewHolder(View view) {
             super(view);
             colorView = (View)view.findViewById(R.id.color_view);
             puzzleText = (TextView)view.findViewById(R.id.tv_row_grid_detail_text);
             puzzleDate = (TextView)view.findViewById(R.id.tv_row_grid_detail_date);
-
+            call = (ImageView)view.findViewById(R.id.iv_call);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }

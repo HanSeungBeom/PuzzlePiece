@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cv_friend"
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:layout_margin="3dp"
-    android:background="@drawable/border"
+    android:foreground="@drawable/layout_border"
+    android:clickable="true"
   >
-
 
     <LinearLayout
         android:id="@+id/ll_friend_back"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:layout_weight="1"
-        android:background="@drawable/layout_border"
         android:padding="8dp"
         android:gravity="center"
         >
@@ -61,13 +62,8 @@
 
 </LinearLayout>
 
-<LinearLayout
-    android:background="@drawable/border_transparent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</LinearLayout>
 
-</FrameLayout>
+</android.support.v7.widget.CardView>
 
 
