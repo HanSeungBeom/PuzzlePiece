@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +44,7 @@ public class FriendDataDialog extends Dialog implements View.OnClickListener {
     private EditText mEditText;
     private boolean isViewMode;
     private Toast mToast;
+    private long mPuzzleId;
     public FriendDataDialog(Context context){
         super(context);
         mContext = context;
@@ -58,16 +62,36 @@ public class FriendDataDialog extends Dialog implements View.OnClickListener {
         mEditText = (EditText)mDialogView.findViewById(R.id.dialog_edittext);
         mEditBtn.setOnClickListener(this);
         mConfirm.setOnClickListener(this);
+        mRemoveBtn.setOnClickListener(this);
 
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext).
+        setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK &&
+                        event.getAction() == KeyEvent.ACTION_UP &&
+                        !event.isCanceled()) {
+                    if(!isViewMode){
+                        viewMode();
+                        return true;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    }
+                    else {
+                        dialog.cancel();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         builder.setView(mDialogView);
         mDialog = builder.create();
         realm = Realm.getDefaultInstance();
         width = (int)(mContext.getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
     }
     public void showData(final long puzzleId){
+        mPuzzleId = puzzleId;
         viewMode();
 
         Puzzle puzzle = realm.where(Puzzle.class)
@@ -152,11 +176,38 @@ public class FriendDataDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.ll_remove_btn:
+                //TODO 삭제메세지 띄우기
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID, mPuzzleId).findFirst();
+                        puzzle.deleteFromRealm();
+                    }
+                });
+                Toast.makeText(mContext,mContext.getString(R.string.deleted_memo),Toast.LENGTH_SHORT).show();
+                break;
             case R.id.ll_edit_btn:
+                Utils.showKeyboard(mContext,mEditText);
                 editMode();
                 break;
             case R.id.ll_confirm:
-                viewMode();
+                if(mEditText.getText().toString().length()==0){
+                    Toast.makeText(mContext,mContext.getString(R.string.dialog_add_hint),Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            final Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID, mPuzzleId).findFirst();
+                            puzzle.setText(mEditText.getText().toString());
+                        }
+                    });
+                    mText.setText(mEditText.getText().toString());
+                    viewMode();
+                    Utils.hideKeyboard(mContext,mEditText);
+                }
+
                 break;
         }
     }

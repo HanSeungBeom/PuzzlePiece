@@ -34,7 +34,7 @@
             <EditText
                 android:id="@+id/dialog_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="top"
                 android:background="@android:color/transparent"
                 android:hint="@string/dialog_add_hint"

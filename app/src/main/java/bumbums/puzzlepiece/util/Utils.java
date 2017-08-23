@@ -405,6 +405,14 @@ public class Utils {
         }
     }
 
+    public static void showKeyboard(Context context,EditText et){
+        et.requestFocus();
+        if (et != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(et, 0);
+        }
+    }
+
     public static void hideKeyboard(MainActivity activity){
         View view= activity.getCurrentFocus();
         if (view != null) {
@@ -448,4 +456,6 @@ public class Utils {
         windowManager.getDefaultDisplay().getMetrics(displaymetrics);
         return displaymetrics.heightPixels;
     }
+
+
 }

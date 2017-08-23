@@ -30,39 +30,43 @@
         android:paddingRight="20dp"
         android:paddingTop="20dp">
 
-         <ScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
+
                 <ImageView
                     android:id="@+id/iv_call"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_phone_on"
-                    android:layout_gravity="right"/>
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_phone_on" />
+
                 <LinearLayout
                     android:id="@+id/ll_textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/tv_dialog_time"
-                        android:text="오후 2:15"
-                        android:textSize="13dp"
-                        android:textColor="@color/Grey500"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        />
+                        android:text="오후 2:15"
+                        android:textColor="@color/Grey500"
+                        android:textSize="13dp" />
+
                     <TextView
                         android:id="@+id/tv_dialog_text"
-                        android:text="내용입니다."
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/Grey900"/>
+                        android:text="내용입니다."
+                        android:textColor="@color/Grey900" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_editView"
                     android:layout_width="match_parent"
@@ -73,8 +77,8 @@
                         android:id="@+id/dialog_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="top"
                         android:background="@android:color/transparent"
+                        android:gravity="top"
                         android:hint="@string/dialog_add_hint"
                         android:textColor="@color/Grey900"
                         android:textSize="15sp"
