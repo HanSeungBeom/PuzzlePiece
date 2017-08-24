@@ -24,33 +24,57 @@
                 android:background="@color/Grey300" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white"
-                android:padding="8dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
 
                 <EditText
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:id="@+id/et_edit_friend_name"
                     android:hint="이름"
-                    android:textColorHint="@color/Grey500"
+
+                    android:textColor="@color/Grey900"
+                    android:textSize="15sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+                    />
                 <EditText
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:hint="전화번호"
                     android:id="@+id/et_edit_friend_phone"
-                    android:textColorHint="@color/Grey500"
+                    android:textColor="@color/Grey900"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+
+                    android:textSize="15sp"
                     android:inputType="number"/>
-                <EditText
-                    android:hint="나와의 관계"
-                    android:id="@+id/et_edit_friend_relation"
-                    android:textColorHint="@color/Grey500"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:clickable="true"
+                    android:id="@+id/ll_phonebook"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="전화번호부"
+                        android:layout_gravity="center"/>
+                    <ImageView
+
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:tint="@color/Grey700"
+                        android:src="@drawable/phonebook"
+                        android:layout_gravity="right"
+                        android:layout_margin="5dp"/>
+                </LinearLayout>
 
 
             </LinearLayout>

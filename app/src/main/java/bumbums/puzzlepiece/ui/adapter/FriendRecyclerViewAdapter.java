@@ -126,16 +126,14 @@ public class FriendRecyclerViewAdapter  extends
         public boolean onLongClick(View v) {
             AlertDialog.Builder builder = new AlertDialog.Builder(tabFriendsFragment.getContext());
 
-            builder.setTitle("지인 삭제")
-                    .setMessage(R.string.friend_del)
-                    .setIcon(R.drawable.tab_friends_on)
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+            builder .setMessage(R.string.friend_del)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener(){
                         // 확인 버튼 클릭시 설정
                         public void onClick(DialogInterface dialog, int whichButton){
                             tabFriendsFragment.deleteFriend(data.getId());
                         }
                     })
-                    .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
                         // 취소 버튼 클릭시 설정
                         public void onClick(DialogInterface dialog, int whichButton){
                             dialog.cancel();

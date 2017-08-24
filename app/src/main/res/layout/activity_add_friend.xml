@@ -13,8 +13,6 @@
         android:orientation="vertical"
        >
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -24,36 +22,30 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:background="@color/white"
-                android:padding="8dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
 
                 <EditText
                     android:id="@+id/et_add_friend_name"
                     android:hint="이름(필수)"
-                    android:textColorHint="@color/Grey500"
+                    android:textColor="@color/Grey900"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+                    android:textSize="15sp"
+                    />
                 <EditText
                     android:hint="전화번호"
                     android:id="@+id/et_add_friend_phone"
-                    android:textColorHint="@color/Grey500"
+                    android:textColor="@color/Grey900"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
                     android:inputType="number"/>
-                <EditText
-                    android:hint="나와의 관계"
-                    android:id="@+id/et_add_friend_relation"
-                    android:textColorHint="@color/Grey500"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
 
 
             </LinearLayout>
-
-
-        </LinearLayout>
+     </LinearLayout>
 
     </LinearLayout>
 

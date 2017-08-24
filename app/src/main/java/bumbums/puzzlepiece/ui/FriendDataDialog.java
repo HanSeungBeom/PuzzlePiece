@@ -1,4 +1,4 @@
-package bumbums.puzzlepiece.util;
+package bumbums.puzzlepiece.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +22,7 @@ import android.widget.Toast;
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
+import bumbums.puzzlepiece.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmModel;
@@ -177,15 +178,26 @@ public class FriendDataDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.ll_remove_btn:
-                //TODO 삭제메세지 띄우기
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID, mPuzzleId).findFirst();
-                        puzzle.deleteFromRealm();
-                    }
-                });
-                Toast.makeText(mContext,mContext.getString(R.string.deleted_memo),Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder adb = new AlertDialog.Builder(mContext);
+                adb.setMessage(R.string.msg_del);
+                adb.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                Puzzle puzzle = realm.where(Puzzle.class).equalTo(Puzzle.PUZZLE_ID, mPuzzleId).findFirst();
+                                puzzle.deleteFromRealm();
+                            }
+                        });
+                        Toast.makeText(mContext,mContext.getString(R.string.deleted_memo),Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    } });
+                adb.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    } });
+                adb.show();
+
                 break;
             case R.id.ll_edit_btn:
                 Utils.showKeyboard(mContext,mEditText);

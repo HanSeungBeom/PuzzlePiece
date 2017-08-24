@@ -16,7 +16,7 @@ import bumbums.puzzlepiece.R;
 
 public class AddFriendActivity extends AppCompatActivity {
 
-    private EditText mName, mPhone, mRelation;
+    private EditText mName, mPhone;
     public static final String NAME = "name";
     public static final String PHONE= "phone";
     public static final String RELATION = "relation";
@@ -31,7 +31,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
         mName = (EditText)findViewById(R.id.et_add_friend_name);
         mPhone =(EditText)findViewById(R.id.et_add_friend_phone);
-        mRelation=(EditText)findViewById(R.id.et_add_friend_relation);
+
 
     }
 
@@ -52,17 +52,15 @@ public class AddFriendActivity extends AppCompatActivity {
             case R.id.action_register:
                 if(     mName.getText().toString().equals("")
                         || mPhone.getText().toString().equals("")
-                        || mRelation.getText().toString().equals("") ){
+                        ){
                     Toast.makeText(this,"빈 항목이 있어요~",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     String name = mName.getText().toString();
                     String phone = mPhone.getText().toString();
-                    String relation = mRelation.getText().toString();
                     Intent intent = getIntent();
                     intent.putExtra(NAME,name);
                     intent.putExtra(PHONE,phone);
-                    intent.putExtra(RELATION,relation);
                     setResult(RESULT_OK,intent);
                     View view = this.getCurrentFocus();
                     if (view != null) {

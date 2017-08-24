@@ -2,14 +2,19 @@ package bumbums.puzzlepiece.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import bumbums.puzzlepiece.R;
@@ -17,11 +22,9 @@ import bumbums.puzzlepiece.model.Friend;
 import io.realm.Realm;
 
 public class EditFriendActivity extends AppCompatActivity {
-
-    private EditText mName, mPhone, mRelation;
-    public static final String NAME = "name";
-    public static final String PHONE = "phone";
-    public static final String RELATION = "relation";
+    public static final int PICK_PHONE_DATA=1;
+    private EditText mName, mPhone;
+    private LinearLayout mPhoneBook;
 
     private Realm realm;
     private long mId;
@@ -35,8 +38,14 @@ public class EditFriendActivity extends AppCompatActivity {
 
         mName = (EditText) findViewById(R.id.et_edit_friend_name);
         mPhone = (EditText) findViewById(R.id.et_edit_friend_phone);
-        mRelation = (EditText) findViewById(R.id.et_edit_friend_relation);
-
+        mPhoneBook = (LinearLayout)findViewById(R.id.ll_phonebook);
+        mPhoneBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("######","#######here");
+                loadPhoneBook();
+            }
+        });
         realm = Realm.getDefaultInstance();
         initData();
     }
@@ -50,7 +59,12 @@ public class EditFriendActivity extends AppCompatActivity {
                 .findFirst();
         mName.setText(friend.getName());
         mPhone.setText(friend.getPhoneNumber());
-        mRelation.setText(friend.getRelation());
+    }
+
+    public void loadPhoneBook() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        startActivityForResult(intent, PICK_PHONE_DATA);
     }
 
     @Override
@@ -69,19 +83,17 @@ public class EditFriendActivity extends AppCompatActivity {
             case R.id.action_save:
                 if (mName.getText().toString().equals("")
                         || mPhone.getText().toString().equals("")
-                        || mRelation.getText().toString().equals("")) {
+                      ) {
                     Toast.makeText(this, "빈 항목이 있어요~", Toast.LENGTH_SHORT).show();
                 } else {
                     final String name = mName.getText().toString();
                     final String phone = mPhone.getText().toString();
-                    final String relation = mRelation.getText().toString();
                     realm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
                             Friend friend = realm.where(Friend.class).equalTo("id", mId).findFirst();
                             friend.setName(name);
                             friend.setPhoneNumber(phone);
-                            friend.setRelation(relation);
                         }
                     });
 
@@ -98,5 +110,27 @@ public class EditFriendActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK)
+        {
+            switch (requestCode){
+                case PICK_PHONE_DATA:
+                    Cursor cursor = getContentResolver().query(data.getData(),
+                            new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                    cursor.moveToFirst();
+                    String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
+                    String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
+                    mName.setText(name);
+                    mPhone.setText(phone);
+                    cursor.close();
+                    break;
+                default:
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

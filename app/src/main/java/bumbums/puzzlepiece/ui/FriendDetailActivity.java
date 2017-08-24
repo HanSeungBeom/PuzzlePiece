@@ -5,8 +5,10 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -65,7 +67,7 @@ import io.realm.Sort;
 
 public class FriendDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private FloatingActionButton fab;
-    private TextView mName, mRelation, mPhone;
+    private TextView mName, mPhone;
     private ImageView mFriendImage, mFriendImageDefault;
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyView;
@@ -85,10 +87,13 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private boolean mFlag;
     private Toast mToast;
 
+    private EditText edit_Name,edit_phone;
+
     //
     public static final String EXTRA_FRIENDID = "friend_id";
 
     //startforActivityResult 용 변수
+    public static final int PICK_PHONE_DATA=1;
     public static final int GALLERY_MODE = 2;
     public static final int CAMERA_MODE = 3;
 
@@ -116,7 +121,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mFriendInfo = (LinearLayout) findViewById(R.id.ll_friend_info);
         mFriendInfo.setOnClickListener(this);
         mName = (TextView) findViewById(R.id.tv_detail_name);
-        mRelation = (TextView) findViewById(R.id.tv_detail_relation);
         mPhone = (TextView) findViewById(R.id.tv_detail_phone);
         mFriendImage = (ImageView) findViewById(R.id.iv_friend_photo);
         mFriendImage.setOnClickListener(this);
@@ -214,12 +218,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     public void syncFriendData(Friend friend) {
         mName.setText(friend.getName());
         mPhone.setText(friend.getPhoneNumber());
-        if(!mFriend.getRelation().equals("")) {
-            mRelation.setText("(" + mFriend.getRelation() + ")");
-        }
-        else {
-            mRelation.setText("("+getString(R.string.relation_is_empty)+")");
-        }
         if(!mFriend.getPhoneNumber().equals("")){
             mPhone.setText(mFriend.getPhoneNumber());
         }
@@ -258,24 +256,35 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         return true;
     }
 
+
+    public void loadPhoneBook() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        startActivityForResult(intent, PICK_PHONE_DATA);
+    }
+
     public void modifyFriend() {
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.activity_edit_friend, null);
-        final EditText name = (EditText) dialogView.findViewById(R.id.et_edit_friend_name);
-        name.setText(mFriend.getName());
-        final EditText phone = (EditText) dialogView.findViewById(R.id.et_edit_friend_phone);
-        phone.setText(mFriend.getPhoneNumber());
-        final EditText relation = (EditText) dialogView.findViewById(R.id.et_edit_friend_relation);
-        relation.setText(mFriend.getRelation());
-
+        edit_Name = (EditText) dialogView.findViewById(R.id.et_edit_friend_name);
+        edit_Name.setText(mFriend.getName());
+        edit_phone = (EditText) dialogView.findViewById(R.id.et_edit_friend_phone);
+        edit_phone.setText(mFriend.getPhoneNumber());
+        final LinearLayout phoneBook =(LinearLayout)dialogView.findViewById(R.id.ll_phonebook);
+        phoneBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPhoneBook();
+            }
+        });
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setTitle("지인 정보")
-                .setIcon(R.drawable.ic_user_puzzle)
+        builder
                 .setView(dialogView)
                 .setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        RealmTasks.modifyFriend(mFriend,name.getText().toString(),phone.getText().toString(),relation.getText().toString());
+                        RealmTasks.modifyFriend(mFriend,edit_Name.getText().toString(),edit_phone.getText().toString());
+                        Toast.makeText(FriendDetailActivity.this,R.string.modify_end,Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -307,10 +316,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
             case R.id.action_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-                builder.setTitle("지인 삭제")
-                        .setMessage(R.string.friend_del)
-                        .setIcon(R.drawable.tab_friends_on)
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.friend_del)
+                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                             // 확인 버튼 클릭시 설정
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 realm.executeTransaction(new Realm.Transaction() {
@@ -325,7 +332,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                                 finish();
                             }
                         })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             // 취소 버튼 클릭시 설정
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
@@ -334,8 +341,6 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
                 AlertDialog dialog = builder.create();    // 알림창 객체 생성
                 dialog.show();
-
-
                 break;
             default:
 
@@ -367,9 +372,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                 //변경하기 중 선택하게
             {
 
-                final CharSequence[] items = {"사진 변경", "사진 삭제"};
+                final CharSequence[] items = {getString(R.string.edit_pic), getString(R.string.del_pic)};
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder.setTitle("프로필 사진");
+                alertDialogBuilder.setTitle(R.string.profile_pic);
                 alertDialogBuilder.setItems(items,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
@@ -412,6 +417,17 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                     break;
                 case CAMERA_MODE:
                     FirebaseTasks.registerPhoto(this, data.getData(), mFriendId, mIsNewPhotoMode);
+                    break;
+                case PICK_PHONE_DATA:
+                    Cursor cursor = getContentResolver().query(data.getData(),
+                            new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                    cursor.moveToFirst();
+                    String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
+                    String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
+                    edit_Name.setText(name);
+                    edit_phone.setText(phone);
+                    cursor.close();
                     break;
                 default:
 
@@ -471,11 +487,11 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
-                    Toast.makeText(FriendDetailActivity.this, "등록되었습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FriendDetailActivity.this, R.string.register, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
 
                 } else {
-                    Toast.makeText(FriendDetailActivity.this, "내용을 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FriendDetailActivity.this, R.string.write_text, Toast.LENGTH_SHORT).show();
                 }
             }
         });

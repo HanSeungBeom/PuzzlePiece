@@ -167,8 +167,7 @@ MainActivity.onKeyBackPressedListener
                 LayoutInflater inflater = getLayoutInflater(null);
                 final View dialogView = inflater.inflate(R.layout.activity_add_friend, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("지인 추가")
-                        .setIcon(R.drawable.ic_user_puzzle)
+                builder
                         .setView(dialogView)
                         .setCancelable(true)
                         .setPositiveButton("등록", new DialogInterface.OnClickListener() {
@@ -176,8 +175,7 @@ MainActivity.onKeyBackPressedListener
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText name = (EditText) dialogView.findViewById(R.id.et_add_friend_name);
                                 EditText phone = (EditText) dialogView.findViewById(R.id.et_add_friend_phone);
-                                EditText relation = (EditText) dialogView.findViewById(R.id.et_add_friend_relation);
-                                RealmTasks.addFriend(getContext(),name.getText().toString(), phone.getText().toString(), relation.getText().toString());
+                                RealmTasks.addFriend(getContext(),name.getText().toString(), phone.getText().toString());
                             }
                         })
                         .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -229,7 +227,7 @@ MainActivity.onKeyBackPressedListener
                     cursor.moveToFirst();
                     String name = cursor.getString(0);     //0은 이름을 얻어옵니다.
                     String phone = cursor.getString(1);   //1은 번호를 받아옵니다.
-                    RealmTasks.addFriend(getContext(),name,phone,"");
+                    RealmTasks.addFriend(getContext(),name,phone);
                     cursor.close();
                     break;
                 default:

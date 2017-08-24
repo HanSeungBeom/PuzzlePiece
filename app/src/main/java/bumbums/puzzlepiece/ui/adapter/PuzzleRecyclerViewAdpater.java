@@ -1,7 +1,6 @@
 package bumbums.puzzlepiece.ui.adapter;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
-import bumbums.puzzlepiece.util.FriendDataDialog;
+import bumbums.puzzlepiece.ui.FriendDataDialog;
 import bumbums.puzzlepiece.util.Utils;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
-import bumbums.puzzlepiece.ui.PuzzleDetailActivity;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -87,27 +85,20 @@ public class PuzzleRecyclerViewAdpater  extends
         public void onClick(View v) {
             mDialog.showData(data.getId());
 
-            /*Intent intent = new Intent(friendDetailActivity,PuzzleDetailActivity.class);
-            intent.putExtra(EXTRA_PUZZLE_ID,data.getId());
-            intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID,data.getFriendId());
-            friendDetailActivity.startActivity(intent);*/
         }
 
         @Override
         public boolean onLongClick(View v) {
             AlertDialog.Builder builder = new AlertDialog.Builder(friendDetailActivity);
-            builder.setTitle("퍼즐 삭제")
-                    .setMessage("지인의 퍼즐을 삭제 하시겠습니까?")
-                    .setCancelable(false)
-                    .setIcon(R.drawable.puzzles_black)
-
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+            builder
+                    .setCancelable(true)
+                      .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener(){
                         // 확인 버튼 클릭시 설정
                         public void onClick(DialogInterface dialog, int whichButton){
                             friendDetailActivity.deletePuzzle(data.getId());
                         }
                     })
-                    .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
                         // 취소 버튼 클릭시 설정
                         public void onClick(DialogInterface dialog, int whichButton){
                             dialog.cancel();
@@ -116,9 +107,6 @@ public class PuzzleRecyclerViewAdpater  extends
 
             AlertDialog dialog = builder.create();    // 알림창 객체 생성
             dialog.show();
-
-
-
             return true;
         }
 

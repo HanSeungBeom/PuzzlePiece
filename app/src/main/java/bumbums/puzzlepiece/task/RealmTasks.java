@@ -16,7 +16,7 @@ public class RealmTasks {
     //시간 날때 모든 realm 함수들 여기다 모아놓기.
 
 
-    public static void addFriend(Context context, final String name, final String phone, final String relation){
+    public static void addFriend(Context context, final String name, final String phone){
         if(name.equals("")){
             Toast.makeText(context,context.getString(R.string.name_empty),Toast.LENGTH_LONG).show();
             return;
@@ -33,21 +33,19 @@ public class RealmTasks {
                 Friend friend = realm.createObject(Friend.class, id);
                 friend.setName(name);
                 friend.setPhoneNumber(newPhoneNumber);
-                friend.setRelation(relation);
-            }
+                    }
         });
         realm.close();
     }
 
-    public static void modifyFriend(final Friend friend, final String name, final String phone, final String relation){
+    public static void modifyFriend(final Friend friend, final String name, final String phone){
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 friend.setName(name);
                 friend.setPhoneNumber(phone);
-                friend.setRelation(relation);
-            }
+              }
         });
         realm.close();
     }

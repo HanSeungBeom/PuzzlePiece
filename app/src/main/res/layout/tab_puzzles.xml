@@ -25,18 +25,18 @@
         android:gravity="center"
         android:background="@color/blueGrey50">
         <ImageView
-            android:src="@drawable/ic_puzzles_grey"
+            android:src="@drawable/ic_memo"
             android:tint="@color/Grey300"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             />
 
         <TextView
-            android:textSize="13dp"
+            android:textSize="13sp"
             android:paddingTop="10dp"
             android:textColor="@color/Grey500"
-            android:textStyle="bold"
             android:gravity="center"
+
             android:text="@string/no_puzzle_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
