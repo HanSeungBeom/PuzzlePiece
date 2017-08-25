@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/iv_rank_user_profile"
             android:padding="13dp"
-            android:src="@drawable/default_user1"
+            android:src="@drawable/ic_default_user"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_gravity="center"

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import bumbums.puzzlepiece.R;
@@ -17,15 +19,14 @@ public class CallingDialog extends AppCompatActivity {
     private TextView mPhone;
     private Realm realm;
     private Friend mFriend;
-    private ImageView mClear;
+    private FrameLayout mClear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calling_dialog);
 
         mName=(TextView)findViewById(R.id.tv_name);
-        mPhone=(TextView)findViewById(R.id.tv_phone_number);
-        mClear = (ImageView)findViewById(R.id.iv_clear);
+        mClear = (FrameLayout)findViewById(R.id.ll_cancel);
         mClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/iv_friend_photo"
                 android:padding="5dp"
-                android:src="@drawable/default_user1"
+                android:src="@drawable/ic_default_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

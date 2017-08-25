@@ -8,7 +8,9 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import bumbums.puzzlepiece.model.Friend;
 import bumbums.puzzlepiece.model.Puzzle;
 import bumbums.puzzlepiece.ui.CallingDialog;
 import bumbums.puzzlepiece.ui.FriendDetailActivity;
+import bumbums.puzzlepiece.ui.adapter.CallingRecyclerViewAdapter;
 import bumbums.puzzlepiece.ui.adapter.ReviewRecyclerViewAdapter;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -42,17 +46,16 @@ public class CallingService extends Service {
     protected View rootView;
 
     private TextView name;
-    private TextView phone;
-    private ImageView clear;
+    private FrameLayout clear;
 
     String call_number;
 
     private WindowManager.LayoutParams params;
     private WindowManager windowManager;
-    private ReviewRecyclerViewAdapter mAdapter;
+    private CallingRecyclerViewAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private Realm realm;
-    private LinearLayout mEmptyView;
+
     public static int PARAM_DEFAULT_INT = -11111;
     private Boolean mIsRemoved ;
     @Override
@@ -74,14 +77,14 @@ public class CallingService extends Service {
         int screenWidth = displaymetrics.widthPixels;
         int screenHeight = displaymetrics.heightPixels;
 
-        int width = (int) (screenWidth * 0.9);
-        int height = (int) (screenHeight * 0.5);//Display 사이즈의 90%
+        int width = (int) (screenWidth * 0.6);
+        //int height = (int) (screenHeight * 0.3);//Display 사이즈의 90%
 
 
         params = new WindowManager.LayoutParams(
                 width,
-                //WindowManager.LayoutParams.WRAP_CONTENT,
-                height,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                //height,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -99,11 +102,9 @@ public class CallingService extends Service {
         realm = Realm.getDefaultInstance();
 
         name = (TextView) rootView.findViewById(R.id.tv_name);
-        phone = (TextView) rootView.findViewById(R.id.tv_phone_number);
-        clear = (ImageView) rootView.findViewById(R.id.iv_clear);
+        clear = (FrameLayout) rootView.findViewById(R.id.ll_cancel);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_calling);
-        mEmptyView = (LinearLayout) rootView.findViewById(R.id.empty_view);
-        mAdapter = new ReviewRecyclerViewAdapter(this, null);
+        mAdapter = new CallingRecyclerViewAdapter(this, null);
         mIsRemoved = false;
         setUpRecyclerView();
 
@@ -170,10 +171,11 @@ public class CallingService extends Service {
 
 
     private void setUpRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
-
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mRecyclerView);
     }
 
 
@@ -195,7 +197,6 @@ public class CallingService extends Service {
 
 
             if (!TextUtils.isEmpty(call_number)) {
-                phone.setText(call_number);
                 name.setText(friend.getName());
                 //전화번호가 DB에 있는 경우만.
                 RealmList<Puzzle> puzzles = friend.getPuzzles();
@@ -203,9 +204,9 @@ public class CallingService extends Service {
                     mAdapter.updateData(realm.where(Puzzle.class)
                             .equalTo(Puzzle.FRIEND_ID, friend.getId())
                             .findAllSorted(Puzzle.DATE_TO_MILLISECONDS, Sort.DESCENDING));
-                    hideEmptyView();
+
                 } else {
-                    showEmptyView();
+                    removePopup();
                 }
             }
 
@@ -254,14 +255,6 @@ public class CallingService extends Service {
                 mIsRemoved = true;
             }
         }
-    }
-
-    public void showEmptyView() {
-        mEmptyView.setVisibility(View.VISIBLE);
-    }
-
-    public void hideEmptyView() {
-        mEmptyView.setVisibility(View.INVISIBLE);
     }
 
 

@@ -219,12 +219,12 @@ public class FirebaseTasks {
                 Picasso.with(context)
                         .load(friend.getProfileUrl())
                         .transform(new CircleTransform())
-                        .error(R.drawable.default_user1)
+                        .error(R.drawable.ic_default_user)
                         .into(iv);
             }
         }else{ //파일이 아예 없는 경우
             Picasso.with(context)
-                    .load(R.drawable.default_user1)
+                    .load(R.drawable.ic_default_user)
                     .transform(new CircleTransform())
                     .into(iv);
         }

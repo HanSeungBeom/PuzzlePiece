@@ -487,7 +487,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
-                    Toast.makeText(FriendDetailActivity.this, R.string.register, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FriendDetailActivity.this, R.string.register_end, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
 
                 } else {

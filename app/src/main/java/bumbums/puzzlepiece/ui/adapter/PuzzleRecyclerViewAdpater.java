@@ -63,8 +63,8 @@ public class PuzzleRecyclerViewAdpater  extends
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements
-            View.OnClickListener,
-            View.OnLongClickListener{
+            View.OnClickListener
+            {
         public TextView puzzleText;
         public TextView puzzleDate;
         public View colorView;
@@ -78,36 +78,12 @@ public class PuzzleRecyclerViewAdpater  extends
             puzzleDate = (TextView)view.findViewById(R.id.tv_row_grid_detail_date);
             call = (ImageView)view.findViewById(R.id.iv_call);
             view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             mDialog.showData(data.getId());
 
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(friendDetailActivity);
-            builder
-                    .setCancelable(true)
-                      .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener(){
-                        // 확인 버튼 클릭시 설정
-                        public void onClick(DialogInterface dialog, int whichButton){
-                            friendDetailActivity.deletePuzzle(data.getId());
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
-                        // 취소 버튼 클릭시 설정
-                        public void onClick(DialogInterface dialog, int whichButton){
-                            dialog.cancel();
-                        }
-                    });
-
-            AlertDialog dialog = builder.create();    // 알림창 객체 생성
-            dialog.show();
-            return true;
         }
 
 

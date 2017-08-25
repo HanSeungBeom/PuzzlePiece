@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv_friend"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="150dp"
     android:layout_margin="3dp"
     android:foreground="@drawable/layout_border"
     android:clickable="true"
-  >
+    card_view:cardCornerRadius="10dp"
+    >
 
     <LinearLayout
         android:id="@+id/ll_friend_back"
@@ -20,14 +22,16 @@
         android:gravity="center"
         >
 
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/iv_row_grid_profile"
-            android:src="@drawable/default_user1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:adjustViewBounds="true"/>
+            android:src="@drawable/ic_default_user"
+
+     />
+
 
         <TextView
             android:id="@+id/tv_row_grid_name"

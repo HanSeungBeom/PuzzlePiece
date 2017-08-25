@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">  <android.support.v7.widget.Toolbar
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -28,20 +29,39 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/iv_friend_photo_default"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_default_user"
+
+                    android:layout_gravity="center"
+                />
+              <!--  <ImageView
                     android:id="@+id/iv_friend_photo_default"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_margin="14dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/default_user1" />
-                <ImageView
+                    android:src="@drawable/ic_default"
+                    />-->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/iv_friend_photo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_default_user"
+
+                    android:layout_gravity="center"
+                  />
+               <!-- <ImageView
                     android:id="@+id/iv_friend_photo"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_margin="14dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/default_user1" />
+                    android:src="@drawable/ic_default" />-->
             </FrameLayout>
             <LinearLayout
                 android:id="@+id/ll_friend_info"
