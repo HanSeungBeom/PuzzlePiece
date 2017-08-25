@@ -52,7 +52,7 @@
             android:layout_height="1dp"
             android:background="@color/Grey300"
             />
-        <android.support.design.widget.TabLayout
+<!--        <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         />
-
+-->
     </LinearLayout>
 
 </LinearLayout>

@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.speech.RecognitionListener;
@@ -86,7 +89,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     private ImageView mCall;
     private boolean mFlag;
     private Toast mToast;
-
+    private  Uri mImageUri;
     private EditText edit_Name,edit_phone;
 
     //
@@ -99,6 +102,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
     //사진을 등록하는지 변경하는지 구별해주는 변수
     private boolean mIsNewPhotoMode;
+
+    private static final int ANDROID_NOUGAT = 24;
 
 
     @Override
@@ -156,6 +161,9 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
 
         setUpRecyclerView();
 
+        //사진 촬영중 문제안생기게
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     public void deletePuzzle(final long id){
@@ -416,7 +424,19 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                     FirebaseTasks.registerPhoto(this, data.getData(), mFriendId, mIsNewPhotoMode);
                     break;
                 case CAMERA_MODE:
-                    FirebaseTasks.registerPhoto(this, data.getData(), mFriendId, mIsNewPhotoMode);
+                    Uri localUri;
+                    if(Build.VERSION.SDK_INT>=ANDROID_NOUGAT) {
+                        if (mImageUri != null) {
+                            localUri = mImageUri;
+                            mImageUri = null;
+                        } else {
+                            localUri = data.getData();
+                        }
+                    }
+                    else{
+                        localUri = data.getData();
+                    }
+                    FirebaseTasks.registerPhoto(this, localUri, mFriendId, mIsNewPhotoMode);
                     break;
                 case PICK_PHONE_DATA:
                     Cursor cursor = getContentResolver().query(data.getData(),
@@ -508,6 +528,8 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
     }
+
+
     public void addFriendPhoto() {
 
         if (AppPermissions.hasPhotoPermissionsGranted(this)) {
@@ -519,7 +541,13 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
                         public void onClick(DialogInterface dialog,
                                             int id) {
                             if (id == 0) { //사진촬영
+
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if(Build.VERSION.SDK_INT >= ANDROID_NOUGAT){
+                                    mImageUri = Utils.createSaveName();
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT,mImageUri);
+                                }
+
                                 startActivityForResult(intent, CAMERA_MODE);
                             } else if (id == 1) { //갤러리 선택
                                 Intent i = new Intent(Intent.ACTION_PICK);

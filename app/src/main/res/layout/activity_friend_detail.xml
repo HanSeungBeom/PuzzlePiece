@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:background="@color/white"
@@ -81,6 +82,7 @@
                         android:textSize="20dp"
                         android:ellipsize="marquee"
                         android:maxLines="1"
+                        android:paddingTop="10dp"
                         android:textColor="@color/Grey900"
                         android:textStyle="bold" />
 
@@ -120,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
-                    android:background="@color/blueGrey50"
+                    android:background="@drawable/gradient_selector"
                     >
                 </android.support.v7.widget.RecyclerView>
 

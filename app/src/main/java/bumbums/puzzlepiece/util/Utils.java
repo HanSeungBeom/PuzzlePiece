@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -54,7 +55,7 @@ import io.realm.Realm;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.content.Context.WINDOW_SERVICE;
-import static bumbums.puzzlepiece.task.NotificationService.NOTIFICATION_CODE;
+
 
 /**
  * Created by 한승범 on 2017-02-07.
@@ -455,6 +456,14 @@ public class Utils {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displaymetrics);
         return displaymetrics.heightPixels;
+    }
+    public static Uri createSaveName(){
+        long dateTaken = getNowDateToMilliSeconds();
+        Date date = new Date(dateTaken);
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        String url = dateFormat.format(date)+".jpg";
+        return Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
     }
 
 

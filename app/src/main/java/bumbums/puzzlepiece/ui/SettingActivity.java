@@ -5,30 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,15 +30,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -55,16 +40,12 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import bumbums.puzzlepiece.R;
 import bumbums.puzzlepiece.task.FirebaseTasks;
-import bumbums.puzzlepiece.task.NotificationService;
 import bumbums.puzzlepiece.util.AppPermissions;
 import bumbums.puzzlepiece.util.RealmBackupRestore;
 import bumbums.puzzlepiece.util.Utils;
-
-import static android.provider.Settings.canDrawOverlays;
 
 public class SettingActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -297,11 +278,9 @@ public class SettingActivity extends AppCompatActivity implements
                 SharedPreferences.Editor editor = pref.edit();
                 if (isChecked) {
                     editor.putBoolean(getString(R.string.pref_noti), true);
-                    Intent i = new Intent(SettingActivity.this, NotificationService.class);
-                    startService(i);
                 } else {
                     editor.putBoolean(getString(R.string.pref_noti), false);
-                    Utils.cancelNotification(mContext, NotificationService.NOTIFICATION_CODE);
+                  //  Utils.cancelNotification(mContext, NotificationService.NOTIFICATION_CODE);
                 }
                 editor.commit();
             }
