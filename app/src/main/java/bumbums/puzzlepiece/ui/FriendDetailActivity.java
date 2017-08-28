@@ -244,6 +244,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
             showPhoto();
         }
         FirebaseTasks.loadFriendPhoto(mContext, friend, mFriendImage);
+
     }
 
     public void showDefault() {
@@ -457,7 +458,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void showDialog(){
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(FriendDetailActivity.this);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(FriendDetailActivity.this,R.style.CustomDialog);
         View mView = getLayoutInflater().inflate(R.layout.dialog_puzzle_add,null);
         LinearLayout mAdd = (LinearLayout)mView.findViewById(R.id.dialog_add);
         mFlag = false;
@@ -520,12 +521,13 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         // int height = (int)(getResources().getDisplayMetrics().heightPixels*0.50);//<-- int height =300;
         dialog = mBuilder.create();
         dialog.show();
-        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.65); //<-- int width=400;
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mText.requestFocus();
+
+  /*      mText.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);*/
 
     }
 

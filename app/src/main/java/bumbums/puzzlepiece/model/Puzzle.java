@@ -12,7 +12,7 @@ public class Puzzle extends RealmObject {
     public static final String PUZZLE_ID = "id";
     public static final String FRIEND_ID ="friendId";
     public static final String DATE_TO_MILLISECONDS = "dateToMilliSeconds";
-
+    public static final String IS_CALL = "callShow";
     @PrimaryKey
     private long id;
     private long friendId;

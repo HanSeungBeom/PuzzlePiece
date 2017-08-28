@@ -33,7 +33,7 @@ import io.realm.RealmResults;
  */
 
 public class FriendDataDialog extends Dialog implements View.OnClickListener {
-    private AlertDialog mDialog;
+    private android.support.v7.app.AlertDialog mDialog;
     private Context mContext;
     private View mDialogView;
     private TextView mText;
@@ -66,30 +66,33 @@ public class FriendDataDialog extends Dialog implements View.OnClickListener {
         mRemoveBtn.setOnClickListener(this);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext).
-        setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK &&
-                        event.getAction() == KeyEvent.ACTION_UP &&
-                        !event.isCanceled()) {
-                    if(!isViewMode){
-                        viewMode();
-                        return true;
+        android.support.v7.app.AlertDialog.Builder builder=  new android.support.v7.app.AlertDialog.Builder(mContext,R.style.CustomDialog).
+                setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK &&
+                                event.getAction() == KeyEvent.ACTION_UP &&
+                                !event.isCanceled()) {
+                            if(!isViewMode){
+                                viewMode();
+                                return true;
 
+                            }
+                            else {
+                                dialog.cancel();
+                                return true;
+                            }
+                        }
+                        return false;
                     }
-                    else {
-                        dialog.cancel();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
+                });
+
         builder.setView(mDialogView);
+
         mDialog = builder.create();
         realm = Realm.getDefaultInstance();
-        width = (int)(mContext.getResources().getDisplayMetrics().widthPixels*0.75); //<-- int width=400;
+        width = (int)(mContext.getResources().getDisplayMetrics().widthPixels*0.65); //<-- int width=400;
+
     }
     public void showData(final long puzzleId){
         mPuzzleId = puzzleId;
@@ -150,6 +153,7 @@ public class FriendDataDialog extends Dialog implements View.OnClickListener {
 
         mDialog.show();
         mDialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
       //  mEditText.setText(text);
     }
 

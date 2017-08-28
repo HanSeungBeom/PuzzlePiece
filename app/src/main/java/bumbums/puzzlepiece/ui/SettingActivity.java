@@ -55,7 +55,6 @@ public class SettingActivity extends AppCompatActivity implements
 {
 
     SwitchCompat mLoginSwitch;
-    SwitchCompat mNotiSwitch;
     SwitchCompat mCallingSwitch;
     Context mContext;
     Button mBackupBtn, mRestoreBtn;
@@ -81,7 +80,6 @@ public class SettingActivity extends AppCompatActivity implements
         mLoginPb = (ProgressBar) findViewById(R.id.pb_login);
         mLoginSwitch = (SwitchCompat) findViewById(R.id.sw_login);
         mLoginName = (TextView) findViewById(R.id.tv_login_name);
-        mNotiSwitch = (SwitchCompat) findViewById(R.id.sw_noti);
         mCallingSwitch = (SwitchCompat)findViewById(R.id.sw_calling);
 
         mLoginDetailView = (LinearLayout) findViewById(R.id.ll_login_detail);
@@ -90,7 +88,7 @@ public class SettingActivity extends AppCompatActivity implements
 
         configureGoogleSignIn();
         mLoginSwitch.setOnCheckedChangeListener(this);
-        mNotiSwitch.setOnCheckedChangeListener(this);
+
         mCallingSwitch.setOnCheckedChangeListener(this);
         mBackupBtn.setOnClickListener(this);
         mRestoreBtn.setOnClickListener(this);
@@ -144,12 +142,6 @@ public class SettingActivity extends AppCompatActivity implements
         } else {
             mLoginSwitch.setChecked(false);
             mLoginDetailView.setVisibility(View.GONE);
-        }
-
-        if (sharedPreferences.getBoolean(getString(R.string.pref_noti), false)) {
-            mNotiSwitch.setChecked(true);
-        } else {
-            mNotiSwitch.setChecked(false);
         }
 
         if(sharedPreferences.getBoolean(getString(R.string.pref_calling),false)){
@@ -273,18 +265,7 @@ public class SettingActivity extends AppCompatActivity implements
                 editor.commit();
             }
             break;
-            case R.id.sw_noti: {
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-                SharedPreferences.Editor editor = pref.edit();
-                if (isChecked) {
-                    editor.putBoolean(getString(R.string.pref_noti), true);
-                } else {
-                    editor.putBoolean(getString(R.string.pref_noti), false);
-                  //  Utils.cancelNotification(mContext, NotificationService.NOTIFICATION_CODE);
-                }
-                editor.commit();
-            }
-            break;
+
             case R.id.sw_calling:{
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 SharedPreferences.Editor editor = pref.edit();

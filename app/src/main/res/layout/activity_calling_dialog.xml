@@ -24,7 +24,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="120dp"
                   android:orientation="vertical"
-                  android:background="@drawable/semi_corner_border"
+                  android:background="@drawable/bg_blur3"
                   android:gravity="center"
                   >
                   <FrameLayout
@@ -37,6 +37,8 @@
                           android:layout_width="50dp"
                           android:layout_height="50dp"
                           android:layout_gravity="center"
+                          app:civ_border_width="2dp"
+                          app:civ_border_color="@color/white"
                           android:src="@drawable/ic_default_user"/>
 
                   </FrameLayout>
@@ -89,7 +91,7 @@
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
 
-                    android:background="@color/blueGrey50"
+                    android:background="@drawable/gradient_selector"
                     >
                 </android.support.v7.widget.RecyclerView>
 

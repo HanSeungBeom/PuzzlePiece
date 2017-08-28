@@ -12,15 +12,19 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
+        android:layout_height="50dp"
+        android:background="@color/material_teal"
+        android:elevation="1dp">
         <ImageView
-            android:src="@drawable/ic_settings"
+            android:src="@drawable/ic_setting_new"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"/>
         <TextView
+
             android:text="설정"
+            android:textSize="17sp"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -42,9 +46,10 @@
             android:gravity="center_vertical"
             android:paddingLeft="25dp">
             <TextView
+                android:textColor="@color/Grey900"
                 android:text="@string/set_version"
-                android:textSize="20dp"
                 android:textStyle="bold"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
     </LinearLayout>
@@ -65,10 +70,41 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/Grey300"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="40dp">
+            <TextView
+                android:textColor="@color/Grey900"
+                android:text="@string/set_license"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Grey300"/>
+
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="90dp"
@@ -81,16 +117,18 @@
         android:gravity="center_vertical"
         android:paddingLeft="25dp">
         <TextView
-            android:text="@string/login"
-            android:textSize="20dp"
             android:textStyle="bold"
+            android:textColor="@color/Grey900"
+            android:text="@string/login"
+            android:textSize="15sp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_login_detail_default"
             android:text="@string/set_login_detail"
-            android:textSize="13dp"
+            android:textSize="13sp"
             android:paddingTop="5dp"
             android:paddingLeft="3dp"
             android:textColor="@color/Grey500"
@@ -127,6 +165,7 @@
     android:id="@+id/ll_login_detail"
     android:layout_width="match_parent"
     android:layout_height="90dp"
+
     android:background="@color/Grey700">
     <LinearLayout
         android:layout_width="0dp"
@@ -146,7 +185,7 @@
         <TextView
             android:id="@+id/tv_last_backup_date"
             android:text="마지막 백업날짜 : 없음"
-            android:textSize="13dp"
+            android:textSize="13sp"
             android:paddingTop="5dp"
             android:paddingLeft="3dp"
             android:textColor="@color/Grey100"
@@ -187,6 +226,8 @@
         android:layout_height="1dp"
         android:background="@color/Grey300"/>
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90dp"
@@ -199,58 +240,15 @@
             android:gravity="center_vertical"
             android:paddingLeft="25dp">
             <TextView
-                android:text="@string/set_notification"
-                android:textSize="20dp"
                 android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="@string/set_notification_detail"
-                android:textSize="13dp"
-                android:paddingTop="5dp"
-                android:paddingLeft="3dp"
-                android:textColor="@color/Grey500"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/sw_noti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/Grey300"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/white">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:paddingLeft="25dp">
-            <TextView
                 android:text="@string/set_calling"
-                android:textSize="20dp"
-                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/Grey900"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="@string/set_calling_detail"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:paddingTop="5dp"
                 android:paddingLeft="3dp"
                 android:textColor="@color/Grey500"
@@ -275,6 +273,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/Grey300"/>
-
 
 </LinearLayout>

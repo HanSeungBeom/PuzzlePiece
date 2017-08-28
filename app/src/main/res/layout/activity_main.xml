@@ -14,14 +14,15 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
+            android:layout_height="50dp"
+            android:background="@color/material_teal"
+            android:elevation="3dp"
             >
 
             <TextView
                 android:id="@+id/tv_title"
                 android:textSize="15dp"
-                android:textColor="@color/Grey900"
+                android:textColor="@color/white"
                 android:text="지인"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -29,7 +30,7 @@
             <TextView
                 android:id="@+id/tv_friend_num"
                 android:textSize="15dp"
-                android:textColor="@color/material_teal"
+                android:textColor="@color/white"
                 android:text="1"
                 android:textStyle="bold"
                 android:paddingLeft="5dp"
@@ -38,20 +39,17 @@
 
             <ImageView
                 android:id="@+id/iv_setting"
-                android:src="@drawable/setting_selector"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:src="@drawable/ic_setting_new"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="right"
-                android:paddingRight="10dp"
+                android:layout_marginRight="15dp"
+
 
                 />
 
             </android.support.v7.widget.Toolbar>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/Grey300"
-            />
+
 <!--        <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
@@ -73,4 +71,129 @@
 -->
     </LinearLayout>
 
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+       >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:background="@color/Grey50"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <ImageView
+                    android:src="@drawable/search"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    />
+                <EditText
+                    android:id="@+id/et_search"
+                    android:hint="지인 검색"
+                    android:textColorHint="@color/Grey500"
+                    android:background="@android:color/transparent"
+                    android:textSize="15sp"
+                    android:textColor="@color/Grey900"
+                    android:paddingLeft="5dp"
+                    android:maxLength="20"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/clear"
+                    android:src="@drawable/ic_clear"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/Grey300"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_friends"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_selector"
+                android:clipToPadding="false"
+                android:padding="3dp"
+
+                ></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:background="@drawable/gradient_selector">
+            <ImageView
+                android:src="@drawable/ic_no_friend"
+                android:tint="@color/Grey500"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:textSize="13sp"
+                android:paddingTop="10dp"
+                android:textColor="@color/Grey700"
+                android:gravity="center"
+                android:text="@string/no_friend_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="10sp"
+                android:textColor="@color/Grey700"
+                android:gravity="center"
+                android:text="@string/no_friend_data_writer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/dimen8"
+            fab:fab_addButtonColorNormal="@color/material_amber"
+            fab:fab_addButtonColorPressed="@color/material_amber"
+            fab:fab_addButtonPlusIconColor="@color/white"
+            fab:fab_labelStyle="@style/menu_labels_style">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_new_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="#FFD54F"
+                fab:fab_colorPressed="@color/material_amber"
+                fab:fab_icon="@drawable/pencil_white"
+                fab:fab_title="새로 등록하기" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_load_phonebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="#FFCA28"
+                fab:fab_colorPressed="@color/material_amber"
+                fab:fab_icon="@drawable/phonebook_white"
+                fab:fab_title="전화번호부로 등록하기" />
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </FrameLayout>
 </LinearLayout>

@@ -47,6 +47,7 @@ public class CallingService extends Service {
 
     private TextView name;
     private FrameLayout clear;
+    private ImageView photo;
 
     String call_number;
 
@@ -77,7 +78,7 @@ public class CallingService extends Service {
         int screenWidth = displaymetrics.widthPixels;
         int screenHeight = displaymetrics.heightPixels;
 
-        int width = (int) (screenWidth * 0.6);
+        int width = (int) (screenWidth * 0.7);
         //int height = (int) (screenHeight * 0.3);//Display 사이즈의 90%
 
 
@@ -103,6 +104,7 @@ public class CallingService extends Service {
 
         name = (TextView) rootView.findViewById(R.id.tv_name);
         clear = (FrameLayout) rootView.findViewById(R.id.ll_cancel);
+        photo = (ImageView)rootView.findViewById(R.id.iv_friend_photo);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_calling);
         mAdapter = new CallingRecyclerViewAdapter(this, null);
         mIsRemoved = false;
@@ -198,11 +200,13 @@ public class CallingService extends Service {
 
             if (!TextUtils.isEmpty(call_number)) {
                 name.setText(friend.getName());
+                FirebaseTasks.loadFriendPhoto(this, friend, photo);
                 //전화번호가 DB에 있는 경우만.
                 RealmList<Puzzle> puzzles = friend.getPuzzles();
                 if (puzzles.size() != 0) {
                     mAdapter.updateData(realm.where(Puzzle.class)
                             .equalTo(Puzzle.FRIEND_ID, friend.getId())
+                            .equalTo(Puzzle.IS_CALL, true) //전화설정되있는 메모만.
                             .findAllSorted(Puzzle.DATE_TO_MILLISECONDS, Sort.DESCENDING));
 
                 } else {

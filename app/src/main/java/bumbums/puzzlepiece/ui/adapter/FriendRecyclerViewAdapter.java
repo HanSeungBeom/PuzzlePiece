@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 
 import bumbums.puzzlepiece.R;
+import bumbums.puzzlepiece.ui.MainActivity;
 import bumbums.puzzlepiece.util.CircleTransform;
 import bumbums.puzzlepiece.task.FirebaseTasks;
 import bumbums.puzzlepiece.util.Utils;
@@ -36,12 +37,12 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class FriendRecyclerViewAdapter  extends
         RealmRecyclerViewAdapter<Friend, FriendRecyclerViewAdapter.MyViewHolder>{
-    private final TabFriendsFragment tabFriendsFragment;
+    private final MainActivity mainActivity;
 
 
-    public FriendRecyclerViewAdapter(TabFriendsFragment tabFriendsFragment, OrderedRealmCollection<Friend> data) {
-        super(tabFriendsFragment.getContext(), data, true);
-        this.tabFriendsFragment = tabFriendsFragment;
+    public FriendRecyclerViewAdapter(MainActivity mainActivity, OrderedRealmCollection<Friend> data) {
+        super(mainActivity, data, true);
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class FriendRecyclerViewAdapter  extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Friend obj = getData().get(position);
         holder.data = obj;
-        FirebaseTasks.loadFriendPhoto(tabFriendsFragment.getContext(),holder.data,holder.userProfileImage);
+        FirebaseTasks.loadFriendPhoto(mainActivity,holder.data,holder.userProfileImage);
        // holder.colorView.setBackgroundResource(Utils.colors[((int)obj.getId()%15)]);
         holder.userName.setText(obj.getName());
         int puzzleCount= obj.getPuzzles().size();
@@ -108,9 +109,9 @@ public class FriendRecyclerViewAdapter  extends
         public void onClick(View v) {
             switch (v.getId()){
               default: {
-                  Intent intent = new Intent(tabFriendsFragment.getContext(), FriendDetailActivity.class);
+                  Intent intent = new Intent(mainActivity, FriendDetailActivity.class);
                   intent.putExtra(FriendDetailActivity.EXTRA_FRIENDID, data.getId());
-                  tabFriendsFragment.getContext().startActivity(intent);
+                  mainActivity.startActivity(intent);
                   //Toast.makeText(tabFriendsFragment.getContext(),"click",Toast.LENGTH_SHORT).show();
                   break;
               }
@@ -120,13 +121,13 @@ public class FriendRecyclerViewAdapter  extends
 
         @Override
         public boolean onLongClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(tabFriendsFragment.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
 
             builder .setMessage(R.string.friend_del)
                     .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener(){
                         // 확인 버튼 클릭시 설정
                         public void onClick(DialogInterface dialog, int whichButton){
-                            tabFriendsFragment.deleteFriend(data.getId());
+                            mainActivity.deleteFriend(data.getId());
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){

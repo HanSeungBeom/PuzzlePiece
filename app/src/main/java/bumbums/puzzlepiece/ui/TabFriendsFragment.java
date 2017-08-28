@@ -58,7 +58,7 @@ MainActivity.onKeyBackPressedListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        mAdapter =new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync());
+       // mAdapter =new FriendRecyclerViewAdapter(this, realm.where(Friend.class).findAllAsync());
         mContext = getActivity();
         friends = realm.where(Friend.class).findAllAsync();
         friends.addChangeListener(new RealmChangeListener<RealmResults<Friend>>() {
@@ -254,7 +254,7 @@ MainActivity.onKeyBackPressedListener
             } else {
 
                 MainActivity activity = (MainActivity) mContext;
-                activity.setOnKeyBackPressedListener(null);
+         //       activity.setOnKeyBackPressedListener(null);
                 activity.onBackPressed();
 
             }
@@ -264,7 +264,7 @@ MainActivity.onKeyBackPressedListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((MainActivity) context).setOnKeyBackPressedListener(this);
+      //  ((MainActivity) context).setOnKeyBackPressedListener(this);
 
     }
 
