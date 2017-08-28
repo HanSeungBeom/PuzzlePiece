@@ -66,7 +66,7 @@ public class SettingActivity extends AppCompatActivity implements
     private TextView mLoginName;
     private String mGoogleId;
     private TextView mLastBackupDate;
-
+    private LinearLayout mVersionLayout;
 
     private RealmBackupRestore mRealmBackupRestore;
 
@@ -85,13 +85,16 @@ public class SettingActivity extends AppCompatActivity implements
         mLoginDetailView = (LinearLayout) findViewById(R.id.ll_login_detail);
         mBackupBtn = (Button) findViewById(R.id.btn_backup);
         mRestoreBtn = (Button) findViewById(R.id.btn_restore);
+        mVersionLayout = (LinearLayout)findViewById(R.id.ll_version);
+
 
         configureGoogleSignIn();
         mLoginSwitch.setOnCheckedChangeListener(this);
-
         mCallingSwitch.setOnCheckedChangeListener(this);
         mBackupBtn.setOnClickListener(this);
         mRestoreBtn.setOnClickListener(this);
+        mVersionLayout.setOnClickListener(this);
+
 
         mRealmBackupRestore = new RealmBackupRestore(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -290,6 +293,7 @@ public class SettingActivity extends AppCompatActivity implements
                 editor.commit();
             }
                 break;
+
         }
     }
 
@@ -337,6 +341,11 @@ public class SettingActivity extends AppCompatActivity implements
                     setUpTedPermissionForBackup();
                 }
 
+                break;
+            case R.id.ll_version:
+                Log.d("######","here!");
+                Intent i = new Intent(SettingActivity.this, OSSActivity.class);
+                startActivity(i);
                 break;
         }
     }

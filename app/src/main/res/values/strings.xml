@@ -53,7 +53,7 @@
     <string name="name_empty">이름을 입력해주세요.</string>
     <string name="phone_number_is_empty">전화번호를 등록해주세요.</string>
     <string name="set_version">버전 정보</string>
-    <string name="set_version_detail">내 사람들 v1.0</string>
+    <string name="set_version_detail">1.00</string>
     <string name="no_puzzle_calling">표시할 퍼즐이 없습니다.</string>
     <string name="pref_calling_param_x">paramx</string>
     <string name="pref_calling_param_y">paramy</string>
@@ -65,5 +65,7 @@
     <string name="get_from_phonebook">주소록에서 가져오기</string>
     <string name="set_license">사용한 오픈소스 라이센스</string>
     <string name="no_friend_data_writer">-오쇼 라즈니쉬</string>
+    <string name="version">1.0</string>
+    <string name="OSS_page">https://raw.githubusercontent.com/aronix/PuzzlePiece/master/OSS%20Notice.html</string>
 
 </resources>

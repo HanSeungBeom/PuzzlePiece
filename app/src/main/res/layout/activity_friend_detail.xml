@@ -28,13 +28,12 @@
             android:layout_width="match_parent"
             android:layout_height="235dp"
             android:orientation="vertical"
-            android:background="@drawable/bg_blur3"
             android:elevation="3dp">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:background="@android:color/transparent"
+                android:background="@color/material_teal"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 />
 
             <LinearLayout
@@ -42,7 +41,7 @@
                 android:layout_height="190dp"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@drawable/layout_border"
+                android:background="@drawable/bg_blur3"
                 >
                 <FrameLayout
                     android:layout_width="match_parent"
