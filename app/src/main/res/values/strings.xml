@@ -67,5 +67,8 @@
     <string name="no_friend_data_writer">-오쇼 라즈니쉬</string>
     <string name="version">1.0</string>
     <string name="OSS_page">https://raw.githubusercontent.com/aronix/PuzzlePiece/master/OSS%20Notice.html</string>
+    <string name="PIPP_page">https://raw.githubusercontent.com/aronix/PuzzlePiece/master/personal_information_processing_policy.html</string>
+    <string name="oss_title">오픈소스 라이선스</string>
+    <string name="personal_title">개인정보처리방침</string>
 
 </resources>

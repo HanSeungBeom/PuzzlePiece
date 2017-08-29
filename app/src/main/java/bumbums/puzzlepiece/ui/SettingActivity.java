@@ -344,7 +344,7 @@ public class SettingActivity extends AppCompatActivity implements
                 break;
             case R.id.ll_version:
                 Log.d("######","here!");
-                Intent i = new Intent(SettingActivity.this, OSSActivity.class);
+                Intent i = new Intent(SettingActivity.this, OSSPIPPActivity.class);
                 startActivity(i);
                 break;
         }

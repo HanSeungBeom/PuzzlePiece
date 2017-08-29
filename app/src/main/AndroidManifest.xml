@@ -85,7 +85,7 @@
             android:name=".ui.CallingDialog"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.OSSActivity"
+        <activity android:name=".ui.OSSPIPPActivity"
             android:screenOrientation="portrait"/>
     </application>
 
