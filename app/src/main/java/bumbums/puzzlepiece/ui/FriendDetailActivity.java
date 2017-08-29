@@ -52,6 +52,7 @@ import com.google.firebase.storage.StorageReference;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+
 import java.util.ArrayList;
 
 import bumbums.puzzlepiece.R;
@@ -133,6 +134,7 @@ public class FriendDetailActivity extends AppCompatActivity implements View.OnCl
         mFriendImageDefault.setOnClickListener(this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv_puzzles);
         mEmptyView = (LinearLayout)findViewById(R.id.empty_view);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 

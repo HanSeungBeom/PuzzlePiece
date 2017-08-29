@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blueGrey50">
+    android:background="@color/white">
 
 
     <android.support.design.widget.FloatingActionButton
@@ -13,7 +13,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:tint="@color/white"
-        app:backgroundTint="@color/Grey900"
+        app:backgroundTint="@color/material_amber"
         app:fabSize="normal"
         app:srcCompat="@drawable/pencil"
 
@@ -26,12 +26,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="235dp"
+            android:layout_height="240dp"
             android:orientation="vertical"
-            android:elevation="3dp">
+            android:background="@drawable/bg_blur3"
+            android:elevation="2dp"
+            >
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:background="@color/material_teal"
+                android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 />
@@ -41,8 +43,10 @@
                 android:layout_height="190dp"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@drawable/bg_blur3"
+                android:background="@android:color/transparent"
+                android:elevation="10dp"
                 >
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -68,6 +72,7 @@
 
                         android:layout_gravity="center"
                         />
+
                     <!-- <ImageView
                          android:id="@+id/iv_friend_photo"
                          android:layout_width="90dp"
@@ -120,9 +125,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="3">
+           >
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"

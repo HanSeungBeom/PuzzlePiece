@@ -12,8 +12,9 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
+
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_new_icon"
@@ -48,33 +49,17 @@
                 android:value="bumbums.puzzlepiece.ui.MainActivity" />
             >
         </activity>
-        <activity
-            android:name=".ui.AddPuzzleActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" >
-        </activity>
-        <activity
-            android:name=".ui.AddFriendActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:windowSoftInputMode="stateVisible" />
+
         <activity
             android:name=".ui.EditFriendActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity
-            android:name=".ui.PuzzleDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity
-            android:name=".ui.AddPuzzleDirectActivity"
-            android:screenOrientation="portrait"
-            />
+
         <activity
             android:name=".ui.ReviewActivity"
             android:screenOrientation="portrait" />
 
-        <service android:name=".task.NotificationService" />
+
 
         <activity
             android:name=".ui.SettingActivity"
@@ -86,12 +71,7 @@
             >
         </activity>
 
-        <receiver android:name=".receiver.RebootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
+
         <receiver android:name=".receiver.IncomingCallBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
@@ -100,13 +80,15 @@
         </receiver>
 
         <service android:name=".task.CallingService" >
-            <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
         </service>
 
         <activity
             android:name=".ui.CallingDialog"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.OSSActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
